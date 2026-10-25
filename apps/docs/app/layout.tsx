@@ -5,6 +5,7 @@ import '@fontsource-variable/geist-mono';
 import '@vizzele/css';
 import './globals.css';
 import './demos-ui.css';
+import './home.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteEffects } from '@/components/SiteEffects';
 

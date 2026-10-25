@@ -751,28 +751,6 @@ img {
   overflow: hidden;
 }
 
-/* ———————————— Home (provisional) ———————————— */
-.home {
-  min-height: calc(100vh - 80px);
-  display: grid;
-  place-items: center;
-  padding: 40px 16px;
-}
-.hero {
-  max-width: 980px;
-  text-align: center;
-}
-.hero-title {
-  margin: 8px 0 20px;
-  font-size: var(--vz-text-display);
-}
-.hero-lead {
-  max-width: 56ch;
-  margin: 0 auto 32px;
-  color: var(--vz-text-muted);
-  font-size: var(--vz-text-lg);
-}
-
 /* ———————————— Spring lab ———————————— */
 .spring-lab {
   display: grid;

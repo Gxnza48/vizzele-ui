@@ -105,7 +105,9 @@ export function useDrag<E extends HTMLElement = HTMLElement>(
   }, [enabled, latest]);
 
   const { onStart: _a, onMove: _b, onEnd: _c, onRest: _d, apply: _e, ...plain } = options;
-  const key = JSON.stringify(plain, (_, v) => (v instanceof HTMLElement ? undefined : v));
+  // Runs during render (also on the server), so HTMLElement may not exist.
+  const isEl = (v: unknown) => typeof HTMLElement !== 'undefined' && v instanceof HTMLElement;
+  const key = JSON.stringify(plain, (_, v) => (isEl(v) ? undefined : v));
   useEffect(() => {
     controls.current?.update(JSON.parse(key) as Partial<DragOptions>);
     // bounds as an element can't go through JSON
