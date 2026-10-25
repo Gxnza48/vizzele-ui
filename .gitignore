@@ -19,3 +19,4 @@ brand/options/*.png
 *.tsbuildinfo
 
 .vercel
+release/
