@@ -231,15 +231,17 @@ function place(anchor: DOMRect, el: HTMLElement, placement: Placement, offset: n
   else if (p === 'bottom' && anchor.bottom + h + offset > vh - 8) p = 'top';
   else if (p === 'left' && anchor.left - w - offset < 8) p = 'right';
   else if (p === 'right' && anchor.right + w + offset > vw - 8) p = 'left';
-  let x = 0;
-  let y = 0;
-  if (p === 'top' || p === 'bottom') {
-    x = anchor.left + anchor.width / 2 - w / 2;
-    y = p === 'top' ? anchor.top - h - offset : anchor.bottom + offset;
-  } else {
-    y = anchor.top + anchor.height / 2 - h / 2;
-    x = p === 'left' ? anchor.left - w - offset : anchor.right + offset;
-  }
+  const vertical = p === 'top' || p === 'bottom';
+  let x = vertical
+    ? anchor.left + anchor.width / 2 - w / 2
+    : p === 'left'
+      ? anchor.left - w - offset
+      : anchor.right + offset;
+  let y = vertical
+    ? p === 'top'
+      ? anchor.top - h - offset
+      : anchor.bottom + offset
+    : anchor.top + anchor.height / 2 - h / 2;
   x = clamp(x, 8, vw - w - 8);
   y = clamp(y, 8, vh - h - 8);
   return { x, y, placement: p };
