@@ -3,7 +3,7 @@
     "name": "core (everything)",
     "path": "dist/index.js",
     "import": "*",
-    "limit": "25 kB"
+    "limit": "29 kB"
   },
   {
     "name": "core { Spring }",
@@ -38,7 +38,7 @@
   {
     "name": "CDN global (iife, auto-init)",
     "path": "dist/vizzele.global.js",
-    "limit": "25 kB"
+    "limit": "29 kB"
   },
   {
     "name": "core { holdToConfirm }",
@@ -57,5 +57,11 @@
     "path": "dist/index.js",
     "import": "{ wordmark }",
     "limit": "2.8 kB"
+  },
+  {
+    "name": "core { mockup }",
+    "path": "dist/index.js",
+    "import": "{ mockup }",
+    "limit": "4.5 kB"
   }
 ]

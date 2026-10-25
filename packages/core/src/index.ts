@@ -37,5 +37,15 @@ export { holdToConfirm, type HoldToConfirmOptions } from './effects/hold';
 export { surfaceTension, type SurfaceTensionOptions } from './effects/surface-tension';
 export { gooFilter } from './effects/goo';
 export { wordmark, type WordmarkOptions } from './effects/wordmark';
+export {
+  mockup,
+  mockupStage,
+  mockupTree,
+  MOCKUP_SPECS,
+  type MockupDevice,
+  type MockupNode,
+  type MockupOptions,
+  type MockupTreeOptions,
+} from './effects/mockup';
 export { effects, registerAll, type EffectName } from './effects';
 export { copyToClipboard } from './clipboard';

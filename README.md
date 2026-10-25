@@ -152,8 +152,8 @@ x.set(200);
 Drop two tags into any HTML page. Effects are switched on with `data-vz-*` attributes — no JavaScript to write.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.2/dist/vizzele.min.css" />
-<script src="https://unpkg.com/@vizzele/core@0.2/dist/vizzele.global.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.3/dist/vizzele.min.css" />
+<script src="https://unpkg.com/@vizzele/core@0.3/dist/vizzele.global.js" defer></script>
 
 <body class="vz-body" data-theme="dark" data-vz-liquid-focus>
   <button class="vz-button" data-variant="liquid" data-vz-magnetic="strength: 0.4">Hover me</button>
@@ -259,6 +259,26 @@ import { Aurora, FluidBackground, LavaLamp, Ripples } from '@vizzele/react/gl';
 <Ripples rain /> {/* tap to drop rings into the surface */}
 ```
 
+**3D device mockups** — put your live app inside a phone or a laptop
+
+```tsx
+import { LaptopMockup, PhoneMockup } from '@vizzele/react';
+
+<PhoneMockup model="iphone" finish="natural" width={300}>
+  <MyApp /> {/* real DOM at 394 × 836 — clickable, scrollable */}
+</PhoneMockup>
+
+<PhoneMockup model="galaxy" finish="violet">
+  <img src="/screenshot.png" alt="The app's home screen" />
+</PhoneMockup>
+
+<LaptopMockup finish="silver">
+  <MyDashboard /> {/* 1280 × 800; the lid opens when it scrolls into view */}
+</LaptopMockup>
+```
+
+Pure CSS 3D (no WebGL, nothing to download): they turn toward the pointer, spin when you drag the frame and only animate while on screen.
+
 **Copy button, sidebar and footer**
 
 ```tsx
@@ -312,6 +332,8 @@ toast.success('Published!');
 
 [![Charts and an agent](.github/assets/dashboard.webp)](https://vizzele-ui.vercel.app/docs/line-chart)
 
+**Mockups (3D)** — iPhone-style phone · Galaxy-style phone · laptop, each with a live, interactive screen
+
 **Components** — Copy button · Sidebar · Footer with a liquid wordmark · Select & Dropdown menu · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · liquid glass with real refraction · Modal that morphs out of its trigger · Tabs · macOS-style Dock · Navbar · Switch / Checkbox / Radio · Input · Tooltip · Popover · Toast · Accordion · Marquee · 3D carousel · image reveal · Skeleton
 
 **Cursor & pointer** — liquid cursor · magnetic · spotlight borders · 3D tilt with holographic foil · ripple · particle trail
@@ -337,11 +359,11 @@ toast.success('Published!');
 
 | Import                       | min + brotli |
 | ---------------------------- | ------------ |
-| `@vizzele/react` (all of it) | 44 kB        |
+| `@vizzele/react` (all of it) | 47 kB        |
 | `Button`                     | 4.3 kB       |
 | `LineChart`                  | 4.5 kB       |
 | `@vizzele/core` `Spring`     | 1.7 kB       |
-| `@vizzele/css` (all of it)   | 15 kB        |
+| `@vizzele/css` (all of it)   | 17 kB        |
 
 ## Theming
 
@@ -383,7 +405,7 @@ The spring presets also exist as CSS easings generated from the real physics:
 
 **Is it free?** Yes — MIT licensed, free for personal and commercial use.
 
-**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.2` pick up `0.2.x` fixes on their own.
+**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.3` pick up `0.3.x` fixes on their own.
 
 ## Development
 

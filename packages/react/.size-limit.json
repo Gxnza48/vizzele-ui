@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "47 kB"
+    "limit": "50 kB"
   },
   {
     "name": "react { Button }",
@@ -61,6 +61,13 @@
     "import": "{ Footer }",
     "ignore": ["react", "react-dom"],
     "limit": "4 kB"
+  },
+  {
+    "name": "react { PhoneMockup }",
+    "path": "dist/index.js",
+    "import": "{ PhoneMockup }",
+    "ignore": ["react", "react-dom"],
+    "limit": "5 kB"
   },
   {
     "name": "react/gl (all backgrounds)",

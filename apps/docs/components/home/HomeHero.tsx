@@ -20,9 +20,9 @@ export function HomeHero({ components }: { components: number }) {
       <div className="home-hero-veil" aria-hidden="true" />
       <FloatingShapes />
       <div className="home-hero-inner">
-        <Link href="/docs/liquid-focus" className="home-announce">
-          <span className="home-announce-tag">New</span>5 effects that exist nowhere else — plus
-          charts &amp; an AI agent
+        <Link href="/docs/phone-iphone" className="home-announce">
+          <span className="home-announce-tag">New</span>3D phone &amp; laptop mockups — put your
+          live app inside
           <span aria-hidden="true" className="home-announce-arrow">
             →
           </span>

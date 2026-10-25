@@ -1,0 +1,109 @@
+.blk-app {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 1080px;
+  padding: 24px;
+}
+.blk-app-eyebrow {
+  margin: 0;
+  color: var(--vz-accent-text);
+  font-size: var(--vz-text-xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.blk-app-copy h3 {
+  margin: 10px 0 14px;
+  font: 800 clamp(2rem, 1.4rem + 2.4vw, 3.4rem) / 1.02 var(--vz-font-display);
+  letter-spacing: -0.03em;
+}
+.blk-app-copy > p:not(.blk-app-eyebrow) {
+  max-width: 44ch;
+  margin: 0 0 24px;
+  color: var(--vz-text-muted);
+}
+.blk-app-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.blk-app-phones {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.blk-app-phones .vz-mockup {
+  width: min(48%, 270px);
+}
+.blk-app-back {
+  margin-right: -14%;
+  margin-top: 12%;
+  z-index: 0;
+}
+.blk-app-front {
+  z-index: 1;
+}
+
+/* The app screens: plain content, padded to clear the status bar. */
+.blk-app-screen {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 100%;
+  padding: calc(var(--vz-safe-top) + 12px) 22px 24px;
+  background:
+    radial-gradient(
+      110% 45% at 100% 0%,
+      color-mix(in oklab, var(--vz-magenta) 18%, transparent),
+      transparent 60%
+    ),
+    var(--vz-bg);
+  font-size: 16px;
+}
+.blk-app-screen h3 {
+  margin: -8px 0 0;
+  font: 800 38px / 1.1 var(--vz-font-display);
+}
+.blk-app-dim {
+  margin: 0;
+  color: var(--vz-text-muted);
+  font-size: 14px;
+}
+.blk-app-score {
+  display: grid;
+  padding: 18px;
+  border-radius: 22px;
+  background: var(--vz-surface-strong);
+  font: 800 44px / 1 var(--vz-font-display);
+}
+.blk-app-score > span:last-child {
+  margin-top: 6px;
+  color: var(--vz-text-muted);
+  font: 500 14px var(--vz-font-sans);
+}
+.blk-app-screen ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.blk-app-screen li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--vz-border);
+}
+.blk-app-screen small {
+  color: var(--vz-text-dim);
+}
+@media (max-width: 760px) {
+  .blk-app {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px 8px;
+  }
+}

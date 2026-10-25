@@ -13,6 +13,7 @@ import { liquidSelection } from './liquid-selection';
 import { holdToConfirm } from './hold';
 import { surfaceTension } from './surface-tension';
 import { wordmark } from './wordmark';
+import { mockup } from './mockup';
 import { liquidGlass } from './glass';
 import {
   counter,
@@ -70,6 +71,8 @@ export const effects = {
   'surface-tension': surfaceTension,
   /** Giant text of liquid light: letters rise, reach for the pointer and wobble. */
   wordmark,
+  /** A 3D device; set data-vz-device="iphone|galaxy|laptop". Children become the screen. */
+  mockup,
 };
 
 export type EffectName = keyof typeof effects;

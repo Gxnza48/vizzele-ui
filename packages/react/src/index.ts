@@ -210,6 +210,13 @@ export {
   type WordmarkProps,
 } from './components/footer';
 
+export {
+  LaptopMockup,
+  PhoneMockup,
+  type LaptopMockupProps,
+  type PhoneMockupProps,
+} from './components/mockup';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,
@@ -231,4 +238,5 @@ export {
   type PhysicsWorld as PhysicsWorldApi,
   type PhysicsOptions,
   type WordmarkOptions,
+  type MockupOptions,
 } from '@vizzele/core';

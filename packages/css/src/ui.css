@@ -2944,3 +2944,544 @@ button.vz-sidebar-heading:hover {
     transition: none;
   }
 }
+
+/* ———————————— Device mockups (pure CSS 3D) ———————————— */
+.vz-mockup {
+  --vz-m-frame: #b5afa6;
+  --vz-m-back: #c7c2b9;
+  position: relative;
+  width: 300px;
+  max-width: 100%;
+  perspective: 1400px;
+  touch-action: pan-y;
+  isolation: isolate;
+  cursor: grab;
+}
+.vz-mockup[data-vz-dragging] {
+  cursor: grabbing;
+}
+.vz-mockup[data-vz-device='laptop'] {
+  width: 100%;
+  --vz-m-frame: #c3c6cc;
+}
+/* Finishes */
+.vz-mockup[data-vz-finish='black'] {
+  --vz-m-frame: #3d3d40;
+  --vz-m-back: #2b2b2e;
+}
+.vz-mockup[data-vz-finish='white'] {
+  --vz-m-frame: #dcd9d3;
+  --vz-m-back: #eceae5;
+}
+.vz-mockup[data-vz-finish='blue'] {
+  --vz-m-frame: #4a5466;
+  --vz-m-back: #3d4657;
+}
+.vz-mockup[data-vz-device='galaxy'] {
+  --vz-m-frame: #2e2f34;
+  --vz-m-back: #222327;
+}
+.vz-mockup[data-vz-device='galaxy'][data-vz-finish='gray'] {
+  --vz-m-frame: #8b8e95;
+  --vz-m-back: #a6a9ae;
+}
+.vz-mockup[data-vz-device='galaxy'][data-vz-finish='violet'] {
+  --vz-m-frame: #b4a3c9;
+  --vz-m-back: #cbbde0;
+}
+.vz-mockup[data-vz-device='galaxy'][data-vz-finish='cream'] {
+  --vz-m-frame: #d8cfb6;
+  --vz-m-back: #ece5d0;
+}
+.vz-mockup[data-vz-device='laptop'][data-vz-finish='space'] {
+  --vz-m-frame: #55585f;
+}
+.vz-mockup[data-vz-device='laptop'][data-vz-finish='midnight'] {
+  --vz-m-frame: #2c3442;
+}
+.vz-m-stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%)
+    scale3d(var(--vz-m-scale, 0.7), var(--vz-m-scale, 0.7), var(--vz-m-scale, 0.7));
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.vz-m-body {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+}
+.vz-mockup[data-vz-device='laptop'] .vz-m-body {
+  left: 53%;
+  top: 77%;
+}
+.vz-m-lid,
+.vz-m-base,
+.vz-m-back,
+.vz-m-bump {
+  transform-style: preserve-3d;
+}
+.vz-m-lid,
+.vz-m-base {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.vz-m-face,
+.vz-m-edge,
+.vz-m-btn {
+  position: absolute;
+  backface-visibility: hidden;
+}
+.vz-m-edge,
+.vz-m-btn {
+  backface-visibility: visible;
+  /* Chamfers catch light at the front and back of the frame. */
+  background-image: linear-gradient(
+    rgb(255 255 255 / 0.32),
+    rgb(255 255 255 / 0.06) 16%,
+    transparent 40%,
+    transparent 70%,
+    rgb(0 0 0 / 0.28)
+  );
+}
+.vz-m-btn {
+  border-radius: 3px;
+  background-color: color-mix(in oklab, var(--vz-m-frame), #000 12%);
+}
+/* Ground shadow: a gradient, never a blur filter. */
+.vz-m-shadow {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 1%;
+  height: 7%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.18) 55%, transparent);
+  pointer-events: none;
+}
+.vz-mockup[data-vz-device='laptop'] .vz-m-shadow {
+  left: 4%;
+  right: 4%;
+  bottom: 3%;
+  height: 10%;
+}
+[data-theme='light'] .vz-m-shadow {
+  opacity: 0.6;
+}
+
+/* Phone: front glass, screen, status bar */
+.vz-m-glass {
+  background: #050506;
+  box-shadow:
+    inset 0 0 0 1.5px rgb(255 255 255 / 0.14),
+    inset 0 0 0 5px #000;
+}
+.vz-m-screen {
+  position: absolute;
+  overflow: hidden;
+  background: #000;
+  pointer-events: auto;
+  isolation: isolate;
+}
+.vz-mockup-content {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  background: var(--vz-bg);
+  color: var(--vz-text);
+  cursor: auto;
+  --vz-safe-top: 0px;
+  --vz-safe-bottom: 0px;
+}
+.vz-mockup-content::-webkit-scrollbar {
+  display: none;
+}
+.vz-mockup-content > img,
+.vz-mockup-content > video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vz-mockup[data-vz-device='iphone'] .vz-mockup-content {
+  --vz-safe-top: 54px;
+  --vz-safe-bottom: 30px;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-mockup-content {
+  --vz-safe-top: 40px;
+  --vz-safe-bottom: 22px;
+}
+.vz-m-status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 2px 30px 0 54px;
+  color: #fff;
+  font:
+    600 17px / 1 -apple-system,
+    'SF Pro Text',
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-status {
+  height: 40px;
+  padding: 0 24px 0 28px;
+  font:
+    500 14px / 1 Roboto,
+    system-ui,
+    sans-serif;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-icons svg {
+  width: 62px;
+  height: 12px;
+}
+.vz-mockup[data-vz-tone='dark'] .vz-m-status {
+  color: #000;
+}
+.vz-m-icons {
+  display: flex;
+}
+.vz-m-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  z-index: 3;
+  width: 124px;
+  height: 36px;
+  margin-left: -62px;
+  border-radius: 20px;
+  background: #000;
+  pointer-events: none;
+}
+.vz-m-island::after,
+.vz-m-punch::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  width: 11px;
+  height: 11px;
+  margin-top: -5.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2b3a5a, #0a0d16 55%, #000);
+}
+.vz-m-punch {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  border-radius: 50%;
+  background: #000;
+  pointer-events: none;
+}
+.vz-m-punch::after {
+  right: 5.5px;
+}
+.vz-m-home {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  z-index: 3;
+  width: 136px;
+  height: 5px;
+  margin-left: -68px;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.85);
+  pointer-events: none;
+}
+.vz-mockup[data-vz-tone='dark'] .vz-m-home {
+  background: rgb(0 0 0 / 0.8);
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-home {
+  width: 110px;
+  height: 4px;
+  margin-left: -55px;
+}
+/* A sheet of reflected light that slides across the glass as the device turns. */
+.vz-m-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    118deg,
+    transparent 38%,
+    rgb(255 255 255 / 0.09) 46%,
+    rgb(255 255 255 / 0.02) 52%,
+    transparent 58%
+  );
+  background-size: 260% 100%;
+  background-position: calc(50% + var(--vz-m-gx, 0) * 1%) 0;
+}
+
+/* Phone back and cameras */
+.vz-m-back {
+  background:
+    radial-gradient(120% 70% at 25% 0%, rgb(255 255 255 / 0.2), transparent 60%),
+    linear-gradient(160deg, color-mix(in oklab, var(--vz-m-back), #fff 6%), var(--vz-m-back));
+  box-shadow: inset 0 0 0 3px color-mix(in oklab, var(--vz-m-frame), #000 8%);
+}
+.vz-m-bump {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  width: 172px;
+  height: 178px;
+  border-radius: 48px;
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--vz-m-back), #fff 16%),
+    var(--vz-m-back)
+  );
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / 0.5),
+    inset 0 0 0 1.5px rgb(255 255 255 / 0.12),
+    0 3px 8px rgb(0 0 0 / 0.35);
+  transform: translateZ(3px);
+}
+.vz-m-lens {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 32%, rgb(255 255 255 / 0.55) 0 4%, transparent 5%),
+    radial-gradient(circle at 60% 66%, rgb(120 160 255 / 0.35) 0 5%, transparent 9%),
+    radial-gradient(
+      circle,
+      #06080e 0 30%,
+      #1c2234 31% 38%,
+      #04060a 39% 56%,
+      #2d3038 58% 66%,
+      #121316 68%
+    );
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--vz-m-frame), #000 25%),
+    0 0 0 5.5px color-mix(in oklab, var(--vz-m-frame), #fff 25%),
+    0 4px 8px rgb(0 0 0 / 0.55);
+  transform: translateZ(5px);
+}
+.vz-m-lens-1 {
+  left: 12px;
+  top: 12px;
+}
+.vz-m-lens-2 {
+  left: 12px;
+  top: 94px;
+}
+.vz-m-lens-3 {
+  left: 90px;
+  top: 53px;
+}
+.vz-m-flash {
+  position: absolute;
+  left: 112px;
+  top: 16px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7e0 0 30%, #e9d9a8 45%, #8c826a 75%);
+  transform: translateZ(2px);
+}
+.vz-m-lidar {
+  position: absolute;
+  left: 114px;
+  top: 138px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #222 0 35%, #050505 60%);
+  transform: translateZ(2px);
+}
+/* Galaxy style: three separate lenses down the side, no camera plateau. */
+.vz-mockup[data-vz-device='galaxy'] .vz-m-bump {
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  background: none;
+  box-shadow: none;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-lens {
+  left: 46px;
+  width: 64px;
+  height: 64px;
+  box-shadow:
+    0 0 0 6px color-mix(in oklab, var(--vz-m-frame), #000 10%),
+    0 0 0 7.5px color-mix(in oklab, var(--vz-m-frame), #fff 30%),
+    0 4px 8px rgb(0 0 0 / 0.5);
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-lens-1 {
+  top: 46px;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-lens-2 {
+  top: 134px;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-lens-3 {
+  top: 222px;
+}
+.vz-mockup[data-vz-device='galaxy'] .vz-m-flash {
+  left: 130px;
+  top: 64px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Laptop */
+.vz-m-bezel {
+  background: #08090b;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in oklab, var(--vz-m-frame), #000 40%),
+    inset 0 0 0 3px rgb(255 255 255 / 0.06);
+}
+.vz-m-bezel .vz-m-screen {
+  left: 50px;
+  right: 50px;
+  top: 44px;
+  bottom: 56px;
+  border-radius: 8px;
+}
+.vz-m-cam {
+  position: absolute;
+  top: 17px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  margin-left: -5.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #33415f, #0b0e16 55%, #000);
+}
+.vz-m-lidback {
+  background:
+    radial-gradient(90% 60% at 30% 10%, rgb(255 255 255 / 0.22), transparent 60%),
+    linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--vz-m-frame), #fff 20%),
+      var(--vz-m-frame) 45%,
+      color-mix(in oklab, var(--vz-m-frame), #000 16%)
+    );
+}
+.vz-m-emblem {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    color-mix(in oklab, var(--vz-m-frame), #fff 45%),
+    color-mix(in oklab, var(--vz-m-frame), #000 6%) 70%
+  );
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.vz-m-deck {
+  background:
+    radial-gradient(80% 50% at 50% 0%, rgb(255 255 255 / 0.16), transparent 70%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--vz-m-frame), #000 6%),
+      var(--vz-m-frame) 30%,
+      color-mix(in oklab, var(--vz-m-frame), #fff 10%)
+    );
+  box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.25);
+}
+.vz-m-under {
+  background: color-mix(in oklab, var(--vz-m-frame), #000 28%);
+}
+.vz-m-keys {
+  position: absolute;
+  left: 172px;
+  top: 64px;
+  width: 1096px;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--vz-m-frame), #000 42%);
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.35);
+}
+.vz-m-row {
+  display: flex;
+  gap: 8px;
+  height: 62px;
+}
+.vz-m-row-f {
+  height: 34px;
+}
+.vz-m-key {
+  flex-basis: 0;
+  border-radius: 8px;
+  background: linear-gradient(#2a2c31, #1a1b1f);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.09),
+    0 1px 0 rgb(0 0 0 / 0.6);
+}
+.vz-mockup[data-vz-finish='silver'] .vz-m-key,
+.vz-mockup[data-vz-device='laptop']:not([data-vz-finish]) .vz-m-key {
+  background: linear-gradient(#23252a, #16171a);
+}
+.vz-m-speaker {
+  position: absolute;
+  top: 64px;
+  width: 92px;
+  height: 412px;
+  background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--vz-m-frame), #000 50%) 1.7px,
+      transparent 2.2px
+    )
+    0 0 / 12px 12px;
+}
+.vz-m-speaker-l {
+  left: 56px;
+}
+.vz-m-speaker-r {
+  right: 56px;
+}
+.vz-m-pad {
+  position: absolute;
+  left: 430px;
+  top: 532px;
+  width: 580px;
+  height: 352px;
+  border-radius: 20px;
+  background: linear-gradient(
+    170deg,
+    color-mix(in oklab, var(--vz-m-frame), #fff 12%),
+    var(--vz-m-frame)
+  );
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in oklab, var(--vz-m-frame), #000 16%),
+    inset 0 2px 3px rgb(0 0 0 / 0.08);
+}
+.vz-m-notch {
+  position: absolute;
+  left: 640px;
+  bottom: 0;
+  width: 160px;
+  height: 12px;
+  border-radius: 12px 12px 0 0;
+  background: color-mix(in oklab, var(--vz-m-frame), #000 22%);
+}

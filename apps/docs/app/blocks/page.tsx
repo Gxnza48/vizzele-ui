@@ -5,10 +5,12 @@ import { MultiCode } from '@/components/Code';
 import { CopyPrompt } from '@/components/CopyPrompt';
 import { blockPrompt } from '@/lib/prompt';
 import { AiChat } from '@/blocks/AiChat';
+import { AppShowcase } from '@/blocks/AppShowcase';
 import { Analytics } from '@/blocks/Analytics';
 import { Pricing } from '@/blocks/Pricing';
 import { SignIn } from '@/blocks/SignIn';
 import '@/blocks/AiChat.css';
+import '@/blocks/AppShowcase.css';
 import '@/blocks/Analytics.css';
 import '@/blocks/Pricing.css';
 import '@/blocks/SignIn.css';
@@ -25,6 +27,14 @@ const blocks: {
   description: string;
   Block: ComponentType;
 }[] = [
+  {
+    id: 'app-showcase',
+    file: 'AppShowcase',
+    title: 'App showcase',
+    description:
+      'An app landing hero with two live 3D phones: tick a habit on one and the score springs; drag either phone by its frame to spin it.',
+    Block: AppShowcase,
+  },
   {
     id: 'ai-chat',
     file: 'AiChat',

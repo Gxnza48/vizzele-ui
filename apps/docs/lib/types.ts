@@ -30,6 +30,7 @@ export type Category =
   | 'Text'
   | 'Scroll'
   | 'Components'
+  | 'Mockups'
   | 'Charts'
   | 'AI'
   | 'Originals'
