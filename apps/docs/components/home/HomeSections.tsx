@@ -183,7 +183,7 @@ export function HomeMarquee() {
         ))}
       </Marquee>
       <Marquee speed={36} reverse label="More components">
-        {[...names].reverse().map((n, i) => (
+        {[...names].reverse().map((n) => (
           <span key={n} className="home-chip home-chip-ghost">
             {n}
           </span>
