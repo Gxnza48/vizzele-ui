@@ -173,8 +173,10 @@ export function surfaceTension(
   const stopPointer = onPointerMove((p) => {
     const c = box();
     const reach = opts.reach ?? 90;
+    // A finger that lifted is gone — don't leave the droplet where it last touched.
     const inside =
       p.active &&
+      (p.type !== 'touch' || p.down) &&
       p.x > c.left - reach / 2 &&
       p.x < c.right + reach / 2 &&
       p.y > c.top - reach / 2 &&

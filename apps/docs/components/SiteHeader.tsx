@@ -16,6 +16,7 @@ const links = [
     label: 'Components',
     match: (p: string) => p.startsWith('/docs/') && !p.startsWith('/docs/guides'),
   },
+  { href: '/blocks', label: 'Blocks', match: (p: string) => p.startsWith('/blocks') },
   {
     href: '/docs/guides/springs',
     label: 'Physics',
@@ -168,7 +169,9 @@ export function SiteHeader() {
             <Link
               key={l.href}
               href={l.href}
-              className={l.label === 'Theming' ? 'hide-md' : undefined}
+              className={
+                l.label === 'Theming' ? 'hide-md' : l.label === 'Physics' ? 'hide-sm' : undefined
+              }
               aria-current={l.match(pathname) ? 'page' : undefined}
               onPointerEnter={(e) => moveTo(e.currentTarget)}
               onFocus={(e) => moveTo(e.currentTarget)}

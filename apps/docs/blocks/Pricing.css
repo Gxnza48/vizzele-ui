@@ -1,0 +1,81 @@
+.blk-pricing {
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  width: 100%;
+}
+.blk-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 980px;
+}
+.blk-pricing-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 28px 24px;
+}
+.blk-pricing-card.is-featured {
+  position: relative;
+  padding-block: 40px;
+}
+.blk-pricing-card h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+.blk-pricing-blurb {
+  margin: 0;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+.blk-pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 4px 0;
+  color: var(--vz-text-dim);
+  font-size: var(--vz-text-xs);
+}
+.blk-pricing-price .vz-counter {
+  color: var(--vz-text);
+  font: 650 2.6rem / 1 var(--vz-font-display);
+  letter-spacing: -0.03em;
+}
+.blk-pricing-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+.blk-pricing-card li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.blk-pricing-card li svg {
+  flex: none;
+  color: var(--vz-accent-text);
+}
+.blk-pricing-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--vz-iridescent-linear);
+  color: #05070d;
+  font-size: 11px;
+  font-weight: 700;
+}
+@media (max-width: 860px) {
+  .blk-pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+}

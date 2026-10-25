@@ -1,0 +1,43 @@
+.blk-signin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 600px;
+  padding: 32px 16px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--vz-radius-xl);
+}
+.blk-signin-bg {
+  z-index: -1;
+}
+.blk-signin-card {
+  width: min(400px, 100%);
+  padding: 32px 28px;
+  border-radius: 32px;
+}
+.blk-signin-card form {
+  display: grid;
+  gap: 16px;
+}
+.blk-signin-card h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.8rem;
+}
+.blk-signin-card p {
+  margin: -8px 0 4px;
+  color: rgb(255 255 255 / 0.8);
+  font-size: var(--vz-text-sm);
+}
+.blk-signin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.blk-signin-row a {
+  color: #fff;
+  font-size: var(--vz-text-sm);
+}

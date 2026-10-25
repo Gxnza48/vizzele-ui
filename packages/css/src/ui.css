@@ -543,6 +543,10 @@
 
 /* ———————————————————————— Tabs ———————————————————————— */
 
+.vz-tabs {
+  min-width: 0;
+  max-width: 100%;
+}
 .vz-tab-list {
   position: relative;
   display: inline-flex;
