@@ -8,9 +8,15 @@
 
 /* ———————————— Hero ———————————— */
 /* The hero lives inside the word: the page is a giant VIZZELE cut-out, scrolling dives
-   through the "I" into the fluid, and the hero content rises once you're inside. */
+   through the second "Z" into the fluid, and the hero content rises once you're inside. */
 .home-portal {
   --vz-portal-depth: 0.45;
+}
+/* The fluid is opaque and the page has grain and glows: fade the hero's foot into the page
+   instead of ending on a hard edge. */
+.home-portal .vz-portal-scene {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
 }
 .home-portal .vz-portal-word {
   letter-spacing: -0.05em;

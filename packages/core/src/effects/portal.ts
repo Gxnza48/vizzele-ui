@@ -9,7 +9,7 @@ import type { EffectInstance } from './types';
 export interface TextPortalOptions {
   /** The word you dive into. Vanilla only: defaults to `data-vz-text`. */
   text?: string;
-  /** Index of the letter to dive into — pick one whose centre is ink (I, H, M, N…). Default: the middle letter. */
+  /** Index of the letter to dive into; the dive aims at the centre of its ink. Default: the middle letter. */
   focus?: number;
   /** Scroll distance of the dive, in viewport heights. Default 1.5. */
   length?: number;
@@ -31,14 +31,16 @@ const svg = (tag: string, attrs: Record<string, string>) => {
 };
 
 /**
- * Finds the thickest stroke of letter `i` near its middle by drawing the word on a canvas:
- * glyph extents include side bearings and letter-spacing, which is a few px off — and a few px
- * at 80× zoom is a gap across the screen.
+ * Finds where to dive into letter `i` by drawing the word on a canvas: the centre of the
+ * letter's ink (or, if that is a hole, its thickest stroke) and how thick the stroke is there.
+ * Glyph extents include side bearings and letter-spacing — a few px off, and a few px at 80×
+ * zoom is a gap across the screen.
  */
-function inkSpot(word: SVGTextContentElement, i: number, w: number, h: number) {
+function inkSpot(word: SVGTextContentElement, i: number, w: number) {
   const r = word.getExtentOfChar(i);
   const spot = { x: r.x + r.width / 2, y: r.y + r.height / 2, thick: 0 };
   const cs = getComputedStyle(word);
+  const text = word.textContent ?? '';
   const cw = Math.ceil(w);
   const ch = Math.ceil(parseFloat(cs.fontSize) * 1.6) || 1;
   const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
@@ -47,28 +49,60 @@ function inkSpot(word: SVGTextContentElement, i: number, w: number, h: number) {
   ctx.canvas.height = ch;
   ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
   (ctx as { letterSpacing?: string }).letterSpacing = cs.letterSpacing;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(word.textContent ?? '', cw / 2, ch / 2);
+  const m = ctx.measureText(text);
+  const left = cw / 2 - m.width / 2;
+  const base = Math.round(ch * 0.72);
+  ctx.fillText(text, left, base);
   const data = ctx.getImageData(0, 0, cw, ch).data;
   const ink = (x: number, y: number) => data[(y * cw + x) * 4 + 3]! > 127;
-  const x0 = Math.max(Math.floor(r.x - r.width * 0.25), 0);
-  const x1 = Math.min(Math.ceil(r.x + r.width * 1.25), cw - 1);
+  // The letter's advance on the canvas, and the shift that lines it up with the SVG glyph
+  // (the extent's left edge and em-box top are the same points in both).
+  const start = left + ctx.measureText(text.slice(0, i)).width;
+  const x0 = clamp(Math.floor(start), 0, cw - 1);
+  const x1 = clamp(Math.ceil(left + ctx.measureText(text.slice(0, i + 1)).width), x0, cw - 1);
+  const dx = r.x - start;
+  const dy = r.y + (m.fontBoundingBoxAscent || r.height * 0.8) - base;
+  // Stroke thickness across a point, from its horizontal and vertical chords.
+  const across = (x: number, y: number) => {
+    let a = x;
+    let b = x;
+    let t = y;
+    let d = y;
+    while (a > 0 && ink(a - 1, y)) a--;
+    while (b < cw - 1 && ink(b + 1, y)) b++;
+    while (t > 0 && ink(x, t - 1)) t--;
+    while (d < ch - 1 && ink(x, d + 1)) d++;
+    const hr = b - a + 1;
+    const vr = d - t + 1;
+    return { mid: (a + b) >> 1, thick: (hr * vr) / Math.hypot(hr, vr) };
+  };
+  const at = (x: number, y: number, thick: number) => ({ x: x + dx, y: y + dy, thick });
+  let top = ch;
+  let bottom = -1;
+  let l = cw;
+  let rr = -1;
+  for (let y = 0; y < ch; y++)
+    for (let x = x0; x <= x1; x++)
+      if (ink(x, y)) {
+        top = Math.min(top, y);
+        bottom = Math.max(bottom, y);
+        l = Math.min(l, x);
+        rr = Math.max(rr, x);
+      }
+  if (bottom < 0) return spot;
+  const mx = (l + rr) >> 1;
+  const my = (top + bottom) >> 1;
+  if (ink(mx, my)) return at(mx, my, across(mx, my).thick);
+  // The centre is a hole (O, U…): take the thickest stroke on a row through the middle.
+  let best = spot;
   for (const f of [0.5, 0.4, 0.6, 0.3, 0.7]) {
-    const y = Math.round(ch * f);
-    let best = spot;
+    const y = Math.round(top + (bottom - top) * f);
     for (let x = x0; x <= x1; x++) {
       if (!ink(x, y)) continue;
-      let e = x;
-      while (e < cw - 1 && ink(e + 1, y)) e++;
-      const mx = (x + e) >> 1;
-      let t = y;
-      let b = y;
-      while (t > 0 && ink(mx, t - 1)) t--;
-      while (b < ch - 1 && ink(mx, b + 1)) b++;
-      const thick = Math.min(e - x + 1, b - t + 1);
-      if (thick > best.thick) best = { x: mx, y: y + h / 2 - ch / 2, thick };
-      x = e;
+      const c = across(x, y);
+      const s = across(c.mid, y);
+      if (s.thick > best.thick) best = at(c.mid, y, s.thick);
+      while (x < x1 && ink(x + 1, y)) x++;
     }
     if (best.thick) return best;
   }
@@ -181,7 +215,7 @@ export function textPortal(
     const i = clamp(opts.focus ?? Math.floor(chars / 2), 0, Math.max(chars - 1, 0));
     let thick = size * 0.12;
     try {
-      const spot = inkSpot(word, i, w, h);
+      const spot = inkSpot(word, i, w);
       fx = spot.x;
       fy = spot.y;
       if (spot.thick) thick = spot.thick;

@@ -1,6 +1,6 @@
 {
   "name": "@vizzele/core",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Zero-dependency physics, gesture and motion engine behind Vizzele UI — springs, inertia, drag, magnetic, tilt, spotlight and more.",
   "license": "MIT",
   "type": "module",

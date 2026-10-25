@@ -14,7 +14,7 @@ export function HomeHero({ components }: { components: number }) {
   return (
     <TextPortal
       text="VIZZELE"
-      focus={1}
+      focus={3}
       length={1.3}
       className="home-portal"
       aria-labelledby="hero-title"

@@ -1,5 +1,11 @@
 # @vizzele/css
 
+## 0.5.1
+
+### Patch Changes
+
+- Text portal: the dive now aims at the exact centre of the focus letter's ink (lined up with the SVG glyph, so diagonals like Z work too), and the zoom depth uses the true stroke thickness, so the letter covers the screen cleanly with no sweeping gap.
+
 ## 0.5.0
 
 ### Minor Changes

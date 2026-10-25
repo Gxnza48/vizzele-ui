@@ -68,6 +68,6 @@
     "name": "core { textPortal }",
     "path": "dist/index.js",
     "import": "{ textPortal }",
-    "limit": "3.6 kB"
+    "limit": "3.9 kB"
   }
 ]
