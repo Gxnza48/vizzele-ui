@@ -868,3 +868,21 @@
   transform-origin: 50% 0;
   filter: brightness(calc(1 - var(--vz-covered, 0) * 0.35));
 }
+
+/* ———————————————————————— WebGL canvases ———————————————————————— */
+
+.vz-gl {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.vz-gl-fill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.vz-gl-fallback {
+  background: var(--vz-iridescent-film), var(--vz-bg);
+  filter: blur(40px) saturate(1.2);
+  opacity: 0.6;
+}

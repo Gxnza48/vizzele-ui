@@ -40,4 +40,10 @@ export const demos: Record<string, DemoComponent> = {
   'scroll-progress': load(() => import('./text-scroll').then((m) => m.ScrollProgressDemo)),
   reveal: load(() => import('./text-scroll').then((m) => m.RevealDemo)),
   'smooth-scroll': load(() => import('./text-scroll').then((m) => m.SmoothScrollDemo)),
+  fluid: load(() => import('./backgrounds').then((m) => m.FluidDemo)),
+  'mesh-gradient': load(() => import('./backgrounds').then((m) => m.MeshGradientDemo)),
+  'particle-field': load(() => import('./backgrounds').then((m) => m.ParticleFieldDemo)),
+  'liquid-metal': load(() => import('./backgrounds').then((m) => m.LiquidMetalDemo)),
+  'lens-grid': load(() => import('./backgrounds').then((m) => m.LensGridDemo)),
+  grain: load(() => import('./backgrounds').then((m) => m.GrainDemo)),
 };

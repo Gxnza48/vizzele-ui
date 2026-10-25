@@ -1209,3 +1209,36 @@ img {
   color: #05070d;
   font-size: 3rem;
 }
+
+/* ———————————— Background demos ———————————— */
+.bg-demo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  overflow: hidden;
+  background: var(--vz-bg-sunken);
+}
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  color: #fff;
+}
+.bg-overlay h3 {
+  margin: 0;
+  font-size: clamp(2.6rem, 2rem + 4vw, 5rem);
+}
+.bg-overlay p {
+  margin: 6px 0 0;
+  opacity: 0.7;
+}
+.grain-demo {
+  background:
+    radial-gradient(circle at 30% 40%, var(--vz-magenta), transparent 45%),
+    radial-gradient(circle at 70% 60%, var(--vz-cyan), transparent 45%), var(--vz-bg-sunken);
+}
