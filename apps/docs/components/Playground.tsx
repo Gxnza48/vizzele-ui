@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import type { Control, ControlValues } from '@/lib/types';
 import { demos } from '@/demos';
+import { Select } from '@vizzele/react';
 
 const initialValues = (controls: Control[] = []): ControlValues =>
   Object.fromEntries(controls.map((c) => [c.name, c.default]));
@@ -112,14 +113,19 @@ function ControlInput({
       );
     case 'select':
       return (
-        <label className="control" htmlFor={id}>
-          <span className="control-head">{label}</span>
-          <select id={id} value={String(value)} onChange={(e) => onChange(e.target.value)}>
-            {c.options.map((o) => (
-              <option key={o}>{o}</option>
-            ))}
-          </select>
-        </label>
+        <div className="control">
+          <span className="control-head" id={`${id}-label`}>
+            {label}
+          </span>
+          <Select
+            id={id}
+            size="sm"
+            labelledBy={`${id}-label`}
+            options={[...c.options]}
+            value={String(value)}
+            onValueChange={onChange}
+          />
+        </div>
       );
     case 'boolean':
       return (

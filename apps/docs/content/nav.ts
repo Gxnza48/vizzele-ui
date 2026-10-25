@@ -4,6 +4,7 @@ import { dragEntries } from './drag';
 import { scrollEntries, textEntries } from './text-scroll';
 import { backgroundEntries } from './backgrounds';
 import { uiEntries } from './ui';
+import { menuEntries } from './menus';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -12,6 +13,7 @@ export const entries: DocEntry[] = [
   ...textEntries,
   ...scrollEntries,
   ...uiEntries,
+  ...menuEntries,
 ];
 
 export const guides = [

@@ -141,6 +141,17 @@ export {
   type MarqueeProps,
 } from './components/media';
 
+export {
+  DropdownMenu,
+  Select,
+  type DropdownMenuProps,
+  type MenuActionItem,
+  type MenuItem,
+  type MenuTriggerProps,
+  type SelectOption,
+  type SelectProps,
+} from './components/select';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,

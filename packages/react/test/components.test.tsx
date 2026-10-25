@@ -5,6 +5,8 @@ import {
   Accordion,
   Button,
   Checkbox,
+  DropdownMenu,
+  Select,
   ReorderGroup,
   ReorderItem,
   Switch,
@@ -192,5 +194,106 @@ describe('ReorderGroup', () => {
     expect(screen.getByTestId('order').textContent).toBe('two,three,one');
     fireEvent.keyDown(screen.getAllByRole('listitem')[2]!, { key: 'Enter' });
     expect(screen.getAllByRole('listitem')[2]!.getAttribute('aria-grabbed')).toBe('false');
+  });
+});
+
+describe('Select', () => {
+  const options = [
+    { value: 'liquid', label: 'Liquid' },
+    { value: 'jelly', label: 'Jelly' },
+    { value: 'heavy', label: 'Heavy', disabled: true },
+    { value: 'gentle', label: 'Gentle' },
+  ];
+
+  it('is a combobox that opens a listbox and chooses with the keyboard', () => {
+    const onChange = vi.fn();
+    render(
+      <Select label="Spring" options={options} defaultValue="liquid" onValueChange={onChange} />,
+    );
+    const box = screen.getByRole('combobox', { name: 'Spring' });
+    expect(box.textContent).toContain('Liquid');
+    fireEvent.keyDown(box, { key: 'ArrowDown' });
+    const list = screen.getByRole('listbox');
+    expect(box.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('option', { name: 'Liquid' }).getAttribute('aria-selected')).toBe(
+      'true',
+    );
+    fireEvent.keyDown(list, { key: 'ArrowDown' }); // Jelly
+    fireEvent.keyDown(list, { key: 'ArrowDown' }); // skips disabled Heavy → Gentle
+    expect(list.getAttribute('aria-activedescendant')).toMatch(/opt-3$/);
+    fireEvent.keyDown(list, { key: 'Enter' });
+    expect(onChange).toHaveBeenCalledWith('gentle');
+    expect(screen.queryByRole('listbox')).toBeNull();
+    expect(box.textContent).toContain('Gentle');
+  });
+
+  it('jumps with typeahead and closes on Escape', () => {
+    render(<Select label="Spring" options={options} defaultValue="liquid" />);
+    const box = screen.getByRole('combobox');
+    fireEvent.click(box);
+    const list = screen.getByRole('listbox');
+    fireEvent.keyDown(list, { key: 'j' });
+    expect(list.getAttribute('aria-activedescendant')).toMatch(/opt-1$/);
+    fireEvent.keyDown(list, { key: 'Escape' });
+    expect(screen.queryByRole('listbox')).toBeNull();
+    expect(box.textContent).toContain('Liquid');
+  });
+});
+
+describe('DropdownMenu', () => {
+  it('opens a menu, runs items and skips disabled ones', () => {
+    const rename = vi.fn();
+    const remove = vi.fn();
+    render(
+      <DropdownMenu
+        items={[
+          { label: 'Rename', onSelect: rename },
+          { label: 'Archive', disabled: true },
+          { type: 'separator' },
+          { label: 'Delete', danger: true, onSelect: remove },
+        ]}
+      >
+        {(p) => <button {...p}>Actions</button>}
+      </DropdownMenu>,
+    );
+    const trigger = screen.getByRole('button', { name: 'Actions' });
+    expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
+    fireEvent.keyDown(trigger, { key: 'ArrowDown' });
+    const menu = screen.getByRole('menu');
+    expect(screen.getAllByRole('menuitem')).toHaveLength(3);
+    fireEvent.keyDown(menu, { key: 'ArrowDown' }); // Rename → Delete (Archive disabled)
+    fireEvent.keyDown(menu, { key: 'Enter' });
+    expect(remove).toHaveBeenCalledOnce();
+    expect(rename).not.toHaveBeenCalled();
+    expect(screen.queryByRole('menu')).toBeNull();
+  });
+});
+
+describe('floating reopen', () => {
+  it('a select reopened during its exit is visible again', async () => {
+    setReducedMotion('never');
+    render(<Select label="Quick" options={['a', 'b']} defaultValue="a" />);
+    const box = screen.getByRole('combobox');
+    fireEvent.click(box); // open
+    fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Escape' }); // start closing
+    fireEvent.click(box); // reopen immediately
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 400));
+    });
+    const popup = document.querySelector('.vz-select-popup') as HTMLElement;
+    expect(popup).not.toBeNull();
+    expect(box.getAttribute('aria-expanded')).toBe('true');
+    setReducedMotion('always');
+  });
+});
+
+describe('select reopen keeps keyboard', () => {
+  it('moves focus into the list on every open', () => {
+    render(<Select label="K" options={['a', 'b', 'c']} defaultValue="a" />);
+    const box = screen.getByRole('combobox');
+    fireEvent.click(box);
+    fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Escape' });
+    fireEvent.click(box);
+    expect(document.activeElement?.getAttribute('role')).toBe('listbox');
   });
 });

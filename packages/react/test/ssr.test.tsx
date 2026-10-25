@@ -118,6 +118,13 @@ const cases: [string, () => React.ReactElement][] = [
   ['LiquidMetal', () => <GL.LiquidMetal />],
   ['LensGrid', () => <GL.LensGrid />],
   ['Grain', () => <GL.Grain />],
+  ['Select', () => <V.Select label="s" options={['a', 'b']} defaultValue="a" />],
+  [
+    'DropdownMenu',
+    () => (
+      <V.DropdownMenu items={[{ label: 'A' }]}>{(p) => <button {...p}>m</button>}</V.DropdownMenu>
+    ),
+  ],
 ];
 
 describe('server rendering', () => {

@@ -63,4 +63,6 @@ export const demos: Record<string, DemoComponent> = {
   'carousel-3d': load(() => import('./ui').then((m) => m.Carousel3DDemo)),
   'image-reveal': load(() => import('./ui').then((m) => m.ImageRevealDemo)),
   skeleton: load(() => import('./ui').then((m) => m.SkeletonDemo)),
+  select: load(() => import('./menus').then((m) => m.SelectDemo)),
+  'dropdown-menu': load(() => import('./menus').then((m) => m.DropdownMenuDemo)),
 };

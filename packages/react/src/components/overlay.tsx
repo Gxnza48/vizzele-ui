@@ -15,7 +15,7 @@ import { useModalFocus } from '../hooks/a11y';
 import { cx, useIsomorphicLayoutEffect, useLatest } from '../hooks/utils';
 import { useDragDismiss } from './drag';
 
-const canPortal = () => typeof document !== 'undefined';
+export const canPortal = () => typeof document !== 'undefined';
 
 // ——————————————————————————— Modal ———————————————————————————
 
@@ -248,7 +248,7 @@ function place(anchor: DOMRect, el: HTMLElement, placement: Placement, offset: n
 }
 
 /** Floating element that springs out of its anchor. */
-function useFloating(
+export function useFloating(
   open: boolean,
   anchor: React.RefObject<HTMLElement | null>,
   placement: Placement,
@@ -260,8 +260,12 @@ function useFloating(
   const side = useRef<Placement>(placement);
 
   useEffect(() => {
-    if (open) setMounted(true);
-    else if (spring.current) {
+    if (open) {
+      setMounted(true);
+      // Reopened while the exit animation was running: still mounted, so the entrance
+      // effect won't rerun — spring back in from wherever the exit left it.
+      spring.current?.set(1, { config: { stiffness: 420, damping: 22 } });
+    } else if (spring.current) {
       const s = spring.current;
       if (prefersReducedMotion()) return setMounted(false);
       s.set(0, { config: { stiffness: 500, damping: 40 } });

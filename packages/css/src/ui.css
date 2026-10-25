@@ -1035,3 +1035,227 @@
   width: 100%;
   height: 100%;
 }
+
+/* ———————————————————————— Select & dropdown menu ———————————————————————— */
+
+.vz-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px 0 14px;
+  border-radius: var(--vz-radius-md);
+  border: 1px solid var(--vz-border-strong);
+  background: linear-gradient(180deg, var(--vz-surface-strong), var(--vz-surface));
+  box-shadow: inset 0 1px 0 var(--vz-glass-highlight);
+  color: var(--vz-text);
+  font: 500 var(--vz-text-sm) var(--vz-font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--vz-duration-fast),
+    box-shadow var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-select[data-size='sm'] {
+  min-height: 34px;
+  padding: 0 10px 0 12px;
+  border-radius: var(--vz-radius-sm);
+  font-size: var(--vz-text-xs);
+}
+.vz-select:hover {
+  border-color: color-mix(in oklab, var(--vz-accent) 40%, var(--vz-border-strong));
+}
+.vz-select:focus-visible,
+.vz-select[data-open] {
+  outline: none;
+  border-color: var(--vz-accent);
+  box-shadow:
+    inset 0 1px 0 var(--vz-glass-highlight),
+    0 0 0 3px color-mix(in oklab, var(--vz-accent) 22%, transparent),
+    0 0 24px -6px color-mix(in oklab, var(--vz-magenta) 40%, transparent);
+}
+.vz-select:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.vz-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vz-select[data-placeholder] .vz-select-value {
+  color: var(--vz-text-dim);
+}
+.vz-select-chevron {
+  flex: none;
+  color: var(--vz-text-muted);
+  transition: transform var(--vz-spring-jelly-duration) var(--vz-spring-jelly);
+}
+.vz-select[data-open] .vz-select-chevron {
+  transform: rotate(180deg);
+  color: var(--vz-accent-text);
+}
+
+.vz-select-popup {
+  position: fixed;
+  z-index: var(--vz-z-popover);
+  max-height: min(340px, 60vh);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 6px;
+  border-radius: var(--vz-radius-md);
+  opacity: 0;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--vz-glass-highlight) 40%, transparent),
+      transparent 40%
+    ),
+    color-mix(in oklab, var(--vz-bg-elevated) 88%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--vz-glass-highlight),
+    0 20px 50px -12px rgb(0 0 0 / 0.55),
+    0 0 0 1px var(--vz-border);
+}
+.vz-select-popup[data-side='bottom'] {
+  transform-origin: 50% 0;
+}
+.vz-select-popup[data-side='top'] {
+  transform-origin: 50% 100%;
+}
+.vz-select-popup[data-side='left'] {
+  transform-origin: 100% 50%;
+}
+.vz-select-popup[data-side='right'] {
+  transform-origin: 0 50%;
+}
+.vz-listbox {
+  position: relative;
+  outline: none;
+  isolation: isolate;
+}
+.vz-option {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 7px 10px;
+  border-radius: var(--vz-radius-sm);
+  color: var(--vz-text-muted);
+  font: 500 var(--vz-text-sm) var(--vz-font-sans);
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--vz-duration-fast);
+}
+.vz-option[data-active],
+.vz-option[aria-selected='true'] {
+  color: var(--vz-text);
+}
+.vz-option[aria-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vz-option[data-danger] {
+  color: var(--vz-danger);
+}
+.vz-option-text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+.vz-option-desc {
+  font-size: var(--vz-text-xs);
+  color: var(--vz-text-dim);
+}
+.vz-option-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+.vz-option-icon > * {
+  width: 100%;
+  height: 100%;
+}
+.vz-option-check {
+  flex: none;
+  color: var(--vz-accent-text);
+}
+/* The liquid highlight */
+.vz-option-blob {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 0;
+  height: 0;
+  opacity: 0;
+  border-radius: var(--vz-radius-sm);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--vz-cyan) 16%, transparent),
+      color-mix(in oklab, var(--vz-magenta) 14%, transparent)
+    ),
+    var(--vz-surface-strong);
+  box-shadow:
+    inset 0 1px 0 var(--vz-glass-highlight),
+    inset 0 0 0 1px color-mix(in oklab, var(--vz-accent) 25%, transparent);
+  pointer-events: none;
+  will-change: transform, height;
+  transition: opacity var(--vz-duration-fast);
+}
+.vz-option-blob::before {
+  /* an iridescent sliver on the leading edge */
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--vz-iridescent-linear);
+}
+.vz-menu-separator {
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--vz-border);
+}
+.vz-menu-label {
+  padding: 8px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vz-text-dim);
+}
+.vz-menu-shortcut {
+  flex: none;
+  font: 500 11px var(--vz-font-mono);
+  color: var(--vz-text-dim);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-select-popup .vz-option {
+    animation: vz-option-in 360ms var(--vz-ease-out) both;
+    animation-delay: calc(var(--vz-i, 0) * 22ms + 40ms);
+  }
+}
+@keyframes vz-option-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+    filter: blur(4px);
+  }
+}
+/* The active option already shows keyboard position; no ring around the whole list */
+.vz-listbox:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

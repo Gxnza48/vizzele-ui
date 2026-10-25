@@ -93,6 +93,7 @@ export function Search() {
           <input
             ref={input}
             role="combobox"
+            aria-label="Search components"
             aria-expanded="true"
             aria-controls={listId}
             aria-activedescendant={results[active] ? `${listId}-${active}` : undefined}
