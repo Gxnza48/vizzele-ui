@@ -183,6 +183,17 @@ export {
   type AgentStepsProps,
 } from './components/agent';
 
+export {
+  HoldButton,
+  LiquidFocus,
+  LiquidSelection,
+  SurfaceTension,
+  type HoldButtonProps,
+  type LiquidFocusProps,
+  type LiquidSelectionProps,
+  type SurfaceTensionProps,
+} from './components/originals';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,

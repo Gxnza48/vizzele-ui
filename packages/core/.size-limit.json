@@ -1,6 +1,16 @@
 [
-  { "name": "core (everything)", "path": "dist/index.js", "import": "*", "limit": "21 kB" },
-  { "name": "core { Spring }", "path": "dist/index.js", "import": "{ Spring }", "limit": "2 kB" },
+  {
+    "name": "core (everything)",
+    "path": "dist/index.js",
+    "import": "*",
+    "limit": "25 kB"
+  },
+  {
+    "name": "core { Spring }",
+    "path": "dist/index.js",
+    "import": "{ Spring }",
+    "limit": "2 kB"
+  },
   {
     "name": "core { draggable }",
     "path": "dist/index.js",
@@ -13,12 +23,33 @@
     "import": "{ magnetic }",
     "limit": "3.5 kB"
   },
-  { "name": "core/gl (all WebGL effects)", "path": "dist/gl.js", "import": "*", "limit": "11 kB" },
+  {
+    "name": "core/gl (all WebGL effects)",
+    "path": "dist/gl.js",
+    "import": "*",
+    "limit": "11 kB"
+  },
   {
     "name": "core/gl { meshGradient }",
     "path": "dist/gl.js",
     "import": "{ meshGradient }",
     "limit": "4.5 kB"
   },
-  { "name": "CDN global (iife, auto-init)", "path": "dist/vizzele.global.js", "limit": "21 kB" }
+  {
+    "name": "CDN global (iife, auto-init)",
+    "path": "dist/vizzele.global.js",
+    "limit": "25 kB"
+  },
+  {
+    "name": "core { holdToConfirm }",
+    "path": "dist/index.js",
+    "import": "{ holdToConfirm }",
+    "limit": "2.5 kB"
+  },
+  {
+    "name": "core { liquidFocus }",
+    "path": "dist/index.js",
+    "import": "{ liquidFocus }",
+    "limit": "3 kB"
+  }
 ]

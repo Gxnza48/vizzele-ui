@@ -8,6 +8,8 @@ export {
   meshGradient,
   type GrainOptions,
   type LensGridOptions,
+  caustics,
+  type CausticsOptions,
   type LiquidMetalOptions,
   type MeshGradientOptions,
 } from './shaders';

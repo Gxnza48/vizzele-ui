@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "40 kB"
+    "limit": "44 kB"
   },
   {
     "name": "react { Button }",

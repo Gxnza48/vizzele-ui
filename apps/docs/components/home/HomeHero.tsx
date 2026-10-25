@@ -20,9 +20,9 @@ export function HomeHero({ components }: { components: number }) {
       <div className="home-hero-veil" aria-hidden="true" />
       <FloatingShapes />
       <div className="home-hero-inner">
-        <Link href="/docs/agent" className="home-announce">
-          <span className="home-announce-tag">New</span>
-          Charts &amp; an AI agent with seven states
+        <Link href="/docs/liquid-focus" className="home-announce">
+          <span className="home-announce-tag">New</span>5 effects that exist nowhere else — plus
+          charts &amp; an AI agent
           <span aria-hidden="true" className="home-announce-arrow">
             →
           </span>

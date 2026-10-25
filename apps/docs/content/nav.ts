@@ -6,6 +6,7 @@ import { backgroundEntries } from './backgrounds';
 import { uiEntries } from './ui';
 import { menuEntries } from './menus';
 import { dataEntries } from './data';
+import { originalEntries } from './originals';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -16,6 +17,7 @@ export const entries: DocEntry[] = [
   ...uiEntries,
   ...menuEntries,
   ...dataEntries,
+  ...originalEntries,
 ];
 
 export const guides = [
@@ -42,6 +44,7 @@ export const guides = [
 ] as const;
 
 export const categoryOrder: Category[] = [
+  'Originals',
   'Cursor & pointer',
   'Drag & physics',
   'Backgrounds',

@@ -1962,3 +1962,203 @@
     animation: vz-pop var(--vz-spring-bouncy-duration) var(--vz-spring-bouncy);
   }
 }
+
+/* ———————————————————————————— Originals ———————————————————————————— */
+
+/* Liquid focus: one ring for the page */
+.vz-focus-drop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483000;
+  border: 2px solid var(--vz-accent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--vz-bg) 70%, transparent),
+    0 0 16px color-mix(in oklab, var(--vz-accent) 55%, transparent),
+    inset 0 0 10px color-mix(in oklab, var(--vz-magenta) 30%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--vz-duration-fast),
+    border-radius var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-focus-drop[data-visible] {
+  opacity: 1;
+}
+html.vz-liquid-focus :focus-visible {
+  outline-color: transparent !important;
+}
+@media (forced-colors: active) {
+  .vz-focus-drop {
+    display: none;
+  }
+  html.vz-liquid-focus :focus-visible {
+    outline: 2px solid Highlight !important;
+  }
+}
+
+/* Liquid selection */
+[data-vz-liquid-select] ::selection,
+[data-vz-liquid-select]::selection {
+  background: transparent;
+}
+[data-vz-liquid-select] :is(input, textarea, [data-vz-native-select])::selection {
+  background: Highlight;
+}
+.vz-selection-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482000;
+  pointer-events: none;
+  mix-blend-mode: var(--vz-selection-blend, screen);
+  opacity: var(--vz-selection-opacity, 0.5);
+}
+.vz-selection-blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 7px;
+  background: var(--vz-iridescent-linear);
+}
+[data-theme='light'] {
+  --vz-selection-blend: multiply;
+  --vz-selection-opacity: 0.38;
+}
+@media (prefers-color-scheme: light) {
+  [data-theme='auto'] {
+    --vz-selection-blend: multiply;
+    --vz-selection-opacity: 0.38;
+  }
+}
+@media (forced-colors: active) {
+  .vz-selection-layer {
+    display: none;
+  }
+  [data-vz-liquid-select] ::selection {
+    background: Highlight;
+  }
+}
+
+/* Hold to confirm */
+.vz-hold-btn {
+  --vz-hold-fill: linear-gradient(180deg, #ff6b8a, var(--vz-danger) 60%, #a30d36);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.vz-hold-btn[data-tone='liquid'] {
+  --vz-hold-fill: var(--vz-iridescent-linear);
+}
+.vz-hold-tank {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.vz-hold-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--vz-hold-fill);
+  clip-path: inset(100% 0 0 0);
+}
+.vz-hold-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.35), transparent 40%);
+  mix-blend-mode: soft-light;
+}
+.vz-hold-label {
+  position: relative;
+  transition: color var(--vz-duration-fast);
+}
+.vz-hold-btn[data-holding] .vz-hold-label,
+.vz-hold-btn[data-confirmed] .vz-hold-label {
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+}
+.vz-hold-btn[data-tone='liquid'][data-holding] .vz-hold-label,
+.vz-hold-btn[data-tone='liquid'][data-confirmed] .vz-hold-label {
+  color: #05070d;
+  text-shadow: none;
+}
+.vz-hold-btn[data-confirmed] {
+  box-shadow: 0 0 32px -4px color-mix(in oklab, var(--vz-danger) 70%, transparent);
+}
+.vz-hold-btn[data-tone='liquid'][data-confirmed] {
+  box-shadow: var(--vz-glow);
+}
+
+/* Surface tension */
+.vz-tension-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.vz-tension-layer > i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: var(
+    --vz-tension-fill,
+    color-mix(in oklab, var(--vz-text) 11%, var(--vz-bg-elevated))
+  );
+}
+.vz-tension-layer > .vz-tension-droplet {
+  background: var(--vz-iridescent);
+}
+.vz-tension-item {
+  position: relative;
+  z-index: 1;
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Caustics */
+.vz-caustics {
+  position: relative;
+  isolation: isolate;
+}
+.vz-caustics-light {
+  position: absolute;
+  inset: calc(var(--vz-caustics-spread, 90px) * -1);
+  z-index: -1;
+  width: calc(100% + var(--vz-caustics-spread, 90px) * 2);
+  height: calc(100% + var(--vz-caustics-spread, 90px) * 2);
+  pointer-events: none;
+  mix-blend-mode: var(--vz-caustics-blend, screen);
+}
+.vz-caustics-fallback {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--vz-cyan) 30%, transparent),
+    transparent
+  );
+  translate: 24px 30px;
+}
+.vz-caustics-card {
+  position: relative;
+  border: 1px solid var(--vz-border-strong);
+  border-radius: var(--vz-radius-xl);
+  background:
+    linear-gradient(160deg, var(--vz-glass-highlight), transparent 45%), var(--vz-glass-tint);
+  backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 0 var(--vz-glass-highlight),
+    var(--vz-shadow);
+}
+[data-theme='light'] {
+  --vz-caustics-blend: multiply;
+}
+@media (prefers-color-scheme: light) {
+  [data-theme='auto'] {
+    --vz-caustics-blend: multiply;
+  }
+}

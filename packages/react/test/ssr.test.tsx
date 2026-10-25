@@ -18,6 +18,19 @@ const cases: [string, () => React.ReactElement][] = [
     ),
   ],
   ['Card', () => <V.Card variant="holo">x</V.Card>],
+  ['HoldButton', () => <V.HoldButton onConfirm={() => {}}>Hold</V.HoldButton>],
+  ['LiquidFocus', () => <V.LiquidFocus />],
+  ['LiquidSelection', () => <V.LiquidSelection>text</V.LiquidSelection>],
+  [
+    'SurfaceTension',
+    () => (
+      <V.SurfaceTension>
+        <button>a</button>
+        <button>b</button>
+      </V.SurfaceTension>
+    ),
+  ],
+  ['CausticCard', () => <GL.CausticCard>glass</GL.CausticCard>],
   [
     'LineChart',
     () => (

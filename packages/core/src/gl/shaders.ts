@@ -296,3 +296,90 @@ export function grain(canvas: HTMLCanvasElement, options: GrainOptions = {}) {
       .set('uSeed', seed);
   });
 }
+
+// ——————————————————————————— Caustics ———————————————————————————
+
+export interface CausticsOptions extends ShaderEffectOptions {
+  /** The glass object that casts the light. Default: a card centred in the canvas. */
+  target?: HTMLElement | (() => HTMLElement | null | undefined) | null;
+  /** Corner radius of the projected shape, in CSS px. Default: the target's border radius. */
+  radius?: number;
+  /** Animation speed. Default 0.6. */
+  speed?: number;
+  /** Brightness. Default 1. */
+  intensity?: number;
+  /** Size of the light cells in CSS px. Default 70. */
+  scale?: number;
+}
+
+const CAUSTICS = `
+uniform vec4 uCard; uniform float uRadius; uniform float uSpeed; uniform float uIntensity; uniform float uScale; uniform float uDpr;
+vec2 hash2(vec2 p) { p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3))); return fract(sin(p) * 43758.5453); }
+// Distance between the nearest and second-nearest moving cell centres: thin bright seams
+// where cells meet — the network light makes after passing through a wavy surface.
+float seams(vec2 p, float t) {
+  vec2 i = floor(p), f = fract(p);
+  float f1 = 8.0, f2 = 8.0;
+  for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) {
+    vec2 g = vec2(float(x), float(y));
+    vec2 h = hash2(i + g);
+    vec2 c = g + 0.5 + 0.42 * sin(t + 6.2831 * h) - f;
+    float d = length(c);
+    if (d < f1) { f2 = f1; f1 = d; } else if (d < f2) { f2 = d; }
+  }
+  return f2 - f1;
+}
+float caustic(vec2 p, float t) {
+  p += 0.45 * vec2(noise(p * 0.7 + t * 0.25), noise(p * 0.7 - t * 0.21 + 4.1));
+  float a = 1.0 - smoothstep(0.0, 0.16, seams(p, t));
+  float b = 1.0 - smoothstep(0.0, 0.12, seams(p * 1.9 + 3.1, t * 1.3));
+  return a * a * a + 0.55 * b * b * b;
+}
+float sdRound(vec2 p, vec2 b, float r) { vec2 q = abs(p) - b + r; return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r; }
+void main() {
+  vec2 px = vUv * uRes;
+  vec2 center = uCard.xy + uCard.zw * 0.5;
+  // The light follows the pointer; without one it hangs above the top-left.
+  vec2 light = mix(vec2(uRes.x * 0.2, uRes.y * 1.3), uMouse * uRes, uPresence);
+  vec2 dir = center - light;
+  vec2 shift = normalize(dir + 1e-4) * min(length(dir) * 0.1, 56.0 * uDpr);
+  vec2 q = (px - center - shift) / 1.05;
+  float d = sdRound(q, uCard.zw * 0.5, uRadius);
+  float soft = 22.0 * uDpr;
+  float mask = 1.0 - smoothstep(-soft, soft * 1.6, d);
+  float edge = exp(-abs(d) / (10.0 * uDpr)) * mask;
+  vec2 p = (px - shift * 2.0) / (uScale * uDpr);
+  float t = uTime * uSpeed;
+  // A slightly different sample per channel splits the light like a prism.
+  vec3 c = vec3(caustic(p + vec2(0.018, 0.0), t), caustic(p, t), caustic(p - vec2(0.018, 0.0), t));
+  vec3 tint = iridescent(dot(q, vec2(0.0012, 0.0009)) / uDpr + uTime * 0.03);
+  vec3 col = (c * mix(vec3(1.0), tint, 0.65) * 1.1 + tint * 0.12 + edge * tint * 0.6) * mask * uIntensity;
+  float a = clamp(max(col.r, max(col.g, col.b)), 0.0, 1.0);
+  o = vec4(min(col, vec3(a)), a);
+}`;
+
+/**
+ * Caustics: a glass card casts the moving net of light you see at the bottom of a pool.
+ * The projection slides away from the pointer like light from a lamp you are holding.
+ * Put the canvas behind the card, larger than it.
+ */
+export function caustics(canvas: HTMLCanvasElement, options: CausticsOptions = {}) {
+  return shaderEffect(canvas, CAUSTICS, { resolution: 0.75, ...options }, (p, o) => {
+    const c = canvas.getBoundingClientRect();
+    const dpr = canvas.width / Math.max(c.width, 1);
+    const target = typeof o.target === 'function' ? o.target() : o.target;
+    let card = [canvas.width * 0.25, canvas.height * 0.25, canvas.width * 0.5, canvas.height * 0.5];
+    let radius = (o.radius ?? 24) * dpr;
+    if (target) {
+      const r = target.getBoundingClientRect();
+      card = [(r.left - c.left) * dpr, (c.bottom - r.bottom) * dpr, r.width * dpr, r.height * dpr];
+      radius = (o.radius ?? (parseFloat(getComputedStyle(target).borderTopLeftRadius) || 0)) * dpr;
+    }
+    p.set('uCard', card as [number, number, number, number])
+      .set('uRadius', Math.min(radius, card[2]! / 2, card[3]! / 2))
+      .set('uDpr', dpr)
+      .set('uSpeed', o.speed ?? 0.6)
+      .set('uIntensity', o.intensity ?? 1)
+      .set('uScale', o.scale ?? 70);
+  });
+}

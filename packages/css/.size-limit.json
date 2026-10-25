@@ -1,4 +1,4 @@
 [
-  { "name": "css (everything, min+gz)", "path": "dist/vizzele.min.css", "limit": "12 kB" },
+  { "name": "css (everything, min+gz)", "path": "dist/vizzele.min.css", "limit": "15 kB" },
   { "name": "css tokens+themes", "path": ["dist/tokens.css", "dist/themes.css"], "limit": "3 kB" }
 ]

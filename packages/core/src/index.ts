@@ -31,4 +31,9 @@ export {
   type CursorState,
 } from './effects/cursor';
 export { particleTrail, type ParticleTrailOptions } from './effects/particles';
+export { liquidFocus, type LiquidFocusOptions } from './effects/liquid-focus';
+export { liquidSelection, type LiquidSelectionOptions } from './effects/liquid-selection';
+export { holdToConfirm, type HoldToConfirmOptions } from './effects/hold';
+export { surfaceTension, type SurfaceTensionOptions } from './effects/surface-tension';
+export { gooFilter } from './effects/goo';
 export { effects, registerAll, type EffectName } from './effects';

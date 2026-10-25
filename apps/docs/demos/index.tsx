@@ -71,4 +71,9 @@ export const demos: Record<string, DemoComponent> = {
   'stat-card': load(() => import('./data').then((m) => m.StatCardDemo)),
   agent: load(() => import('./data').then((m) => m.AgentDemo)),
   'agent-steps': load(() => import('./data').then((m) => m.AgentStepsDemo)),
+  'liquid-focus': load(() => import('./originals').then((m) => m.LiquidFocusDemo)),
+  'liquid-selection': load(() => import('./originals').then((m) => m.LiquidSelectionDemo)),
+  'hold-button': load(() => import('./originals').then((m) => m.HoldButtonDemo)),
+  caustics: load(() => import('./originals').then((m) => m.CausticsDemo)),
+  'surface-tension': load(() => import('./originals').then((m) => m.SurfaceTensionDemo)),
 };

@@ -1,11 +1,21 @@
-import { createElement, forwardRef, useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
+  createElement,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type HTMLAttributes,
+} from 'react';
+import {
+  caustics,
   fluid,
   grain,
   lensGrid,
   liquidMetal,
   meshGradient,
   particleField,
+  type CausticsOptions,
   type FluidOptions,
   type GrainOptions,
   type LensGridOptions,
@@ -120,7 +130,69 @@ export const LensGrid = /* @__PURE__ */ makeGL<LensGridOptions>('LensGrid', lens
 /** GPU film grain. For a zero-JS alternative use the `vz-grain` class. */
 export const Grain = /* @__PURE__ */ makeGL<GrainOptions>('Grain', grain);
 
+export interface CausticCardProps
+  extends Omit<CausticsOptions, 'target'>, Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
+  /** How far (px) the light may spill around the card. Default 90. */
+  spread?: number;
+  /** Class for the glass card itself. */
+  cardClassName?: string;
+  paused?: boolean;
+}
+
+/**
+ * A glass card that casts caustics — the moving net of light at the bottom of a pool — onto
+ * whatever is behind it. Move the pointer and the light source moves with it.
+ */
+export const CausticCard = /* @__PURE__ */ forwardRef<HTMLDivElement, CausticCardProps>(
+  function CausticCard(
+    {
+      spread = 90,
+      radius,
+      speed,
+      intensity,
+      scale,
+      colors,
+      resolution,
+      paused,
+      className,
+      cardClassName,
+      children,
+      style,
+      ...rest
+    },
+    ref,
+  ) {
+    const card = useRef<HTMLDivElement | null>(null);
+    const options = Object.fromEntries(
+      Object.entries({ radius, speed, intensity, scale, colors, resolution }).filter(
+        ([, v]) => v !== undefined,
+      ),
+    ) as CausticsOptions;
+    options.target = () => card.current;
+    const { ref: canvas, unsupported } = useGLEffect(caustics, options, { paused: !!paused });
+    const own = useMergedRef(ref, card);
+    return createElement(
+      'div',
+      {
+        className: cx('vz-caustics', className),
+        style: { '--vz-caustics-spread': `${spread}px`, ...style } as CSSProperties,
+      },
+      createElement('canvas', {
+        ref: canvas,
+        'aria-hidden': true,
+        className: cx('vz-gl vz-caustics-light', unsupported && 'vz-caustics-fallback'),
+      }),
+      createElement(
+        'div',
+        { ref: own, className: cx('vz-caustics-card', cardClassName), ...rest },
+        children,
+      ),
+    );
+  },
+);
+
 export type {
+  CausticsOptions,
   FluidOptions,
   GrainOptions,
   LensGridOptions,

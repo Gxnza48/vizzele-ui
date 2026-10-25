@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Cursor } from '@vizzele/react';
+import { Cursor, LiquidFocus } from '@vizzele/react';
 import { observe, registerAll } from '@vizzele/core';
 
 export const CURSOR_KEY = 'vz-cursor';
@@ -41,5 +41,11 @@ export function SiteEffects() {
       mo.disconnect();
     };
   }, []);
-  return <Cursor disabled={!enabled || demoOwnsCursor} />;
+  return (
+    <>
+      <Cursor disabled={!enabled || demoOwnsCursor} />
+      {/* Keyboard focus travels like a drop of mercury across the whole site. */}
+      <LiquidFocus />
+    </>
+  );
 }

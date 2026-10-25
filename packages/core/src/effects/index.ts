@@ -8,6 +8,10 @@ import { ripple } from './ripple';
 import { cursor, type CursorOptions } from './cursor';
 import { particleTrail, type ParticleTrailOptions } from './particles';
 import { reorder } from '../reorder';
+import { liquidFocus, type LiquidFocusOptions } from './liquid-focus';
+import { liquidSelection } from './liquid-selection';
+import { holdToConfirm } from './hold';
+import { surfaceTension } from './surface-tension';
 import { liquidGlass } from './glass';
 import {
   counter,
@@ -52,6 +56,17 @@ export const effects = {
   'custom-cursor': (_el: HTMLElement, o?: CursorOptions) => cursor(o),
   /** Put on <body> to enable the particle trail. */
   'particle-trail': (_el: HTMLElement, o?: ParticleTrailOptions) => particleTrail(o),
+  /** Put on <body>: one liquid focus ring for the whole page. */
+  'liquid-focus': (_el: HTMLElement, o?: LiquidFocusOptions) => liquidFocus(o),
+  /** Selections inside this element turn liquid. */
+  'liquid-select': (el: HTMLElement) => liquidSelection({ root: el }),
+  /** Hold to confirm; listen for the `vz-confirm` event. */
+  hold: (el: HTMLElement, o?: { duration?: number }) =>
+    holdToConfirm(el, {
+      ...o,
+      onConfirm: () => el.dispatchEvent(new CustomEvent('vz-confirm', { bubbles: true })),
+    }),
+  'surface-tension': surfaceTension,
 };
 
 export type EffectName = keyof typeof effects;
