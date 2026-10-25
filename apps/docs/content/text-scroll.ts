@@ -224,19 +224,47 @@ weightWave(title, { min: 280, max: 800, width: true });`,
     height: 320,
     controls: [
       { type: 'text', name: 'words', default: 'liquid, holographic, elastic, alive' },
+      { type: 'select', name: 'variant', options: ['cascade', 'goo'], default: 'cascade' },
+      {
+        type: 'range',
+        name: 'stagger',
+        label: 'letter stagger (cascade)',
+        min: 0,
+        max: 120,
+        step: 5,
+        default: 35,
+      },
       { type: 'range', name: 'hold', min: 400, max: 4000, step: 100, default: 1600 },
       { type: 'range', name: 'morph', min: 200, max: 2500, step: 50, default: 900 },
     ],
     code: {
       react: `import { MorphText } from '@vizzele/react';
 
-<h2>Interfaces that feel <MorphText words={['liquid', 'holographic', 'elastic', 'alive']} /></h2>`,
+<h2>Interfaces that feel <MorphText gradient words={['liquid', 'holographic', 'elastic', 'alive']} /></h2>`,
       html: `<span data-vz-morph="hold: 1600">liquid | holographic | elastic | alive</span>`,
     },
     props: [
       { name: 'words', type: 'string[]', description: 'Words to cycle.' },
       { name: 'hold', type: 'number', default: '1800', description: 'Time each word stays (ms).' },
-      { name: 'morph', type: 'number', default: '900', description: 'Morph duration (ms).' },
+      {
+        name: 'variant',
+        type: "'cascade' | 'goo'",
+        default: "'cascade'",
+        description: 'Letter cascade or liquid blend.',
+      },
+      {
+        name: 'stagger',
+        type: 'number',
+        default: '35',
+        description: 'ms between letters (cascade).',
+      },
+      {
+        name: 'gradient',
+        type: 'boolean',
+        default: 'false',
+        description: 'Iridescent gradient, continuous across the word.',
+      },
+      { name: 'morph', type: 'number', default: '900', description: 'Blend duration (goo).' },
     ],
     a11y: [
       'A hidden live copy holds the current word for assistive tech.',

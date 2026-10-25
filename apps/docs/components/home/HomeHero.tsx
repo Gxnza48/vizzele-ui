@@ -23,8 +23,9 @@ export function HomeHero() {
           </TextReveal>
           <MorphText
             words={['liquid', 'alive', 'elastic', 'holographic', 'physical']}
-            hold={1700}
-            className="vz-text-iridescent home-title-morph"
+            hold={2200}
+            gradient
+            className="home-title-morph"
           />
         </h1>
         <p className="home-lead">

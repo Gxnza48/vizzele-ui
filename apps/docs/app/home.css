@@ -85,9 +85,15 @@
   display: block;
 }
 .home-title-morph {
-  display: inline-grid;
   min-height: 1.05em;
   padding-bottom: 0.08em;
+}
+/* Server-rendered word, before the effect takes over: same gradient, no layout jump */
+.home-title-morph:not(.vz-morph-cascade) {
+  background: var(--vz-iridescent-linear);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .home-lead {
   max-width: 58ch;

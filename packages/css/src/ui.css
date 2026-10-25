@@ -329,7 +329,6 @@
   inset: 0;
   background: rgb(2 3 8 / 0.6);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   opacity: 0;
 }
 .vz-modal {
@@ -747,7 +746,6 @@
   border-color: var(--vz-border);
   background: color-mix(in oklab, var(--vz-bg) 72%, transparent);
   backdrop-filter: blur(18px) saturate(1.6);
-  -webkit-backdrop-filter: blur(18px) saturate(1.6);
   box-shadow: var(--vz-shadow);
 }
 .vz-navbar[data-hidden] {

@@ -15,7 +15,6 @@
       transparent 40%
     ),
     var(--vz-glass-tint);
-  -webkit-backdrop-filter: blur(var(--vz-blur-md)) saturate(var(--vz-glass-saturation));
   backdrop-filter: blur(var(--vz-blur-md)) saturate(var(--vz-glass-saturation));
   border: 1px solid var(--vz-border);
   box-shadow:
@@ -673,7 +672,6 @@
   opacity: 0;
   background: rgb(2 3 8 / 0.55);
   backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
 }
 .vz-sheet {
   position: absolute;
@@ -885,4 +883,68 @@
   background: var(--vz-iridescent-film), var(--vz-bg);
   filter: blur(40px) saturate(1.2);
   opacity: 0.6;
+}
+
+/* ———————————————————————— Morph text (cascade) ———————————————————————— */
+
+.vz-morph-cascade {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: bottom;
+  transition: width var(--vz-spring-liquid-duration) var(--vz-spring-liquid);
+}
+.vz-morph-sizer {
+  visibility: hidden;
+}
+.vz-morph-word {
+  /* Always centred on the box, even while the box width is still easing to fit it */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: max-content;
+  transform: translateX(-50%);
+  perspective: 600px;
+}
+.vz-morph-char {
+  display: inline-block;
+  transform-origin: 50% 80%;
+  transition:
+    transform var(--vz-spring-bouncy-duration) var(--vz-spring-bouncy),
+    opacity 420ms var(--vz-ease-out),
+    filter 520ms var(--vz-ease-out);
+  /* incoming letters wait for the outgoing word to clear */
+  transition-delay: calc(var(--vz-morph-wait, 220ms) + var(--i) * var(--vz-stagger, 35ms));
+}
+.vz-morph-word[data-state='before'] .vz-morph-char {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(0.5em) rotateX(-75deg) scale(0.9);
+  transition: none;
+}
+.vz-morph-word[data-state='out'] .vz-morph-char {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(-0.38em) rotateX(55deg) scale(0.94);
+  transition-duration: 260ms, 200ms, 260ms;
+  transition-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+  transition-delay: calc(var(--i) * var(--vz-stagger, 35ms) * 0.35);
+}
+/* Continuous gradient across the word, even though every letter is its own element */
+.vz-morph-cascade[data-gradient] .vz-morph-char {
+  background: var(--vz-iridescent-linear);
+  background-size: calc(var(--n) * 100%) 100%;
+  background-position: calc(var(--i) / max(var(--n) - 1, 1) * 100%) 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* room for descenders and the blur so the clip never cuts letters */
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vz-morph-cascade,
+  .vz-morph-char {
+    transition: none !important;
+  }
 }

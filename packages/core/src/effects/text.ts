@@ -7,7 +7,7 @@ import { frame } from '../scheduler';
 import { splitText, type SplitTextResult } from '../split-text';
 import { Spring, resolveSpring, type SpringConfig, type SpringPreset } from '../spring';
 import { inertInstance, type EffectInstance } from './types';
-import { accessibleText } from '../a11y';
+import { accessibleText, srOnly } from '../a11y';
 
 // ——————————————————————————— Scramble ———————————————————————————
 
@@ -282,8 +282,14 @@ export interface MorphTextOptions {
   words: string[];
   /** Time each word stays, ms. Default 1800. */
   hold?: number;
-  /** Morph duration, ms. Default 900. */
+  /** `cascade`: letters leave and arrive one by one on springs. `goo`: liquid threshold blend. Default `cascade`. */
+  variant?: 'cascade' | 'goo';
+  /** Morph duration for the `goo` variant, ms. Default 900. */
   morph?: number;
+  /** Delay between letters for the `cascade` variant, ms. Default 35. */
+  stagger?: number;
+  /** Paint the letters with the iridescent gradient (continuous across the word). */
+  gradient?: boolean;
 }
 
 let morphFilterAdded = false;
@@ -299,11 +305,116 @@ function ensureMorphFilter() {
 }
 
 /**
- * Words melt into each other: two layers cross-blur and an SVG alpha-threshold filter
- * turns the blur into a liquid, gooey morph.
+ * Cycles through words. By default each letter of the outgoing word lifts away and blurs out
+ * while the new word's letters spring in one after another; the width eases between words so
+ * the surrounding text never jumps. `variant: 'goo'` melts the words into each other instead.
  */
 export function morphText(el: HTMLElement, options: MorphTextOptions) {
   if (!isBrowser || !options.words.length) return { ...inertInstance<MorphTextOptions>() };
+  return (options.variant ?? 'cascade') === 'goo'
+    ? gooMorph(el, options)
+    : cascadeMorph(el, options);
+}
+
+const NBSP = String.fromCharCode(160);
+
+function cascadeMorph(el: HTMLElement, options: MorphTextOptions) {
+  let opts = options;
+  let index = 0;
+  const words = () => opts.words;
+  el.classList.add('vz-morph-cascade');
+  el.toggleAttribute('data-gradient', !!opts.gradient);
+  el.textContent = '';
+  const live = srOnly(words()[0]!);
+  live.setAttribute('aria-live', 'polite');
+  // In-flow, invisible copy of the current word: gives the line its height and baseline.
+  const sizer = document.createElement('span');
+  sizer.className = 'vz-morph-sizer';
+  sizer.setAttribute('aria-hidden', 'true');
+  el.append(live, sizer);
+
+  const layer = (word: string) => {
+    const w = document.createElement('span');
+    w.className = 'vz-morph-word';
+    w.setAttribute('aria-hidden', 'true');
+    const chars = Array.from(word);
+    w.style.setProperty('--n', String(chars.length));
+    w.style.setProperty('--vz-stagger', `${opts.stagger ?? 35}ms`);
+    chars.forEach((ch, i) => {
+      const c = document.createElement('span');
+      c.className = 'vz-morph-char';
+      c.textContent = ch === ' ' ? NBSP : ch;
+      c.style.setProperty('--i', String(i));
+      w.appendChild(c);
+    });
+    return w;
+  };
+
+  let current = layer(words()[0]!);
+  current.dataset.state = 'in';
+  sizer.textContent = words()[0]!;
+  el.appendChild(current);
+  const fit = () => {
+    el.style.width = `${Math.ceil(current.scrollWidth)}px`;
+  };
+  fit();
+
+  const timers = new Set<ReturnType<typeof setTimeout>>();
+  const later = (fn: () => void, ms: number) => {
+    const t = setTimeout(() => {
+      timers.delete(t);
+      fn();
+    }, ms);
+    timers.add(t);
+  };
+
+  const swap = () => {
+    index = (index + 1) % words().length;
+    const word = words()[index]!;
+    live.textContent = word;
+    sizer.textContent = word;
+    const next = layer(word);
+    const leaving = current;
+    current = next;
+    if (prefersReducedMotion()) {
+      next.dataset.state = 'in';
+      el.replaceChild(next, leaving);
+      fit();
+    } else {
+      next.dataset.state = 'before';
+      el.appendChild(next);
+      // Force a style flush so the 'before' pose is committed — otherwise the browser never
+      // sees a starting value and the entrance transition is skipped.
+      void next.getBoundingClientRect();
+      next.dataset.state = 'in';
+      leaving.dataset.state = 'out';
+      fit();
+      later(() => leaving.remove(), 700 + leaving.childElementCount * (opts.stagger ?? 35));
+    }
+    later(swap, opts.hold ?? 1800);
+  };
+  later(swap, opts.hold ?? 1800);
+
+  const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(fit) : null;
+  ro?.observe(sizer);
+
+  return {
+    update(next: Partial<MorphTextOptions>) {
+      opts = { ...opts, ...next };
+      el.toggleAttribute('data-gradient', !!opts.gradient);
+    },
+    destroy() {
+      timers.forEach(clearTimeout);
+      ro?.disconnect();
+      el.classList.remove('vz-morph-cascade');
+      el.removeAttribute('data-gradient');
+      el.style.width = '';
+      el.textContent = words()[index] ?? '';
+    },
+  };
+}
+
+function gooMorph(el: HTMLElement, options: MorphTextOptions) {
   let opts = options;
   ensureMorphFilter();
   el.classList.add('vz-morph');
@@ -313,8 +424,7 @@ export function morphText(el: HTMLElement, options: MorphTextOptions) {
   a.className = b.className = 'vz-morph-layer';
   a.setAttribute('aria-hidden', 'true');
   b.setAttribute('aria-hidden', 'true');
-  const live = document.createElement('span');
-  live.className = 'vz-sr-only';
+  const live = srOnly('');
   el.append(a, b, live);
 
   let index = 0;
@@ -337,7 +447,6 @@ export function morphText(el: HTMLElement, options: MorphTextOptions) {
   };
 
   if (prefersReducedMotion()) {
-    // Swap words without the morph.
     const id = setInterval(() => {
       index = (index + 1) % words().length;
       a.textContent = live.textContent = words()[index]!;

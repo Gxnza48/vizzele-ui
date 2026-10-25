@@ -114,7 +114,12 @@ export function MorphDemo({ values }: P) {
           words={words.length ? words : ['liquid']}
           hold={Number(values.hold)}
           morph={Number(values.morph)}
-          className="vz-text-iridescent demo-morph-word"
+          variant={values.variant as 'cascade' | 'goo'}
+          stagger={Number(values.stagger)}
+          gradient={values.variant === 'cascade'}
+          className={
+            values.variant === 'goo' ? 'vz-text-iridescent demo-morph-word' : 'demo-morph-word'
+          }
         />
       </h2>
     </div>

@@ -196,16 +196,25 @@ export interface MorphTextProps {
   words: string[];
   hold?: number;
   morph?: number;
+  /** `cascade` (letters spring in one by one) or `goo` (liquid blend). Default `cascade`. */
+  variant?: 'cascade' | 'goo';
+  /** ms between letters (cascade). Default 35. */
+  stagger?: number;
+  /** Iridescent gradient across the word. */
+  gradient?: boolean;
   as?: ElementType;
   className?: string;
   style?: CSSProperties;
 }
 
-/** Words that melt into each other. */
+/** Cycles through words: letters spring in one after another (or melt, with `variant="goo"`). */
 export function MorphText({
   words,
   hold,
   morph,
+  variant,
+  stagger,
+  gradient,
   as: Tag = 'span',
   className,
   style,
@@ -218,10 +227,13 @@ export function MorphText({
       words,
       ...(hold !== undefined ? { hold } : {}),
       ...(morph !== undefined ? { morph } : {}),
+      ...(variant ? { variant } : {}),
+      ...(stagger !== undefined ? { stagger } : {}),
+      ...(gradient ? { gradient } : {}),
     });
     return () => inst.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, hold, morph]);
+  }, [key, hold, morph, variant, stagger, gradient]);
   return (
     <Tag
       ref={el}
