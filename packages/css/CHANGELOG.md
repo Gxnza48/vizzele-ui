@@ -1,5 +1,12 @@
 # @vizzele/css
 
+## 0.5.2
+
+### Patch Changes
+
+- - css: importing the stylesheet no longer turns a plain page dark — `color-scheme` now follows `data-theme` only (the variables are still always defined).
+  - Text portal runs lighter: the scene and the mask sit on their own layers while diving (no repaint of the scene per frame), the stage is contained, and scrolling reads one rect instead of three heights.
+
 ## 0.5.1
 
 ### Patch Changes

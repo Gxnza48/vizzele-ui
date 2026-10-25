@@ -1,11 +1,12 @@
 /*
  * Themes. Dark ("deep space") is the default; light is "pearl paper".
+ * The variables are always defined, but nothing on your page changes until you opt in:
+ * `color-scheme` (native controls, scrollbars, the page canvas) follows data-theme only.
  *   <html data-theme="light">  · <html data-theme="dark">  · <html data-theme="auto"> (follows the OS)
  * To make your own, override the same variables under your own selector.
  */
 :root,
 [data-theme='dark'] {
-  color-scheme: dark;
   --vz-bg: #05070d;
   --vz-bg-elevated: #0b0f1a;
   --vz-bg-sunken: #03040a;
@@ -55,6 +56,11 @@
   --vz-chart-grid: rgb(170 200 255 / 0.08);
   --vz-chart-surface: var(--vz-bg-elevated);
   --vz-chart-glow: 6px;
+}
+
+[data-theme='dark'],
+[data-theme='auto'] {
+  color-scheme: dark;
 }
 
 [data-theme='light'] {

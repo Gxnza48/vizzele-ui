@@ -198,8 +198,11 @@ export function textPortal(
 
   const viewport = () => (inWindow ? window.innerHeight : (container as HTMLElement).clientHeight);
 
+  // The dive's scroll distance, cached so scrolling only reads one rect.
+  let dist = 1;
   const measure = () => {
     if (!inWindow) el.style.setProperty('--vz-portal-h', `${viewport()}px`);
+    dist = Math.max(el.offsetHeight - stage.offsetHeight, 1);
     const w = stage.clientWidth;
     const h = stage.clientHeight;
     if (!word || !w || !h) return;
@@ -260,7 +263,6 @@ export function textPortal(
     const top =
       el.getBoundingClientRect().top -
       (inWindow ? 0 : (container as HTMLElement).getBoundingClientRect().top);
-    const dist = Math.max(el.offsetHeight - stage.offsetHeight, 1);
     target = clamp(-top / dist, 0, 1);
     if (shown < 0 || opts.smooth === false) {
       shown = target;
@@ -274,7 +276,7 @@ export function textPortal(
     const top =
       el.getBoundingClientRect().top -
       (inWindow ? 0 : (container as HTMLElement).getBoundingClientRect().top);
-    const by = top + el.offsetHeight - stage.offsetHeight;
+    const by = top + dist;
     container.scrollBy({ top: by, behavior: 'instant' as ScrollBehavior });
   };
 
@@ -295,6 +297,7 @@ export function textPortal(
 
   const ro = new ResizeObserver(measure);
   ro.observe(stage);
+  ro.observe(el);
   measure();
   void document.fonts?.ready.then(measure);
   const stopVis = observeVisibility(

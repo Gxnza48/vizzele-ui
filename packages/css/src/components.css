@@ -879,11 +879,17 @@
   height: var(--vz-portal-h, 100svh);
   overflow: hidden;
   isolation: isolate;
+  contain: strict;
 }
 .vz-portal-scene {
   position: absolute;
   inset: 0;
   transform: scale(calc(1 + (1 - var(--vz-portal-p)) * var(--vz-portal-depth, 0.3)));
+}
+/* While diving the scene only changes scale: keep it on its own layer so it is not repainted
+   each frame, and keep the re-drawn mask on another. */
+.vz-portal[data-state='diving'] :is(.vz-portal-scene, .vz-portal-overlay) {
+  will-change: transform;
 }
 .vz-portal-overlay {
   position: absolute;

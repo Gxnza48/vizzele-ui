@@ -13,8 +13,9 @@
   --vz-portal-depth: 0.45;
 }
 /* The fluid is opaque and the page has grain and glows: fade the hero's foot into the page
-   instead of ending on a hard edge. */
-.home-portal .vz-portal-scene {
+   instead of ending on a hard edge (only once inside — during the dive the sheet covers it,
+   and a mask over the live fluid costs a repaint every frame). */
+.home-portal[data-state='open'] .vz-portal-scene {
   -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
   mask-image: linear-gradient(to bottom, #000 calc(100% - 140px), transparent);
 }
@@ -55,6 +56,15 @@
     radial-gradient(30% 50% at 95% 80%, #ffb238, transparent 70%);
   mix-blend-mode: screen;
   opacity: calc((1 - var(--vz-portal-p)) * 0.75);
+}
+/* During the dive: no blurred glass over the moving fluid (the blur is recomputed every
+   frame), and the wash disappears once it has faded out. */
+.home-portal:not([data-state='open'], [data-state='static']) :is(.fs-spring, .fs-chip) {
+  backdrop-filter: none;
+  background: color-mix(in oklab, var(--vz-bg-elevated) 85%, transparent);
+}
+.home-portal:is([data-state='open'], [data-state='static']) .home-portal-glow {
+  display: none;
 }
 .home-portal .home-hero-veil {
   opacity: var(--vz-portal-p);

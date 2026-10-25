@@ -401,6 +401,12 @@ Set `data-theme="dark"`, `"light"` or `"auto"` (follows the OS) on `<html>`. Eve
 }
 ```
 
+Importing `@vizzele/css` never recolours your page by itself: it only defines the variables. Your page picks up the Vizzele look where you opt in — `data-theme` on `<html>` (native controls and scrollbars follow it) and `class="vz-body"` for the background and type. Components always read the variables, so a theme can be as small as one accent colour, and every WebGL background takes its own `colors`:
+
+```tsx
+<FluidBackground colors={['#ff7a2f', '#ffd166', '#ef476f']} />
+```
+
 The spring presets also exist as CSS easings generated from the real physics:
 
 ```css
@@ -421,6 +427,8 @@ The spring presets also exist as CSS easings generated from the real physics:
 **Does it work with Next.js / server components?** Yes. Components ship with `'use client'` and render on the server without touching `window`.
 
 **Can I use it without React?** Yes — `@vizzele/core` works with any framework or none, and the CDN build works in plain HTML with `data-vz-*` attributes.
+
+**Will installing it change my site's colours?** No. The CSS only defines `--vz-*` variables until you opt in with `data-theme` / `vz-body`. Use the effects and components with your own palette by overriding the variables (see [Theming](#theming)) or passing `colors` to the backgrounds.
 
 **Can I use it with Tailwind?** Yes. Vizzele's classes are prefixed with `vz-`, so they don't clash; use Tailwind for layout and Vizzele for the components and motion.
 
