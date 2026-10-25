@@ -3,13 +3,15 @@ import { MultiCode } from '@/components/Code';
 import { Logo } from '@/components/Logo';
 import { entries } from '@/content/nav';
 import { HomeHero } from '@/components/home/HomeHero';
+import { SpringVsKeyframes } from '@/components/home/SpringVsKeyframes';
 import {
-  HomeBento,
+  HomeFinalCta,
+  HomeKit,
   HomeMarquee,
+  HomeMaterials,
   HomePhysics,
   HomePillars,
   HomePlayground,
-  HomeStats,
 } from '@/components/home/HomeSections';
 
 const usage = [
@@ -46,16 +48,55 @@ magnetic(button, { strength: 0.4 });`,
   },
 ];
 
+const footer = [
+  {
+    title: 'Learn',
+    links: [
+      { href: '/docs', label: 'Introduction' },
+      { href: '/docs/guides/installation', label: 'Installation' },
+      { href: '/docs/guides/springs', label: 'Spring physics' },
+      { href: '/docs/guides/reduced-motion', label: 'Reduced motion' },
+    ],
+  },
+  {
+    title: 'Components',
+    links: [
+      { href: '/docs/button', label: 'Button' },
+      { href: '/docs/select', label: 'Select' },
+      { href: '/docs/modal', label: 'Modal' },
+      { href: '/docs/liquid-glass', label: 'Liquid glass' },
+    ],
+  },
+  {
+    title: 'Effects',
+    links: [
+      { href: '/docs/fluid', label: 'Fluid' },
+      { href: '/docs/draggable', label: 'Draggable' },
+      { href: '/docs/magnetic', label: 'Magnetic' },
+      { href: '/docs/morph-text', label: 'Morph text' },
+    ],
+  },
+  {
+    title: 'Project',
+    links: [
+      { href: 'https://github.com/Gxnza48/vizzele-ui', label: 'GitHub' },
+      { href: '/docs/guides/theming', label: 'Theming' },
+      { href: 'https://github.com/Gxnza48/vizzele-ui/blob/main/LICENSE', label: 'MIT license' },
+    ],
+  },
+];
+
 export default function Home() {
   return (
     <main className="home">
-      <HomeHero />
+      <HomeHero components={entries.length} />
+      <SpringVsKeyframes />
       <HomePlayground />
       <HomeMarquee />
-      <HomeBento />
+      <HomeKit />
+      <HomeMaterials />
       <HomePhysics />
       <HomePillars />
-      <HomeStats components={entries.length} />
       <section className="home-section" aria-labelledby="code-title">
         <div className="home-section-head">
           <p className="home-eyebrow">React, vanilla or plain HTML</p>
@@ -66,35 +107,44 @@ export default function Home() {
         <div className="home-code">
           <MultiCode variants={usage} />
         </div>
-        <div className="home-ctas home-ctas-center">
-          <Link
-            href="/docs/guides/installation"
-            className="vz-button"
-            data-variant="liquid"
-            data-size="lg"
-            data-vz-magnetic
-          >
-            Install Vizzele
-          </Link>
-          <Link href="/docs" className="vz-button" data-variant="ghost" data-size="lg">
-            Browse all {entries.length} pieces
-          </Link>
-        </div>
       </section>
+      <HomeFinalCta />
       <footer className="home-footer">
-        <div className="home-footer-brand">
-          <Logo size={28} />
-          <span>Vizzele UI</span>
+        <div className="home-footer-top">
+          <div className="home-footer-brand">
+            <Link href="/" className="home-footer-logo">
+              <Logo size={30} />
+              <span>Vizzele UI</span>
+            </Link>
+            <p className="vz-muted">
+              Liquid light for the web — springs, inertia, gestures and iridescent materials.
+            </p>
+          </div>
+          <nav className="home-footer-cols" aria-label="Footer">
+            {footer.map((col) => (
+              <div key={col.title} className="home-footer-col">
+                <p className="home-footer-title">{col.title}</p>
+                <ul>
+                  {col.links.map((l) => (
+                    <li key={l.href}>
+                      {l.href.startsWith('http') ? (
+                        <a href={l.href} target="_blank" rel="noreferrer">
+                          {l.label}
+                        </a>
+                      ) : (
+                        <Link href={l.href}>{l.label}</Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
         </div>
-        <p className="vz-muted">Liquid light for the web. MIT licensed.</p>
-        <nav aria-label="Footer" className="home-footer-links">
-          <Link href="/docs">Docs</Link>
-          <Link href="/docs/guides/theming">Theming</Link>
-          <Link href="/docs/guides/reduced-motion">Accessibility</Link>
-          <a href="https://github.com/Gxnza48/vizzele-ui" target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-        </nav>
+        <div className="home-footer-bottom">
+          <span>© {new Date().getFullYear()} Vizzele UI · MIT</span>
+          <span>This site is built with Vizzele itself.</span>
+        </div>
       </footer>
     </main>
   );

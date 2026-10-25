@@ -150,3 +150,9 @@ describe('server rendering', () => {
     expect(html).toContain('&lt;img');
   });
 });
+
+describe('hydration', () => {
+  it('Toaster renders nothing on the server (so the first client render matches)', () => {
+    expect(renderToString(<V.Toaster />)).toBe('');
+  });
+});

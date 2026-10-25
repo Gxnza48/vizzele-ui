@@ -565,6 +565,9 @@ export function Toaster({ position = 'bottom-right', visible = 3, className }: T
   const [expanded, setExpanded] = useState(false);
   const [heights, setHeights] = useState<Record<number, number>>({});
   const top = position.startsWith('top');
+  // Portal only after mount: the server renders nothing, so hydration must too.
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
 
   const report = useCallback((id: number, h: number) => {
     setHeights((hs) => (hs[id] === h ? hs : { ...hs, [id]: h }));
@@ -577,7 +580,7 @@ export function Toaster({ position = 'bottom-right', visible = 3, className }: T
     return o;
   });
 
-  if (!canPortal()) return null;
+  if (!ready || !canPortal()) return null;
   return createPortal(
     <section
       className={cx('vz-toaster', className)}
