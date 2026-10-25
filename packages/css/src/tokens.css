@@ -1,0 +1,120 @@
+/*
+ * Vizzele design tokens — the "liquid light" language.
+ * Override any of these on :root (or any element) to build your own theme.
+ */
+@property --vz-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+@property --vz-breathe {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+:root {
+  /* Iridescent spectrum: oil slick / hologram */
+  --vz-cyan: #00e5ff;
+  --vz-magenta: #ff2bd6;
+  --vz-amber: #ffb238;
+  --vz-acid: #a8ff3e;
+  --vz-violet: #7c5cff;
+
+  --vz-iridescent: conic-gradient(
+    from var(--vz-angle),
+    var(--vz-cyan),
+    var(--vz-magenta),
+    var(--vz-amber),
+    var(--vz-acid),
+    var(--vz-cyan)
+  );
+  --vz-iridescent-linear: linear-gradient(
+    100deg,
+    var(--vz-cyan) 0%,
+    var(--vz-magenta) 33%,
+    var(--vz-amber) 66%,
+    var(--vz-acid) 100%
+  );
+  /* A softer film for large surfaces */
+  --vz-iridescent-film: linear-gradient(
+    calc(var(--vz-angle) + 115deg),
+    color-mix(in oklab, var(--vz-cyan) 70%, transparent),
+    color-mix(in oklab, var(--vz-magenta) 60%, transparent),
+    color-mix(in oklab, var(--vz-amber) 55%, transparent),
+    color-mix(in oklab, var(--vz-acid) 50%, transparent)
+  );
+
+  /* Typography */
+  --vz-font-display:
+    'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --vz-font-sans:
+    'Geist Variable', 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --vz-font-mono:
+    'Geist Mono Variable', 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --vz-text-xs: 0.75rem;
+  --vz-text-sm: 0.875rem;
+  --vz-text-md: 1rem;
+  --vz-text-lg: 1.125rem;
+  --vz-text-xl: 1.375rem;
+  --vz-text-2xl: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+  --vz-text-3xl: clamp(2.2rem, 1.4rem + 3vw, 3.6rem);
+  --vz-text-display: clamp(3rem, 1.5rem + 6.5vw, 7.5rem);
+
+  /* Radii */
+  --vz-radius-xs: 6px;
+  --vz-radius-sm: 10px;
+  --vz-radius-md: 16px;
+  --vz-radius-lg: 24px;
+  --vz-radius-xl: 36px;
+  --vz-radius-pill: 999px;
+
+  /* Spacing */
+  --vz-space-1: 0.25rem;
+  --vz-space-2: 0.5rem;
+  --vz-space-3: 0.75rem;
+  --vz-space-4: 1rem;
+  --vz-space-5: 1.5rem;
+  --vz-space-6: 2rem;
+  --vz-space-7: 3rem;
+  --vz-space-8: 4rem;
+
+  /* Spring physics (consumed by @vizzele/core & @vizzele/react) */
+  --vz-stiffness: 210;
+  --vz-damping: 20;
+  --vz-mass: 1;
+
+  /* Durations for CSS-only motion */
+  --vz-duration-instant: 90ms;
+  --vz-duration-fast: 180ms;
+  --vz-duration-base: 320ms;
+  --vz-duration-slow: 640ms;
+  --vz-duration-breathe: 4.8s;
+  --vz-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --vz-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Blur & materials */
+  --vz-blur-sm: 8px;
+  --vz-blur-md: 16px;
+  --vz-blur-lg: 32px;
+  --vz-glass-saturation: 1.7;
+  --vz-grain-opacity: 0.07;
+  --vz-grain-size: 160px;
+
+  /* Z-index scale */
+  --vz-z-base: 0;
+  --vz-z-raised: 10;
+  --vz-z-dropdown: 1000;
+  --vz-z-sticky: 1100;
+  --vz-z-overlay: 1200;
+  --vz-z-modal: 1300;
+  --vz-z-popover: 1400;
+  --vz-z-toast: 1500;
+  --vz-z-tooltip: 1600;
+  --vz-z-cursor: 2147483000;
+
+  /* Focus */
+  --vz-focus-width: 2px;
+  --vz-focus-offset: 3px;
+}

@@ -1,0 +1,372 @@
+/*
+ * Materials and component looks. Usable with or without JS; the JS effects only feed
+ * CSS variables (--vz-px, --vz-angle, --vz-spot-x…) that these styles react to.
+ */
+
+/* ———————————————————————— Materials ———————————————————————— */
+
+/* Liquid glass. With @vizzele/react's <LiquidGlass>, Chromium also gets real refraction. */
+.vz-glass {
+  position: relative;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--vz-glass-highlight) 50%, transparent),
+      transparent 40%
+    ),
+    var(--vz-glass-tint);
+  -webkit-backdrop-filter: blur(var(--vz-blur-md)) saturate(var(--vz-glass-saturation));
+  backdrop-filter: blur(var(--vz-blur-md)) saturate(var(--vz-glass-saturation));
+  border: 1px solid var(--vz-border);
+  box-shadow:
+    inset 0 1px 0 0 var(--vz-glass-highlight),
+    inset 0 -1px 0 0 rgb(0 0 0 / 0.15),
+    var(--vz-shadow);
+}
+.vz-glass[data-refract] {
+  backdrop-filter: url(#vz-liquid-glass) blur(2px) saturate(var(--vz-glass-saturation));
+}
+
+/* Holographic foil that shifts with --vz-angle / --vz-px / --vz-py (fed by the tilt effect). */
+.vz-holo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.vz-holo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      circle at calc(var(--vz-px, 0.5) * 100%) calc(var(--vz-py, 0.5) * 100%),
+      rgb(255 255 255 / calc(0.35 * var(--vz-hover, 0))),
+      transparent 45%
+    ),
+    repeating-linear-gradient(
+      calc(var(--vz-angle, 0deg) + 110deg),
+      color-mix(in oklab, var(--vz-cyan) 55%, transparent) 0%,
+      color-mix(in oklab, var(--vz-magenta) 55%, transparent) 9%,
+      color-mix(in oklab, var(--vz-amber) 50%, transparent) 18%,
+      color-mix(in oklab, var(--vz-acid) 50%, transparent) 27%,
+      color-mix(in oklab, var(--vz-cyan) 55%, transparent) 36%
+    );
+  background-size:
+    100% 100%,
+    300% 300%;
+  background-position:
+    center,
+    calc(var(--vz-px, 0.5) * 100%) calc(var(--vz-py, 0.5) * 100%);
+  mix-blend-mode: color-dodge;
+  opacity: calc(0.35 + 0.5 * var(--vz-hover, 0));
+  transition: opacity var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-holo::after {
+  /* Glare streak */
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    calc(var(--vz-angle, 0deg) + 90deg),
+    transparent 30%,
+    rgb(255 255 255 / calc(0.22 * var(--vz-hover, 0))) 50%,
+    transparent 70%
+  );
+  mix-blend-mode: overlay;
+}
+
+/* Spotlight: light that follows the pointer (fed by the spotlight effect). */
+.vz-spotlight {
+  position: relative;
+  isolation: isolate;
+  --vz-spot-size: 320px;
+}
+.vz-spotlight::before,
+.vz-spotlight::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--vz-spot, 0);
+}
+/* Fill */
+.vz-spotlight::before {
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    var(--vz-spot-size) circle at var(--vz-spot-x, 50%) var(--vz-spot-y, 50%),
+    color-mix(in oklab, var(--vz-accent) 14%, transparent),
+    transparent 65%
+  );
+}
+/* Border that lights up — masked to a 1px ring */
+.vz-spotlight::after {
+  inset: -1px;
+  padding: 1px;
+  z-index: 1;
+  background: radial-gradient(
+    calc(var(--vz-spot-size) * 0.7) circle at calc(var(--vz-spot-x, 50%) + 1px)
+      calc(var(--vz-spot-y, 50%) + 1px),
+    var(--vz-cyan),
+    var(--vz-magenta) 35%,
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+/* Liquid metal / chrome text or surfaces */
+.vz-chrome {
+  background: linear-gradient(
+    calc(var(--vz-angle, 0deg) + 180deg),
+    #f4f7ff 0%,
+    #8d97b5 22%,
+    #ffffff 38%,
+    #4b5470 52%,
+    #d9e2ff 68%,
+    #6d7694 84%,
+    #ffffff 100%
+  );
+}
+
+/* ———————————————————————— Buttons ———————————————————————— */
+
+.vz-button {
+  --vz-button-h: 44px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  min-height: var(--vz-button-h);
+  padding: 0 1.25em;
+  border: 1px solid var(--vz-border-strong);
+  border-radius: var(--vz-radius-pill);
+  background: var(--vz-surface);
+  color: var(--vz-text);
+  font: 550 var(--vz-text-sm) / 1 var(--vz-font-sans);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  isolation: isolate;
+  transition:
+    background-color var(--vz-duration-fast) var(--vz-ease-out),
+    border-color var(--vz-duration-fast) var(--vz-ease-out),
+    box-shadow var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-button:hover {
+  background: var(--vz-surface-hover);
+  border-color: color-mix(in oklab, var(--vz-accent) 40%, var(--vz-border-strong));
+}
+.vz-button:disabled,
+.vz-button[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.vz-button[data-size='sm'] {
+  --vz-button-h: 34px;
+  font-size: var(--vz-text-xs);
+}
+.vz-button[data-size='lg'] {
+  --vz-button-h: 56px;
+  font-size: var(--vz-text-md);
+  padding: 0 1.6em;
+}
+
+/* Liquid: a moving iridescent body */
+.vz-button[data-variant='liquid'] {
+  border-color: transparent;
+  color: #060812;
+  background: var(--vz-iridescent-linear);
+  background-size: 220% 100%;
+  background-position: calc(var(--vz-px, 0.3) * 100%) 50%;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.55),
+    inset 0 -2px 6px rgb(0 0 0 / 0.18),
+    0 10px 30px -10px color-mix(in oklab, var(--vz-magenta) 70%, transparent);
+  font-weight: 650;
+}
+.vz-button[data-variant='liquid']:hover {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    inset 0 -2px 6px rgb(0 0 0 / 0.18),
+    0 14px 40px -8px color-mix(in oklab, var(--vz-magenta) 80%, transparent),
+    0 0 24px -4px color-mix(in oklab, var(--vz-cyan) 70%, transparent);
+}
+
+/* Holo: dark pill with an iridescent rim that rotates with the pointer */
+.vz-button[data-variant='holo'] {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--vz-bg-elevated), var(--vz-bg-elevated)) padding-box,
+    var(--vz-iridescent) border-box;
+}
+.vz-button[data-variant='holo']:hover {
+  box-shadow: var(--vz-glow);
+}
+
+/* Glow: breathing light */
+.vz-button[data-variant='glow'] {
+  border-color: color-mix(in oklab, var(--vz-accent) 50%, transparent);
+  color: var(--vz-accent-text);
+  box-shadow: 0 0 calc(10px + 14px * var(--vz-breathe))
+    color-mix(in oklab, var(--vz-accent) calc(25% + 25% * var(--vz-breathe)), transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-button[data-variant='glow'] {
+    animation: vz-breathe var(--vz-duration-breathe) ease-in-out infinite;
+  }
+}
+
+.vz-button[data-variant='ghost'] {
+  border-color: transparent;
+  background: transparent;
+}
+.vz-button[data-variant='ghost']:hover {
+  background: var(--vz-surface-hover);
+}
+
+/* ———————————————————————— Card ———————————————————————— */
+
+.vz-card {
+  position: relative;
+  border-radius: var(--vz-radius-lg);
+  border: 1px solid var(--vz-border);
+  background: linear-gradient(180deg, var(--vz-surface-strong), var(--vz-surface));
+  padding: var(--vz-space-5);
+  box-shadow: var(--vz-shadow);
+}
+
+/* ———————————————————————— Form controls ———————————————————————— */
+
+.vz-field {
+  position: relative;
+  display: block;
+}
+.vz-input {
+  width: 100%;
+  height: 56px;
+  padding: 22px 16px 8px;
+  border: 1px solid var(--vz-border-strong);
+  border-radius: var(--vz-radius-md);
+  background: var(--vz-surface);
+  color: var(--vz-text);
+  font: 400 var(--vz-text-md) / 1.2 var(--vz-font-sans);
+  outline: none;
+  transition:
+    border-color var(--vz-duration-fast),
+    box-shadow var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-input:focus {
+  border-color: var(--vz-accent);
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--vz-accent) 18%, transparent),
+    0 0 30px -6px color-mix(in oklab, var(--vz-magenta) 35%, transparent);
+}
+.vz-field-label {
+  position: absolute;
+  left: 17px;
+  top: 18px;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-md);
+  pointer-events: none;
+  transform-origin: left top;
+  transition:
+    transform var(--vz-spring-liquid-duration, 400ms) var(--vz-spring-liquid, ease),
+    color var(--vz-duration-fast);
+}
+.vz-input:focus + .vz-field-label,
+.vz-input:not(:placeholder-shown) + .vz-field-label {
+  transform: translateY(-10px) scale(0.75);
+  color: var(--vz-accent-text);
+}
+
+/* ———————————————————————— Text effects ———————————————————————— */
+
+.vz-text-iridescent {
+  background: var(--vz-iridescent-linear);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.vz-text-shimmer {
+  --vz-shimmer-base: var(--vz-text);
+  background: linear-gradient(
+      100deg,
+      var(--vz-shimmer-base) 35%,
+      var(--vz-cyan) 45%,
+      var(--vz-magenta) 50%,
+      var(--vz-amber) 55%,
+      var(--vz-shimmer-base) 65%
+    )
+    0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-text-shimmer {
+    animation: vz-shimmer 3.2s var(--vz-ease-in-out) infinite;
+  }
+  .vz-text-iridescent[data-animate] {
+    animation: vz-shimmer 6s linear infinite;
+  }
+}
+
+/* ———————————————————————— Skeleton ———————————————————————— */
+
+.vz-skeleton {
+  display: block;
+  border-radius: var(--vz-radius-sm);
+  background:
+    linear-gradient(
+        100deg,
+        transparent 30%,
+        color-mix(in oklab, var(--vz-cyan) 14%, transparent) 42%,
+        color-mix(in oklab, var(--vz-magenta) 14%, transparent) 50%,
+        color-mix(in oklab, var(--vz-amber) 12%, transparent) 58%,
+        transparent 70%
+      )
+      0 0 / 250% 100%,
+    var(--vz-surface-strong);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-skeleton {
+    animation: vz-shimmer 1.8s linear infinite;
+  }
+}
+
+@keyframes vz-shimmer {
+  from {
+    background-position: 125% 0;
+  }
+  to {
+    background-position: -125% 0;
+  }
+}
+@keyframes vz-breathe {
+  0%,
+  100% {
+    --vz-breathe: 0;
+  }
+  50% {
+    --vz-breathe: 1;
+  }
+}
+@keyframes vz-spin-angle {
+  to {
+    --vz-angle: 360deg;
+  }
+}

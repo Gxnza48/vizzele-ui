@@ -1,0 +1,189 @@
+/*
+ * Pure-CSS motion utilities — no JavaScript required.
+ * Every animation here is disabled under prefers-reduced-motion (content stays visible).
+ */
+
+/* Spring transitions (the same physics as @vizzele/core, as CSS linear() easings). */
+.vz-transition {
+  transition-property: transform, opacity, filter;
+  transition-duration: var(--vz-spring-liquid-duration);
+  transition-timing-function: var(--vz-spring-liquid);
+}
+.vz-transition-jelly {
+  transition-property: transform, opacity;
+  transition-duration: var(--vz-spring-jelly-duration);
+  transition-timing-function: var(--vz-spring-jelly);
+}
+.vz-transition-snappy {
+  transition-property: transform, opacity;
+  transition-duration: var(--vz-spring-snappy-duration);
+  transition-timing-function: var(--vz-spring-snappy);
+}
+
+/* Press / hover feedback with a jelly spring */
+.vz-press {
+  transition: transform var(--vz-spring-jelly-duration) var(--vz-spring-jelly);
+}
+.vz-press:active {
+  transform: scale(0.95);
+  transition-duration: var(--vz-duration-instant);
+  transition-timing-function: ease-out;
+}
+.vz-lift {
+  transition:
+    transform var(--vz-spring-bouncy-duration) var(--vz-spring-bouncy),
+    box-shadow var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--vz-shadow), var(--vz-glow);
+}
+
+/* Iridescent animated border (any element) */
+.vz-iridescent-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--vz-bg-elevated), var(--vz-bg-elevated)) padding-box,
+    var(--vz-iridescent) border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vz-spin-angle {
+    animation: vz-spin-angle 6s linear infinite;
+  }
+  .vz-float {
+    animation: vz-float 6s var(--vz-ease-in-out) infinite;
+  }
+  .vz-breathe {
+    animation: vz-breathe var(--vz-duration-breathe) ease-in-out infinite;
+    filter: drop-shadow(
+      0 0 calc(4px + 14px * var(--vz-breathe))
+        color-mix(in oklab, var(--vz-accent) 60%, transparent)
+    );
+  }
+
+  /* Enter animations, staggered by --vz-i (set by splitText or by hand: style="--vz-i: 2") */
+  .vz-enter {
+    animation: vz-enter var(--vz-spring-gentle-duration) var(--vz-spring-gentle) both;
+    animation-delay: calc(var(--vz-i, 0) * var(--vz-stagger, 60ms) + var(--vz-delay, 0ms));
+  }
+  .vz-enter-blur {
+    animation: vz-enter-blur 900ms var(--vz-ease-out) both;
+    animation-delay: calc(var(--vz-i, 0) * var(--vz-stagger, 60ms) + var(--vz-delay, 0ms));
+  }
+  .vz-enter-scale {
+    animation: vz-enter-scale var(--vz-spring-bouncy-duration) var(--vz-spring-bouncy) both;
+    animation-delay: calc(var(--vz-i, 0) * var(--vz-stagger, 60ms) + var(--vz-delay, 0ms));
+  }
+  .vz-stagger > * {
+    animation: vz-enter var(--vz-spring-gentle-duration) var(--vz-spring-gentle) both;
+  }
+  .vz-stagger > :nth-child(1) {
+    animation-delay: 0ms;
+  }
+  .vz-stagger > :nth-child(2) {
+    animation-delay: 60ms;
+  }
+  .vz-stagger > :nth-child(3) {
+    animation-delay: 120ms;
+  }
+  .vz-stagger > :nth-child(4) {
+    animation-delay: 180ms;
+  }
+  .vz-stagger > :nth-child(5) {
+    animation-delay: 240ms;
+  }
+  .vz-stagger > :nth-child(6) {
+    animation-delay: 300ms;
+  }
+  .vz-stagger > :nth-child(7) {
+    animation-delay: 360ms;
+  }
+  .vz-stagger > :nth-child(8) {
+    animation-delay: 420ms;
+  }
+  .vz-stagger > :nth-child(n + 9) {
+    animation-delay: 480ms;
+  }
+
+  /* Scroll-driven reveals (no JS) where supported */
+  @supports (animation-timeline: view()) {
+    .vz-scroll-reveal {
+      animation: vz-enter linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+    .vz-scroll-reveal-blur {
+      animation: vz-enter-blur linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .vz-scroll-progress {
+      position: fixed;
+      inset: 0 0 auto;
+      height: 3px;
+      z-index: var(--vz-z-sticky);
+      transform-origin: 0 50%;
+      background: var(--vz-iridescent-linear);
+      animation: vz-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  /* Infinite marquee: wrap two copies of the content in .vz-marquee-track */
+  .vz-marquee {
+    overflow: hidden;
+    mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .vz-marquee-track {
+    display: flex;
+    width: max-content;
+    gap: var(--vz-marquee-gap, 2rem);
+    animation: vz-marquee var(--vz-marquee-duration, 30s) linear infinite;
+  }
+  .vz-marquee:hover .vz-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes vz-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+@keyframes vz-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--vz-distance, 24px));
+  }
+}
+@keyframes vz-enter-blur {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(calc(var(--vz-distance, 24px) / 2));
+  }
+}
+@keyframes vz-enter-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+}
+@keyframes vz-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes vz-marquee {
+  to {
+    transform: translateX(calc(-50% - var(--vz-marquee-gap, 2rem) / 2));
+  }
+}

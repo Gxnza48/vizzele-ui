@@ -1,0 +1,55 @@
+{
+  "name": "@vizzele/css",
+  "version": "0.1.0",
+  "description": "Vizzele UI design tokens, themes, liquid-light materials and pure-CSS animation utilities.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "style": "./dist/vizzele.css",
+  "exports": {
+    ".": "./dist/vizzele.css",
+    "./min": "./dist/vizzele.min.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./themes.css": "./dist/themes.css",
+    "./springs.css": "./dist/springs.css",
+    "./base.css": "./dist/base.css",
+    "./components.css": "./dist/components.css",
+    "./utilities.css": "./dist/utilities.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "css",
+    "design-tokens",
+    "animation",
+    "iridescent",
+    "glassmorphism",
+    "theme"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gxnza48/vizzele-ui",
+    "directory": "packages/css"
+  },
+  "homepage": "https://github.com/Gxnza48/vizzele-ui",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "node -e \"\"",
+    "lint": "node -e \"\"",
+    "test": "node scripts/build.mjs --check",
+    "size": "size-limit"
+  },
+  "devDependencies": {
+    "@size-limit/file": "^14.3.0",
+    "@vizzele/core": "workspace:*",
+    "size-limit": "^14.3.0"
+  }
+}

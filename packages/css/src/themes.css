@@ -1,0 +1,113 @@
+/*
+ * Themes. Dark ("deep space") is the default; light is "pearl paper".
+ *   <html data-theme="light">  · <html data-theme="dark">  · <html data-theme="auto"> (follows the OS)
+ * To make your own, override the same variables under your own selector.
+ */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --vz-bg: #05070d;
+  --vz-bg-elevated: #0b0f1a;
+  --vz-bg-sunken: #03040a;
+  --vz-surface: rgb(160 190 255 / 0.045);
+  --vz-surface-hover: rgb(160 190 255 / 0.08);
+  --vz-surface-strong: rgb(160 190 255 / 0.12);
+  --vz-border: rgb(170 200 255 / 0.11);
+  --vz-border-strong: rgb(170 200 255 / 0.22);
+  --vz-text: #e9eefb;
+  --vz-text-muted: #9aa5c3;
+  --vz-text-dim: #66708d;
+  --vz-accent: var(--vz-cyan);
+  --vz-accent-text: #6ff1ff;
+  --vz-on-accent: #031014;
+  --vz-danger: #ff5577;
+  --vz-success: var(--vz-acid);
+  --vz-glass-tint: rgb(14 20 38 / 0.48);
+  --vz-glass-highlight: rgb(255 255 255 / 0.16);
+  --vz-shadow:
+    0 1px 1px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7),
+    0 40px 80px -40px rgb(0 0 0 / 0.8);
+  --vz-glow:
+    0 0 0 1px color-mix(in oklab, var(--vz-accent) 40%, transparent),
+    0 0 24px color-mix(in oklab, var(--vz-accent) 35%, transparent),
+    0 0 64px color-mix(in oklab, var(--vz-magenta) 18%, transparent);
+  --vz-ambient:
+    radial-gradient(
+      60% 50% at 15% 0%,
+      color-mix(in oklab, var(--vz-cyan) 9%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 50% at 90% 10%,
+      color-mix(in oklab, var(--vz-magenta) 8%, transparent),
+      transparent 70%
+    );
+  --vz-grain-blend: overlay;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --vz-bg: #f3f0ea;
+  --vz-bg-elevated: #fbf9f5;
+  --vz-bg-sunken: #e9e5dd;
+  --vz-surface: rgb(40 36 70 / 0.04);
+  --vz-surface-hover: rgb(40 36 70 / 0.07);
+  --vz-surface-strong: rgb(40 36 70 / 0.1);
+  --vz-border: rgb(30 30 60 / 0.12);
+  --vz-border-strong: rgb(30 30 60 / 0.22);
+  --vz-text: #14151d;
+  --vz-text-muted: #4f5368;
+  --vz-text-dim: #7c7f92;
+  --vz-accent: #00a5c4;
+  --vz-accent-text: #00728a;
+  --vz-on-accent: #ffffff;
+  --vz-danger: #d4194a;
+  --vz-success: #3f8f00;
+  --vz-glass-tint: rgb(255 253 248 / 0.55);
+  --vz-glass-highlight: rgb(255 255 255 / 0.85);
+  --vz-shadow:
+    0 1px 1px rgb(40 30 60 / 0.06), 0 12px 32px -14px rgb(40 30 60 / 0.25),
+    0 40px 80px -40px rgb(40 30 60 / 0.25);
+  --vz-glow:
+    0 0 0 1px color-mix(in oklab, var(--vz-accent) 35%, transparent),
+    0 8px 30px -6px color-mix(in oklab, var(--vz-magenta) 25%, transparent);
+  /* Pearl: a faint iridescent sheen on the paper */
+  --vz-ambient:
+    radial-gradient(60% 50% at 10% 0%, rgb(0 229 255 / 0.1), transparent 70%),
+    radial-gradient(50% 45% at 95% 5%, rgb(255 43 214 / 0.08), transparent 70%),
+    radial-gradient(60% 50% at 50% 100%, rgb(255 178 56 / 0.08), transparent 70%);
+  --vz-grain-blend: multiply;
+  --vz-grain-opacity: 0.05;
+}
+
+@media (prefers-color-scheme: light) {
+  [data-theme='auto'] {
+    color-scheme: light;
+    --vz-bg: #f3f0ea;
+    --vz-bg-elevated: #fbf9f5;
+    --vz-bg-sunken: #e9e5dd;
+    --vz-surface: rgb(40 36 70 / 0.04);
+    --vz-surface-hover: rgb(40 36 70 / 0.07);
+    --vz-surface-strong: rgb(40 36 70 / 0.1);
+    --vz-border: rgb(30 30 60 / 0.12);
+    --vz-border-strong: rgb(30 30 60 / 0.22);
+    --vz-text: #14151d;
+    --vz-text-muted: #4f5368;
+    --vz-text-dim: #7c7f92;
+    --vz-accent: #00a5c4;
+    --vz-accent-text: #00728a;
+    --vz-on-accent: #ffffff;
+    --vz-danger: #d4194a;
+    --vz-success: #3f8f00;
+    --vz-glass-tint: rgb(255 253 248 / 0.55);
+    --vz-glass-highlight: rgb(255 255 255 / 0.85);
+    --vz-shadow:
+      0 1px 1px rgb(40 30 60 / 0.06), 0 12px 32px -14px rgb(40 30 60 / 0.25),
+      0 40px 80px -40px rgb(40 30 60 / 0.25);
+    --vz-ambient:
+      radial-gradient(60% 50% at 10% 0%, rgb(0 229 255 / 0.1), transparent 70%),
+      radial-gradient(50% 45% at 95% 5%, rgb(255 43 214 / 0.08), transparent 70%);
+    --vz-grain-blend: multiply;
+    --vz-grain-opacity: 0.05;
+  }
+}
