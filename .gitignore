@@ -1,0 +1,14 @@
+node_modules
+dist
+.next
+.turbo
+.vercel
+coverage
+*.log
+.DS_Store
+.env*
+!.env.example
+test-results
+playwright-report
+apps/docs/.screens
+next-env.d.ts
