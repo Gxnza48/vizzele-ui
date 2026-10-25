@@ -1,0 +1,5 @@
+{
+  "extends": "../../tooling/tsconfig.base.json",
+  "compilerOptions": { "types": [] },
+  "include": ["src", "test", "tsup.config.ts", "vitest.config.ts"]
+}

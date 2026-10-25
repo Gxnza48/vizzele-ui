@@ -1,0 +1,18 @@
+[
+  { "name": "core (everything)", "path": "dist/index.js", "import": "*", "limit": "14 kB" },
+  { "name": "core { spring }", "path": "dist/index.js", "import": "{ Spring }", "limit": "1.5 kB" },
+  {
+    "name": "core { draggable }",
+    "path": "dist/index.js",
+    "import": "{ draggable }",
+    "limit": "4.5 kB"
+  },
+  {
+    "name": "core { magnetic }",
+    "path": "dist/index.js",
+    "import": "{ magnetic }",
+    "limit": "3 kB"
+  },
+  { "name": "core/gl", "path": "dist/gl.js", "import": "*", "limit": "12 kB" },
+  { "name": "CDN global (iife)", "path": "dist/vizzele.global.js", "limit": "22 kB" }
+]
