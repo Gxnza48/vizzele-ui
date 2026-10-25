@@ -488,3 +488,284 @@
   filter: blur(1px) saturate(1.4);
   mix-blend-mode: plus-lighter;
 }
+
+/* ———————————————————————— Draggable & reorder ———————————————————————— */
+
+.vz-draggable {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.vz-draggable[data-vz-dragging] {
+  z-index: var(--vz-z-raised);
+}
+.vz-reorder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vz-reorder-gap, 8px);
+}
+.vz-reorder[data-axis='x'] {
+  flex-direction: row;
+}
+.vz-reorder-item {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  transition: box-shadow var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-reorder-item[data-vz-dragging],
+.vz-reorder-item[aria-grabbed='true'] {
+  cursor: grabbing;
+  box-shadow: var(--vz-shadow), var(--vz-glow);
+}
+.vz-reorder-handle {
+  display: inline-grid;
+  place-items: center;
+  color: var(--vz-text-dim);
+}
+
+/* ———————————————————————— Swipe stack ———————————————————————— */
+
+.vz-swipe-stack {
+  position: relative;
+  display: grid;
+  width: var(--vz-swipe-width, 300px);
+  height: var(--vz-swipe-height, 400px);
+  border-radius: var(--vz-radius-lg);
+}
+.vz-swipe-card {
+  --vz-level: max(calc(var(--vz-depth) - var(--vz-rise, 0)), 0);
+  grid-area: 1 / 1;
+  border-radius: var(--vz-radius-lg);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transform: translateY(calc(var(--vz-level) * 14px)) scale(calc(1 - var(--vz-level) * 0.05));
+  filter: brightness(calc(1 - var(--vz-level) * 0.12));
+  transition:
+    transform var(--vz-spring-liquid-duration) var(--vz-spring-liquid),
+    filter var(--vz-duration-base);
+}
+.vz-swipe-card[data-top] {
+  transition: none;
+  cursor: grab;
+}
+.vz-swipe-card[data-vz-dragging] {
+  cursor: grabbing;
+}
+/* Iridescent glow that grows on the side the card is swiped toward */
+.vz-swipe-card[data-top]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--vz-magenta) calc(max(var(--vz-swipe, 0) * -1, 0) * 55%), transparent),
+    transparent 45% 55%,
+    color-mix(in oklab, var(--vz-acid) calc(max(var(--vz-swipe, 0), 0) * 55%), transparent)
+  );
+}
+
+/* ———————————————————————— Elastic slider ———————————————————————— */
+
+.vz-slider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  touch-action: none;
+}
+.vz-slider[data-disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.vz-slider-track {
+  position: relative;
+  flex: 1;
+  height: 36px;
+  display: grid;
+  align-items: center;
+  cursor: pointer;
+  /* Rubber deformation (vars set by JS): stretch toward the pulled side, get thinner */
+  transform-origin: 0 50%;
+  transform: translateX(var(--vz-tx, 0px)) scaleX(var(--vz-sx, 1));
+}
+.vz-slider-rail {
+  position: relative;
+  height: calc(10px * var(--vz-squash, 1));
+  border-radius: var(--vz-radius-pill);
+  background: var(--vz-surface-strong);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.25);
+  overflow: hidden;
+  transition: height var(--vz-duration-fast) var(--vz-ease-out);
+}
+.vz-slider[data-active] .vz-slider-rail {
+  height: calc(14px * var(--vz-squash, 1));
+}
+.vz-slider-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--vz-value));
+  background: var(--vz-iridescent-linear);
+  border-radius: inherit;
+}
+.vz-slider-thumb {
+  position: absolute;
+  left: calc(var(--vz-value) * 100%);
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 2px 10px rgb(0 0 0 / 0.35),
+    0 0 0 4px color-mix(in oklab, var(--vz-accent) 0%, transparent);
+  transition:
+    box-shadow var(--vz-duration-base) var(--vz-ease-out),
+    transform var(--vz-spring-jelly-duration) var(--vz-spring-jelly);
+}
+.vz-slider[data-active] .vz-slider-thumb {
+  transform: scale(1.18);
+  box-shadow:
+    0 2px 14px rgb(0 0 0 / 0.35),
+    0 0 0 8px color-mix(in oklab, var(--vz-accent) 22%, transparent);
+}
+.vz-slider-thumb:focus-visible {
+  outline: 2px solid var(--vz-accent);
+  outline-offset: 3px;
+}
+.vz-slider-value {
+  min-width: 3ch;
+  font: 600 var(--vz-text-sm) var(--vz-font-mono);
+  color: var(--vz-text-muted);
+  text-align: right;
+}
+.vz-slider-icon {
+  display: grid;
+  color: var(--vz-text-muted);
+  transition: transform var(--vz-spring-jelly-duration) var(--vz-spring-jelly);
+}
+.vz-slider-icon-start {
+  transform: translateX(calc(var(--vz-pull-l, 0) * -1px)) scale(calc(1 + var(--vz-pull-l, 0) / 160));
+}
+.vz-slider-icon-end {
+  transform: translateX(calc(var(--vz-pull-r, 0) * 1px)) scale(calc(1 + var(--vz-pull-r, 0) / 160));
+}
+
+/* ———————————————————————— Bottom sheet ———————————————————————— */
+
+.vz-sheet-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--vz-z-modal);
+}
+.vz-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: rgb(2 3 8 / 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.vz-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--vz-radius-xl) var(--vz-radius-xl) 0 0;
+  border-bottom: 0;
+  outline: none;
+  will-change: transform;
+}
+.vz-sheet::after {
+  /* Extends below the screen so overshooting upward never reveals a gap */
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: inherit;
+}
+.vz-sheet-grab {
+  flex: none;
+  padding: 10px 20px 8px;
+  touch-action: none;
+  cursor: grab;
+}
+.vz-sheet-handle {
+  display: block;
+  width: 44px;
+  height: 5px;
+  margin: 0 auto 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--vz-border-strong);
+  cursor: pointer;
+}
+.vz-sheet-handle::before {
+  content: '';
+  position: absolute;
+  inset: -12px -20px;
+}
+.vz-sheet-title {
+  margin: 4px 0 0;
+  font: 650 var(--vz-text-lg) / 1.2 var(--vz-font-display);
+}
+.vz-sheet-body {
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 8px 20px 28px;
+}
+
+/* ———————————————————————— Infinite canvas ———————————————————————— */
+
+.vz-infinite {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  outline-offset: -2px;
+}
+.vz-infinite-cell {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+.vz-infinite-cell > * {
+  width: 100%;
+  height: 100%;
+}
+
+/* ———————————————————————— Physics ———————————————————————— */
+
+.vz-physics {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.vz-physics > * {
+  cursor: grab;
+}
+.vz-physics > [data-vz-dragging] {
+  cursor: grabbing;
+  z-index: 2;
+}

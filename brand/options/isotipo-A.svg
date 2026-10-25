@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">
+<defs><linearGradient id="vag" x1="8" y1="18" x2="58" y2="38" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#00e5ff"/><stop offset="0.36" stop-color="#ff2bd6"/><stop offset="0.68" stop-color="#ffb238"/><stop offset="1" stop-color="#a8ff3e"/>
+</linearGradient>
+<linearGradient id="vac" x1="0" y1="6" x2="0" y2="58" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#fff" stop-opacity="0.42"/><stop offset="0.38" stop-color="#fff" stop-opacity="0"/><stop offset="0.78" stop-color="#05070d" stop-opacity="0"/><stop offset="1" stop-color="#05070d" stop-opacity="0.1"/>
+</linearGradient>
+<linearGradient id="vah" x1="0" y1="8" x2="0" y2="34" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#fff" stop-opacity="0.95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="vak"><path d="M7.16 19.92L26.25 53.74A6.6 6.6 0 0 0 37.75 53.74L56.84 19.92A9 9 0 1 0 40.68 12.07L32.84 31.12Q32 33.16 31.16 31.12L23.32 12.07A9 9 0 1 0 7.16 19.92Z"/></clipPath></defs>
+<path d="M7.16 19.92L26.25 53.74A6.6 6.6 0 0 0 37.75 53.74L56.84 19.92A9 9 0 1 0 40.68 12.07L32.84 31.12Q32 33.16 31.16 31.12L23.32 12.07A9 9 0 1 0 7.16 19.92Z" fill="url(#vag)"/>
+<path d="M7.16 19.92L26.25 53.74A6.6 6.6 0 0 0 37.75 53.74L56.84 19.92A9 9 0 1 0 40.68 12.07L32.84 31.12Q32 33.16 31.16 31.12L23.32 12.07A9 9 0 1 0 7.16 19.92Z" fill="url(#vac)"/>
+<g clip-path="url(#vak)"><path d="M7.16 19.92L26.25 53.74A6.6 6.6 0 0 0 37.75 53.74L56.84 19.92A9 9 0 1 0 40.68 12.07L32.84 31.12Q32 33.16 31.16 31.12L23.32 12.07A9 9 0 1 0 7.16 19.92Z" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="1.1"/></g>
+<path d="M11.2 12.6L19.2 30" stroke="url(#vah)" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+<g opacity="0.7"><path d="M45.6 12.2L44.4 15.2" stroke="url(#vah)" stroke-width="3.2" stroke-linecap="round" fill="none"/></g>
+<circle cx="53.2" cy="12.4" r="1.5" fill="#fff" fill-opacity="0.8"/>
+</svg>

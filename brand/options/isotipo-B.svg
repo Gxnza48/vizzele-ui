@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512">
+<defs><linearGradient id="vbg" x1="8" y1="18" x2="58" y2="38" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#00e5ff"/><stop offset="0.36" stop-color="#ff2bd6"/><stop offset="0.68" stop-color="#ffb238"/><stop offset="1" stop-color="#a8ff3e"/>
+</linearGradient>
+<linearGradient id="vbf" x1="30" y1="54" x2="50" y2="14" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#05070d" stop-opacity="0.34"/><stop offset="0.3" stop-color="#05070d" stop-opacity="0.06"/><stop offset="1" stop-color="#05070d" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="vbc" x1="0" y1="6" x2="0" y2="58" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#fff" stop-opacity="0.42"/><stop offset="0.38" stop-color="#fff" stop-opacity="0"/><stop offset="0.78" stop-color="#05070d" stop-opacity="0"/><stop offset="1" stop-color="#05070d" stop-opacity="0.1"/>
+</linearGradient>
+<linearGradient id="vbh" x1="0" y1="6" x2="0" y2="36" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#fff" stop-opacity="0.95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="vbk"><path d="M8.73 15.26L26.58 52.61A4.9 4.9 0 0 0 35.56 48.71L20.46 10.17A6.4 6.4 0 1 0 8.73 15.26Z"/></clipPath><clipPath id="vbj"><path d="M28.6 46.2C33.4 36.4 39.6 24.4 45.2 15.6C48.4 10.6 52.6 7.6 59.6 8.4C55.2 9.8 53.4 12.6 51.8 16.6C47.4 28.2 42.4 41.2 37.8 51.4C35.6 56 30.8 56.4 28.6 46.2Z"/></clipPath></defs>
+<path d="M28.6 46.2C33.4 36.4 39.6 24.4 45.2 15.6C48.4 10.6 52.6 7.6 59.6 8.4C55.2 9.8 53.4 12.6 51.8 16.6C47.4 28.2 42.4 41.2 37.8 51.4C35.6 56 30.8 56.4 28.6 46.2Z" fill="url(#vbg)"/>
+<path d="M28.6 46.2C33.4 36.4 39.6 24.4 45.2 15.6C48.4 10.6 52.6 7.6 59.6 8.4C55.2 9.8 53.4 12.6 51.8 16.6C47.4 28.2 42.4 41.2 37.8 51.4C35.6 56 30.8 56.4 28.6 46.2Z" fill="url(#vbf)"/>
+<g clip-path="url(#vbj)"><path d="M28.6 46.2C33.4 36.4 39.6 24.4 45.2 15.6C48.4 10.6 52.6 7.6 59.6 8.4C55.2 9.8 53.4 12.6 51.8 16.6C47.4 28.2 42.4 41.2 37.8 51.4C35.6 56 30.8 56.4 28.6 46.2Z" fill="none" stroke="#fff" stroke-opacity="0.3" stroke-width="1"/></g>
+<path d="M48 14.6C50.2 11.4 52.6 9.8 55.6 9" stroke="#fff" stroke-opacity="0.6" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+<path d="M8.73 15.26L26.58 52.61A4.9 4.9 0 0 0 35.56 48.71L20.46 10.17A6.4 6.4 0 1 0 8.73 15.26Z" fill="url(#vbg)"/>
+<path d="M8.73 15.26L26.58 52.61A4.9 4.9 0 0 0 35.56 48.71L20.46 10.17A6.4 6.4 0 1 0 8.73 15.26Z" fill="url(#vbc)"/>
+<g clip-path="url(#vbk)"><path d="M8.73 15.26L26.58 52.61A4.9 4.9 0 0 0 35.56 48.71L20.46 10.17A6.4 6.4 0 1 0 8.73 15.26Z" fill="none" stroke="#fff" stroke-opacity="0.35" stroke-width="1.1"/></g>
+<path d="M10.9 13.4L18 30.5" stroke="url(#vbh)" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

@@ -12,3 +12,8 @@ test-results
 playwright-report
 apps/docs/.screens
 next-env.d.ts
+
+# AI-generated explorations (watermarked, not shipped)
+brand/options/*.png
+!brand/options/vector-options.png
+*.tsbuildinfo

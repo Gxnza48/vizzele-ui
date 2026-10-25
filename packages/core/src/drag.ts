@@ -70,7 +70,11 @@ export interface DragOptions {
   apply?: (x: number, y: number, state: DragState) => void;
   onStart?: (state: DragState) => void;
   onMove?: (state: DragState) => void;
-  onEnd?: (state: DragState) => void;
+  /**
+   * Fires on release. Return `false` to skip the built-in release animation (momentum,
+   * snapping…) and drive it yourself, e.g. with `controls.setPosition()` or `fling()`.
+   */
+  onEnd?: (state: DragState) => void | false;
   /** Fires when the element comes to rest after a gesture (after momentum / snapping). */
   onRest?: (state: DragState) => void;
 }
@@ -417,7 +421,7 @@ export function draggable(el: HTMLElement, options: DragOptions = {}): DragContr
     const s = state();
     s.vx = vx;
     s.vy = vy;
-    opts.onEnd?.(s);
+    if (opts.onEnd?.(s) === false) return;
     release(vx, vy);
   };
 

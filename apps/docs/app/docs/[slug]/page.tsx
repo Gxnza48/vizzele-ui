@@ -42,7 +42,12 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
         <p className="doc-lead">{entry.description}</p>
       </header>
 
-      <Playground slug={entry.slug} controls={entry.controls} height={entry.height} />
+      <Playground
+        slug={entry.slug}
+        controls={entry.controls}
+        height={entry.height}
+        wide={entry.wide}
+      />
 
       <section className="doc-section" aria-labelledby="usage">
         <h2 id="usage" className="vz-heading">

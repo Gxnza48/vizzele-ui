@@ -7,6 +7,8 @@ import { tilt } from './tilt';
 import { ripple } from './ripple';
 import { cursor, type CursorOptions } from './cursor';
 import { particleTrail, type ParticleTrailOptions } from './particles';
+import { reorder } from '../reorder';
+import { createPhysicsWorld, type PhysicsOptions } from '../physics';
 
 /** Every effect that can be used declaratively as `data-vz-<name>`. */
 export const effects = {
@@ -16,6 +18,13 @@ export const effects = {
   reveal,
   drag: draggable,
   ripple,
+  reorder,
+  /** Every child of the element becomes a physics body. */
+  physics: (el: HTMLElement, o?: PhysicsOptions) => {
+    const world = createPhysicsWorld(el, o);
+    Array.from(el.children).forEach((c) => world.add(c as HTMLElement));
+    return world;
+  },
   /** Put on <body> to enable the custom cursor. */
   'custom-cursor': (_el: HTMLElement, o?: CursorOptions) => cursor(o),
   /** Put on <body> to enable the particle trail. */

@@ -9,6 +9,8 @@ export * from './transform';
 export * from './pointer';
 export * from './observe';
 export * from './drag';
+export * from './reorder';
+export * from './physics';
 export * from './split-text';
 export * from './color';
 export { init, observe, parseOptions, registerEffect } from './declarative';

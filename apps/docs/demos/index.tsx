@@ -20,4 +20,12 @@ export const demos: Record<string, DemoComponent> = {
   tilt: load(() => import('./pointer').then((m) => m.TiltDemo)),
   ripple: load(() => import('./pointer').then((m) => m.RippleDemo)),
   'particle-trail': load(() => import('./pointer').then((m) => m.ParticleTrailDemo)),
+  draggable: load(() => import('./drag').then((m) => m.DraggableDemo)),
+  reorder: load(() => import('./drag').then((m) => m.ReorderDemo)),
+  'swipe-stack': load(() => import('./drag').then((m) => m.SwipeStackDemo)),
+  'elastic-slider': load(() => import('./drag').then((m) => m.ElasticSliderDemo)),
+  'drag-to-dismiss': load(() => import('./drag').then((m) => m.DragDismissDemo)),
+  'bottom-sheet': load(() => import('./drag').then((m) => m.BottomSheetDemo)),
+  'infinite-canvas': load(() => import('./drag').then((m) => m.InfiniteCanvasDemo)),
+  physics: load(() => import('./drag').then((m) => m.PhysicsDemo)),
 };

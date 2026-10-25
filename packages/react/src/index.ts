@@ -30,6 +30,32 @@ export {
   type TiltProps,
 } from './components/pointer';
 
+// Drag & physics
+export {
+  BottomSheet,
+  Draggable,
+  ElasticSlider,
+  InfiniteCanvas,
+  PhysicsWorld,
+  ReorderGroup,
+  ReorderHandle,
+  ReorderItem,
+  SwipeStack,
+  useDragDismiss,
+  type BottomSheetProps,
+  type DragDismissOptions,
+  type DraggableProps,
+  type ElasticSliderProps,
+  type InfiniteCanvasProps,
+  type PhysicsWorldProps,
+  type ReorderGroupProps,
+  type ReorderItemProps,
+  type SwipeDirection,
+  type SwipeStackHandle,
+  type SwipeStackProps,
+} from './components/drag';
+export { useModalFocus } from './hooks/a11y';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,
@@ -47,4 +73,6 @@ export {
   type TiltOptions,
   type SpotlightOptions,
   type RevealOptions,
+  type PhysicsWorld as PhysicsWorldApi,
+  type PhysicsOptions,
 } from '@vizzele/core';

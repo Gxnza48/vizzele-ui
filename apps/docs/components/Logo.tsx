@@ -1,36 +1,55 @@
 import { useId } from 'react';
 
-/** Vector isotype: a liquid V formed by two droplets meeting, filled with the iridescent spectrum. */
+const V =
+  'M7.16 19.92L26.25 53.74A6.6 6.6 0 0 0 37.75 53.74L56.84 19.92A9 9 0 1 0 40.68 12.07L32.84 31.12Q32 33.16 31.16 31.12L23.32 12.07A9 9 0 1 0 7.16 19.92Z';
+
+/** Vector isotype: a liquid V of two droplet arms meeting in a rounded point, filled with the iridescent spectrum. */
 export function Logo({ size = 28, className }: { size?: number; className?: string }) {
   const id = useId().replace(/:/g, '');
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-hidden="true">
       <defs>
-        <linearGradient id={`g${id}`} x1="6" y1="8" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`g${id}`} x1="8" y1="18" x2="58" y2="38" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="#00e5ff" />
-          <stop offset="0.38" stopColor="#ff2bd6" />
-          <stop offset="0.7" stopColor="#ffb238" />
+          <stop offset="0.36" stopColor="#ff2bd6" />
+          <stop offset="0.68" stopColor="#ffb238" />
           <stop offset="1" stopColor="#a8ff3e" />
         </linearGradient>
-        <linearGradient id={`s${id}`} x1="32" y1="6" x2="32" y2="40" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.85" />
+        <linearGradient id={`c${id}`} x1="0" y1="6" x2="0" y2="58" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.42" />
+          <stop offset="0.38" stopColor="#fff" stopOpacity="0" />
+          <stop offset="0.78" stopColor="#05070d" stopOpacity="0" />
+          <stop offset="1" stopColor="#05070d" stopOpacity="0.1" />
+        </linearGradient>
+        <linearGradient id={`h${id}`} x1="0" y1="8" x2="0" y2="34" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fff" stopOpacity="0.95" />
           <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
+        <clipPath id={`k${id}`}>
+          <path d={V} />
+        </clipPath>
       </defs>
+      <path d={V} fill={`url(#g${id})`} />
+      <path d={V} fill={`url(#c${id})`} />
+      <g clipPath={`url(#k${id})`}>
+        <path d={V} fill="none" stroke="#fff" strokeOpacity="0.35" strokeWidth="1.1" />
+      </g>
       <path
-        d="M8.5 9.5c4.6-2.4 9.6-.6 12.2 4.1L32 34.6l11.3-21c2.6-4.7 7.6-6.5 12.2-4.1 4.5 2.4 5.6 7.7 3 12.5L39.6 53.1c-1.6 2.9-4.4 4.5-7.6 4.5s-6-1.6-7.6-4.5L5.5 22c-2.6-4.8-1.5-10.1 3-12.5Z"
-        fill={`url(#g${id})`}
+        d="M11.2 12.6L19.2 30"
+        stroke={`url(#h${id})`}
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        fill="none"
       />
       <path
-        d="M10.6 12.3c2.6-1.3 5.6-.4 7.2 2.4l8.1 15c-3.9-3.4-9.6-9.4-15.9-12.7-.8-2 -.2-3.8.6-4.7Z"
-        fill={`url(#s${id})`}
-        opacity="0.9"
-      />
-      <path
-        d="M46.2 14.7c1.6-2.8 4.6-3.7 7.2-2.4.8.9 1.4 2.7.6 4.7-4.4 2.3-8.4 5.9-11.8 9.6l4-11.9Z"
-        fill={`url(#s${id})`}
+        d="M45.6 12.2L44.4 15.2"
+        stroke={`url(#h${id})`}
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        fill="none"
         opacity="0.7"
       />
+      <circle cx="53.2" cy="12.4" r="1.5" fill="#fff" fillOpacity="0.8" />
     </svg>
   );
 }

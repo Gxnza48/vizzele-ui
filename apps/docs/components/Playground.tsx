@@ -12,10 +12,12 @@ export function Playground({
   slug,
   controls,
   height,
+  wide,
 }: {
   slug: string;
   controls?: Control[];
   height?: number;
+  wide?: boolean;
 }) {
   const [values, setValues] = useState<ControlValues>(() => initialValues(controls));
   const [key, setKey] = useState(0);
@@ -27,7 +29,7 @@ export function Playground({
 
   return (
     <section className={`playground ${hasControls ? 'has-controls' : ''}`} aria-label="Live demo">
-      <div className="stage" style={stageStyle}>
+      <div className={wide ? 'stage stage-bleed' : 'stage'} style={stageStyle}>
         {Demo ? <Demo key={key} values={values} /> : <p className="vz-muted">Demo coming soon.</p>}
         <button
           type="button"
