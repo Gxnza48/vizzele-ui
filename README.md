@@ -18,7 +18,9 @@
   <img alt="TypeScript strict" src="https://img.shields.io/badge/TypeScript-strict-ffb238" />
 </p>
 
-![Vizzele UI — fluid hero](.github/assets/hero.webp)
+<p align="center"><a href="https://vizzele-ui.vercel.app"><strong>Live docs &amp; playground → vizzele-ui.vercel.app</strong></a></p>
+
+[![Vizzele UI — fluid hero](.github/assets/hero.webp)](https://vizzele-ui.vercel.app)
 
 ## What's inside
 

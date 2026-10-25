@@ -17,3 +17,5 @@ next-env.d.ts
 brand/options/*.png
 !brand/options/vector-options.png
 *.tsbuildinfo
+
+.vercel
