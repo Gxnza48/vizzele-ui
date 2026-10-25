@@ -20,9 +20,9 @@ export function HomeHero({ components }: { components: number }) {
       <div className="home-hero-veil" aria-hidden="true" />
       <FloatingShapes />
       <div className="home-hero-inner">
-        <Link href="/docs/select" className="home-announce">
+        <Link href="/docs/agent" className="home-announce">
           <span className="home-announce-tag">New</span>
-          Select &amp; Dropdown menu with a liquid highlight
+          Charts &amp; an AI agent with seven states
           <span aria-hidden="true" className="home-announce-arrow">
             →
           </span>

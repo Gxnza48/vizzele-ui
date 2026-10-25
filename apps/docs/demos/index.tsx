@@ -65,4 +65,10 @@ export const demos: Record<string, DemoComponent> = {
   skeleton: load(() => import('./ui').then((m) => m.SkeletonDemo)),
   select: load(() => import('./menus').then((m) => m.SelectDemo)),
   'dropdown-menu': load(() => import('./menus').then((m) => m.DropdownMenuDemo)),
+  'line-chart': load(() => import('./data').then((m) => m.LineChartDemo)),
+  'bar-chart': load(() => import('./data').then((m) => m.BarChartDemo)),
+  'donut-chart': load(() => import('./data').then((m) => m.DonutChartDemo)),
+  'stat-card': load(() => import('./data').then((m) => m.StatCardDemo)),
+  agent: load(() => import('./data').then((m) => m.AgentDemo)),
+  'agent-steps': load(() => import('./data').then((m) => m.AgentStepsDemo)),
 };

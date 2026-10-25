@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "33 kB"
+    "limit": "40 kB"
   },
   {
     "name": "react { Button }",
@@ -24,6 +24,20 @@
     "name": "react { Tabs }",
     "path": "dist/index.js",
     "import": "{ Tabs }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "react { LineChart }",
+    "path": "dist/index.js",
+    "import": "{ LineChart }",
+    "ignore": ["react", "react-dom"],
+    "limit": "6 kB"
+  },
+  {
+    "name": "react { AgentOrb }",
+    "path": "dist/index.js",
+    "import": "{ AgentOrb }",
     "ignore": ["react", "react-dom"],
     "limit": "3 kB"
   },

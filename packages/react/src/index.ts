@@ -152,6 +152,37 @@ export {
   type SelectProps,
 } from './components/select';
 
+export {
+  AreaChart,
+  BarChart,
+  DonutChart,
+  LineChart,
+  Sparkline,
+  StatCard,
+  chartColor,
+  type BarChartProps,
+  type ChartRow,
+  type ChartSeries,
+  type DonutChartProps,
+  type DonutSlice,
+  type LineChartProps,
+  type SparklineProps,
+  type StatCardProps,
+} from './components/charts';
+
+export {
+  Agent,
+  AgentOrb,
+  AgentSteps,
+  agentStateLabels,
+  type AgentOrbProps,
+  type AgentProps,
+  type AgentState,
+  type AgentStep,
+  type AgentStepStatus,
+  type AgentStepsProps,
+} from './components/agent';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,

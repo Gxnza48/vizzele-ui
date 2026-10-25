@@ -1259,3 +1259,706 @@
   outline: none;
   box-shadow: none;
 }
+
+/* ———————————————————————————————— Charts ———————————————————————————————— */
+.vz-chart {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  color: var(--vz-text-dim);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.vz-chart svg {
+  display: block;
+  overflow: visible;
+}
+.vz-chart-plot {
+  position: relative;
+  width: 100%;
+  border-radius: var(--vz-radius-md);
+  outline: none;
+  touch-action: pan-y;
+}
+.vz-chart-plot:focus-visible,
+.vz-donut-ring:focus-visible {
+  box-shadow: 0 0 0 2px var(--vz-accent);
+}
+.vz-chart-axes text {
+  fill: var(--vz-text-dim);
+  font-size: 11px;
+}
+.vz-chart-grid {
+  stroke: var(--vz-chart-grid);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.vz-chart-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 var(--vz-chart-glow) color-mix(in oklab, currentColor 55%, transparent));
+}
+.vz-chart-dot {
+  fill: currentColor;
+  stroke: var(--vz-chart-surface);
+  stroke-width: 2;
+}
+.vz-chart-crosshair {
+  stroke: var(--vz-border-strong);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.vz-chart-value {
+  fill: var(--vz-text);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.vz-chart-band {
+  fill: var(--vz-surface-hover);
+}
+.vz-chart-bars {
+  transition: opacity var(--vz-duration-fast);
+}
+.vz-chart-plot[data-active] .vz-chart-bars:not(.is-active) {
+  opacity: 0.5;
+}
+.vz-chart-bars.is-active .vz-chart-bar {
+  filter: brightness(1.15);
+}
+.vz-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--vz-text-xs);
+  color: var(--vz-text-muted);
+}
+.vz-chart-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.vz-chart-key {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+.vz-chart-key.is-line {
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+}
+.vz-chart-tooltip {
+  position: absolute;
+  top: 4px;
+  z-index: 2;
+  min-width: 140px;
+  padding: 10px 12px;
+  border: 1px solid var(--vz-border-strong);
+  border-radius: var(--vz-radius-md);
+  background: var(--vz-glass-tint);
+  backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow: var(--vz-shadow);
+  color: var(--vz-text-muted);
+  font-size: 12px;
+  pointer-events: none;
+  transition: left 160ms var(--vz-ease-out);
+}
+.vz-chart-tooltip-title {
+  margin-bottom: 6px;
+  color: var(--vz-text-dim);
+  font-size: 11px;
+}
+.vz-chart-tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.vz-chart-tooltip-row + .vz-chart-tooltip-row {
+  margin-top: 4px;
+}
+.vz-chart-tooltip-row strong {
+  min-width: 3ch;
+  color: var(--vz-text);
+  font-weight: 650;
+}
+
+/* Donut */
+.vz-donut {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 24px 32px;
+}
+.vz-donut-ring {
+  position: relative;
+  flex: none;
+  border-radius: 50%;
+  outline: none;
+}
+.vz-donut-track {
+  fill: none;
+  stroke: var(--vz-surface);
+}
+.vz-donut-slice {
+  transition:
+    transform var(--vz-spring-bouncy-duration) var(--vz-spring-bouncy),
+    opacity var(--vz-duration-fast);
+}
+.vz-donut-ring[data-active] .vz-donut-slice:not(.is-active) {
+  opacity: 0.45;
+}
+.vz-donut-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 2px;
+  text-align: center;
+  pointer-events: none;
+}
+.vz-donut-center strong {
+  color: var(--vz-text);
+  font: 650 1.7rem/1.1 var(--vz-font-sans);
+  letter-spacing: -0.02em;
+}
+.vz-donut-center span {
+  max-width: 12ch;
+  margin: 0 auto;
+  color: var(--vz-text-muted);
+  font-size: 12px;
+}
+.vz-donut-legend {
+  display: grid;
+  gap: 2px;
+  min-width: 190px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--vz-text-sm);
+}
+.vz-donut-legend li {
+  display: grid;
+  grid-template-columns: 10px 1fr auto 3.2em;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  color: var(--vz-text-muted);
+  transition: background var(--vz-duration-fast);
+}
+.vz-donut-legend li.is-active {
+  background: var(--vz-surface-hover);
+  color: var(--vz-text);
+}
+.vz-donut-legend strong {
+  color: var(--vz-text);
+  font-weight: 600;
+}
+.vz-donut-legend-pct {
+  text-align: right;
+  color: var(--vz-text-dim);
+}
+
+/* Sparkline & stat */
+.vz-sparkline {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+.vz-sparkline svg {
+  display: block;
+  overflow: visible;
+}
+.vz-stat {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-width: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-lg);
+  background: var(--vz-surface);
+}
+.vz-stat-label {
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+.vz-stat-value {
+  color: var(--vz-text);
+  font: 650 clamp(1.6rem, 1.2rem + 1vw, 2.1rem) / 1.1 var(--vz-font-sans);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.vz-stat-delta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--vz-text-dim);
+  font-size: var(--vz-text-xs);
+}
+.vz-stat-delta strong {
+  color: var(--vz-text);
+  font-weight: 650;
+}
+.vz-stat-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--vz-surface-strong);
+  color: var(--vz-text-muted);
+  font-weight: 700;
+}
+.vz-stat-delta[data-tone='good'] .vz-stat-arrow {
+  background: color-mix(in oklab, var(--vz-success) 22%, transparent);
+  color: var(--vz-success);
+}
+.vz-stat-delta[data-tone='bad'] .vz-stat-arrow {
+  background: color-mix(in oklab, var(--vz-danger) 22%, transparent);
+  color: var(--vz-danger);
+}
+.vz-stat-trend {
+  margin-top: 8px;
+}
+
+/* ———————————————————————————————— Agent ———————————————————————————————— */
+@property --vz-agent-c1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #00e5ff;
+}
+@property --vz-agent-c2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #7c5cff;
+}
+@property --vz-agent-c3 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ff2bd6;
+}
+.vz-agent-orb {
+  --vz-agent-size: 120px;
+  --vz-agent-level: 0;
+  --vz-agent-pop: 1;
+  --vz-agent-spin: 0deg;
+  --vz-agent-c1: var(--vz-cyan);
+  --vz-agent-c2: var(--vz-violet);
+  --vz-agent-c3: var(--vz-magenta);
+  position: relative;
+  flex: none;
+  width: var(--vz-agent-size);
+  height: var(--vz-agent-size);
+  transition:
+    --vz-agent-c1 700ms var(--vz-ease-out),
+    --vz-agent-c2 700ms var(--vz-ease-out),
+    --vz-agent-c3 700ms var(--vz-ease-out);
+}
+.vz-agent-orb[data-state='listening'] {
+  --vz-agent-c1: #00e5ff;
+  --vz-agent-c2: #2f6bff;
+  --vz-agent-c3: #00ffc6;
+}
+.vz-agent-orb[data-state='thinking'] {
+  --vz-agent-c1: #a98bff;
+  --vz-agent-c2: #ff2bd6;
+  --vz-agent-c3: #4b3bff;
+}
+.vz-agent-orb[data-state='working'] {
+  --vz-agent-c1: #ffb238;
+  --vz-agent-c2: #ff2bd6;
+  --vz-agent-c3: #7c5cff;
+}
+.vz-agent-orb[data-state='speaking'] {
+  --vz-agent-c1: #ff2bd6;
+  --vz-agent-c2: #00e5ff;
+  --vz-agent-c3: #7c5cff;
+}
+.vz-agent-orb[data-state='success'] {
+  --vz-agent-c1: #a8ff3e;
+  --vz-agent-c2: #00d68f;
+  --vz-agent-c3: #00e5ff;
+}
+.vz-agent-orb[data-state='error'] {
+  --vz-agent-c1: #ff5577;
+  --vz-agent-c2: #d4194a;
+  --vz-agent-c3: #ffb238;
+}
+.vz-agent-orb > * {
+  position: absolute;
+  pointer-events: none;
+}
+.vz-agent-halo {
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--vz-agent-c1) 55%, transparent) 0%,
+    color-mix(in oklab, var(--vz-agent-c3) 22%, transparent) 45%,
+    transparent 68%
+  );
+  opacity: calc(0.45 + var(--vz-agent-level) * 0.55);
+  transform: scale(calc(0.92 + var(--vz-agent-level) * 0.3));
+}
+.vz-agent-body {
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--vz-agent-spin),
+    var(--vz-agent-c1),
+    var(--vz-agent-c3),
+    var(--vz-agent-c2),
+    var(--vz-agent-c1)
+  );
+  box-shadow:
+    inset 0 calc(var(--vz-agent-size) * -0.1) calc(var(--vz-agent-size) * 0.2) rgb(0 0 0 / 0.35),
+    inset 0 2px 6px rgb(255 255 255 / 0.35),
+    0 calc(var(--vz-agent-size) * 0.1) calc(var(--vz-agent-size) * 0.35)
+      calc(var(--vz-agent-size) * -0.1) color-mix(in oklab, var(--vz-agent-c1) 70%, transparent);
+  transform: scale(calc(var(--vz-agent-pop) * (1 + var(--vz-agent-level) * 0.12)));
+}
+.vz-agent-ink {
+  position: absolute;
+  inset: -20%;
+  filter: blur(calc(var(--vz-agent-size) * 0.09));
+  transform: rotate(calc(var(--vz-agent-spin) * -1.6));
+}
+.vz-agent-ink i {
+  position: absolute;
+  width: 58%;
+  height: 58%;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+}
+.vz-agent-ink i:nth-child(1) {
+  top: 8%;
+  left: 6%;
+  background: var(--vz-agent-c1);
+}
+.vz-agent-ink i:nth-child(2) {
+  top: 30%;
+  right: 2%;
+  background: var(--vz-agent-c3);
+}
+.vz-agent-ink i:nth-child(3) {
+  bottom: 2%;
+  left: 24%;
+  background: color-mix(in oklab, var(--vz-agent-c2) 75%, white);
+}
+.vz-agent-gloss {
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 25%, rgb(255 255 255 / 0.8), transparent 22%),
+    radial-gradient(circle at 68% 88%, rgb(255 255 255 / 0.2), transparent 30%);
+}
+.vz-agent-ripples {
+  inset: 0;
+}
+.vz-agent-ripples i {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--vz-agent-c1);
+  border-radius: 50%;
+  opacity: 0;
+}
+.vz-agent-arc {
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  opacity: 0;
+  transition: opacity var(--vz-duration-base);
+}
+.vz-agent-arc circle {
+  fill: none;
+  stroke: var(--vz-agent-c1);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 26 74;
+}
+.vz-agent-orbit {
+  inset: -14%;
+  opacity: 0;
+  transition: opacity var(--vz-duration-base);
+}
+.vz-agent-orbit i {
+  position: absolute;
+  inset: 0;
+}
+.vz-agent-orbit i::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 9%;
+  height: 9%;
+  border-radius: 50%;
+  background: var(--vz-agent-c1);
+  box-shadow: 0 0 10px var(--vz-agent-c1);
+  translate: -50% 0;
+}
+.vz-agent-orbit i:nth-child(2) {
+  rotate: 120deg;
+}
+.vz-agent-orbit i:nth-child(2)::before {
+  width: 6%;
+  height: 6%;
+  background: var(--vz-agent-c2);
+}
+.vz-agent-orbit i:nth-child(3) {
+  rotate: 240deg;
+}
+.vz-agent-orbit i:nth-child(3)::before {
+  width: 7%;
+  height: 7%;
+  background: var(--vz-agent-c3);
+}
+.vz-agent-glyph {
+  inset: 27%;
+  width: 46%;
+  height: 46%;
+  stroke: #fff;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.35));
+}
+.vz-agent-glyph path,
+.vz-agent-step-icon path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 420ms var(--vz-ease-out) 120ms;
+}
+.vz-agent-orb[data-state='success'] .vz-agent-check,
+.vz-agent-orb[data-state='error'] .vz-agent-cross {
+  stroke-dashoffset: 0;
+}
+.vz-agent-orb[data-state='thinking'] .vz-agent-arc,
+.vz-agent-orb[data-state='working'] .vz-agent-orbit {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-agent-orb[data-state='idle'] .vz-agent-halo {
+    animation: vz-agent-breathe 4s var(--vz-ease-in-out) infinite;
+  }
+  .vz-agent-orb[data-state='listening'] .vz-agent-ripples i {
+    animation: vz-agent-ripple 2.4s var(--vz-ease-out) infinite;
+  }
+  .vz-agent-orb[data-state='listening'] .vz-agent-ripples i:nth-child(2) {
+    animation-delay: 0.8s;
+  }
+  .vz-agent-orb[data-state='listening'] .vz-agent-ripples i:nth-child(3) {
+    animation-delay: 1.6s;
+  }
+  .vz-agent-arc {
+    animation: vz-spin 1.1s linear infinite;
+  }
+  .vz-agent-arc circle {
+    animation: vz-agent-arc 1.6s var(--vz-ease-in-out) infinite;
+  }
+  .vz-agent-orbit {
+    animation: vz-spin 2.4s linear infinite;
+  }
+  .vz-agent-orb[data-state='error'] {
+    animation: vz-agent-shake 520ms var(--vz-ease-out);
+  }
+}
+@keyframes vz-agent-breathe {
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+@keyframes vz-agent-ripple {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.65);
+  }
+}
+@keyframes vz-agent-arc {
+  50% {
+    stroke-dasharray: 52 48;
+  }
+}
+@keyframes vz-agent-shake {
+  20% {
+    translate: -7px 0;
+  }
+  40% {
+    translate: 6px 0;
+  }
+  60% {
+    translate: -4px 0;
+  }
+  80% {
+    translate: 2px 0;
+  }
+}
+
+.vz-agent {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.vz-agent[data-layout='stack'] {
+  flex-direction: column;
+  text-align: center;
+}
+.vz-agent-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.vz-agent-name {
+  color: var(--vz-text);
+  font-weight: 650;
+}
+.vz-agent-status {
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+.vz-agent[data-state='error'] .vz-agent-status {
+  color: var(--vz-danger);
+}
+.vz-agent[data-state='thinking'] .vz-agent-status-text,
+.vz-agent[data-state='working'] .vz-agent-status-text,
+.vz-agent-step[data-status='running'] .vz-agent-step-label {
+  background: linear-gradient(
+      90deg,
+      var(--vz-text-muted) 0 35%,
+      var(--vz-text) 50%,
+      var(--vz-text-muted) 65% 100%
+    )
+    0 0 / 250% 100%;
+  background-clip: text;
+  color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-agent[data-state='thinking'] .vz-agent-status-text,
+  .vz-agent[data-state='working'] .vz-agent-status-text,
+  .vz-agent-step[data-status='running'] .vz-agent-step-label {
+    animation: vz-shimmer 1.8s linear infinite;
+  }
+}
+
+/* Agent steps */
+.vz-agent-steps {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vz-agent-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  padding-bottom: 18px;
+}
+.vz-agent-step:last-child {
+  padding-bottom: 0;
+}
+.vz-agent-step:not(:last-child)::before,
+.vz-agent-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 26px;
+  bottom: 4px;
+  left: 10px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--vz-border-strong);
+}
+.vz-agent-step:not(:last-child)::after {
+  background: var(--vz-iridescent-linear);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--vz-spring-liquid-duration) var(--vz-spring-liquid);
+}
+.vz-agent-step[data-status='done']::after {
+  transform: scaleY(1);
+}
+.vz-agent-step-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--vz-border-strong);
+  border-radius: 50%;
+  transition:
+    background var(--vz-duration-base),
+    border-color var(--vz-duration-base);
+}
+.vz-agent-step-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vz-agent-step[data-status='running'] .vz-agent-step-icon {
+  border-top-color: var(--vz-accent);
+  box-shadow: 0 0 12px -2px var(--vz-accent);
+}
+.vz-agent-step[data-status='done'] .vz-agent-step-icon {
+  border-color: transparent;
+  background: var(--vz-iridescent-linear);
+  color: #05070d;
+}
+.vz-agent-step[data-status='error'] .vz-agent-step-icon {
+  border-color: transparent;
+  background: var(--vz-danger);
+  color: #fff;
+}
+.vz-agent-step[data-status='done'] .vz-agent-check,
+.vz-agent-step[data-status='error'] .vz-agent-cross {
+  stroke-dashoffset: 0;
+}
+.vz-agent-step-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding-top: 1px;
+}
+.vz-agent-step-label {
+  color: var(--vz-text);
+  font-size: var(--vz-text-sm);
+  font-weight: 550;
+}
+.vz-agent-step[data-status='pending'] .vz-agent-step-label {
+  color: var(--vz-text-dim);
+}
+.vz-agent-step-detail {
+  color: var(--vz-text-dim);
+  font: var(--vz-text-xs) var(--vz-font-mono);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-agent-step[data-status='running'] .vz-agent-step-icon {
+    animation: vz-spin 0.8s linear infinite;
+  }
+  .vz-agent-step[data-status='done'] .vz-agent-step-icon,
+  .vz-agent-step[data-status='error'] .vz-agent-step-icon {
+    animation: vz-pop var(--vz-spring-bouncy-duration) var(--vz-spring-bouncy);
+  }
+}

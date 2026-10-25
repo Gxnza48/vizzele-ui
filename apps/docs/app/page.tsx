@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HomeDashboard } from '@/components/home/HomeDashboard';
 import { MultiCode } from '@/components/Code';
 import { Logo } from '@/components/Logo';
 import { entries } from '@/content/nav';
@@ -94,6 +95,7 @@ export default function Home() {
       <HomePlayground />
       <HomeMarquee />
       <HomeKit />
+      <HomeDashboard />
       <HomeMaterials />
       <HomePhysics />
       <HomePillars />

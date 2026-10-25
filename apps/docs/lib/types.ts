@@ -30,6 +30,8 @@ export type Category =
   | 'Text'
   | 'Scroll'
   | 'Components'
+  | 'Charts'
+  | 'AI'
   | 'Hooks';
 
 export interface DocEntry {

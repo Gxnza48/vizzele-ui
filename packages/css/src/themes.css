@@ -45,6 +45,16 @@
   --vz-grain-blend: overlay;
   --vz-holo-blend: screen;
   --vz-holo-base: 0.28;
+  /* Chart palette: brand hues stepped into the dark lightness band, validated for CVD + contrast. */
+  --vz-chart-1: #02a5b8;
+  --vz-chart-2: #6c48ea;
+  --vz-chart-3: #c08008;
+  --vz-chart-4: #c102a0;
+  --vz-chart-5: #69a906;
+  --vz-chart-other: #5b6380;
+  --vz-chart-grid: rgb(170 200 255 / 0.08);
+  --vz-chart-surface: var(--vz-bg-elevated);
+  --vz-chart-glow: 6px;
 }
 
 [data-theme='light'] {
@@ -82,6 +92,15 @@
   --vz-grain-opacity: 0.05;
   --vz-holo-blend: color-dodge;
   --vz-holo-base: 0.35;
+  --vz-chart-1: #0c90a1;
+  --vz-chart-2: #5829ce;
+  --vz-chart-3: #c48309;
+  --vz-chart-4: #a9028d;
+  --vz-chart-5: #5f9904;
+  --vz-chart-other: #8a8fa3;
+  --vz-chart-grid: rgb(30 30 60 / 0.08);
+  --vz-chart-surface: var(--vz-bg-elevated);
+  --vz-chart-glow: 0px;
 }
 
 @media (prefers-color-scheme: light) {
@@ -115,5 +134,14 @@
     --vz-grain-opacity: 0.05;
     --vz-holo-blend: color-dodge;
     --vz-holo-base: 0.35;
+    --vz-chart-1: #0c90a1;
+    --vz-chart-2: #5829ce;
+    --vz-chart-3: #c48309;
+    --vz-chart-4: #a9028d;
+    --vz-chart-5: #5f9904;
+    --vz-chart-other: #8a8fa3;
+    --vz-chart-grid: rgb(30 30 60 / 0.08);
+    --vz-chart-surface: var(--vz-bg-elevated);
+    --vz-chart-glow: 0px;
   }
 }

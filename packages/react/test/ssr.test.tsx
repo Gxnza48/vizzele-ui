@@ -18,6 +18,59 @@ const cases: [string, () => React.ReactElement][] = [
     ),
   ],
   ['Card', () => <V.Card variant="holo">x</V.Card>],
+  [
+    'LineChart',
+    () => (
+      <V.LineChart
+        title="t"
+        index="m"
+        area
+        data={[
+          { m: 'a', v: 1 },
+          { m: 'b', v: 3 },
+        ]}
+        series={[{ key: 'v' }]}
+      />
+    ),
+  ],
+  [
+    'BarChart',
+    () => (
+      <V.BarChart
+        stacked
+        index="m"
+        data={[{ m: 'a', v: 1, w: 2 }]}
+        series={[{ key: 'v' }, { key: 'w' }]}
+      />
+    ),
+  ],
+  [
+    'DonutChart',
+    () => (
+      <V.DonutChart
+        data={[
+          { label: 'a', value: 2 },
+          { label: 'b', value: 1 },
+        ]}
+      />
+    ),
+  ],
+  ['Sparkline', () => <V.Sparkline data={[1, 3, 2]} />],
+  ['StatCard', () => <V.StatCard label="Revenue" value={1200} delta={4.2} trend={[1, 2, 3]} />],
+  ['Agent', () => <V.Agent state="thinking" name="Vizzele" />],
+  ['AgentOrb', () => <V.AgentOrb state="speaking" level={0.5} />],
+  [
+    'AgentSteps',
+    () => (
+      <V.AgentSteps
+        steps={[
+          { label: 'Read', status: 'done' },
+          { label: 'Write', status: 'running' },
+          { label: 'Ship', status: 'pending' },
+        ]}
+      />
+    ),
+  ],
   ['LiquidGlass', () => <V.LiquidGlass>x</V.LiquidGlass>],
   ['Switch', () => <V.Switch label="s" />],
   ['Checkbox', () => <V.Checkbox label="c" indeterminate />],

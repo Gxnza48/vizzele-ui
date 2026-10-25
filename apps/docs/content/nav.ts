@@ -5,6 +5,7 @@ import { scrollEntries, textEntries } from './text-scroll';
 import { backgroundEntries } from './backgrounds';
 import { uiEntries } from './ui';
 import { menuEntries } from './menus';
+import { dataEntries } from './data';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -14,6 +15,7 @@ export const entries: DocEntry[] = [
   ...scrollEntries,
   ...uiEntries,
   ...menuEntries,
+  ...dataEntries,
 ];
 
 export const guides = [
@@ -46,6 +48,8 @@ export const categoryOrder: Category[] = [
   'Text',
   'Scroll',
   'Components',
+  'Charts',
+  'AI',
   'Hooks',
 ];
 

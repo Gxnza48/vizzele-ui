@@ -918,3 +918,107 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ———————————— Dashboard: charts + agent ———————————— */
+.home-dash {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.home-dash-agent {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 28px;
+  padding: 36px 24px 24px;
+  border-radius: var(--vz-radius-xl);
+}
+.home-dash-status {
+  gap: 22px;
+  min-height: 230px;
+}
+.home-dash-status .vz-agent-status {
+  min-height: 2.6em;
+  max-width: 24ch;
+}
+.home-dash-agent .vz-agent-steps {
+  justify-self: stretch;
+}
+.home-dash-states {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+}
+.home-dash-states span {
+  padding: 3px 9px;
+  border: 1px solid var(--vz-border);
+  border-radius: 999px;
+  color: var(--vz-text-dim);
+  font: 11px var(--vz-font-mono);
+  transition:
+    color var(--vz-duration-fast),
+    border-color var(--vz-duration-fast),
+    background var(--vz-duration-fast);
+}
+.home-dash-states span[data-on] {
+  border-color: var(--vz-border-strong);
+  background: var(--vz-surface-strong);
+  color: var(--vz-text);
+}
+.home-dash-main {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.home-dash-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.home-dash-stats .vz-stat,
+.home-dash-card {
+  background: var(--vz-bg-elevated);
+}
+.home-dash-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-lg);
+}
+.home-dash-card h3 {
+  margin: 0;
+  font-size: var(--vz-text-md);
+  font-weight: 650;
+}
+.home-dash-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.home-dash-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.home-dash-row .vz-donut {
+  height: 100%;
+}
+@media (max-width: 1000px) {
+  .home-dash {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 700px) {
+  .home-dash-stats,
+  .home-dash-row {
+    grid-template-columns: 1fr;
+  }
+}

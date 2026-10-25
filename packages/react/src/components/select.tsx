@@ -472,7 +472,6 @@ export function DropdownMenu({
     };
     window.addEventListener('pointerdown', onDown);
     return () => window.removeEventListener('pointerdown', onDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, floating]);
 
   const onMenuKey = (e: React.KeyboardEvent) => {

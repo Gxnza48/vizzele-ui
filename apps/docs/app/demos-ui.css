@@ -169,3 +169,44 @@
 .skeleton-demo {
   width: 100%;
 }
+
+/* Charts & agent */
+.demo-chart {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+  width: 100%;
+  max-width: 860px;
+}
+.demo-chart > .vz-chart {
+  justify-self: stretch;
+  order: -1;
+}
+.demo-chart > button {
+  align-self: start;
+  justify-self: start;
+}
+.demo-chart-center {
+  justify-items: center;
+}
+.demo-chart-center > button {
+  justify-self: center;
+}
+.demo-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 860px;
+}
+.demo-agent {
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  padding-top: 16px;
+}
+.demo-steps {
+  display: grid;
+  gap: 24px;
+  width: min(360px, 100%);
+}
