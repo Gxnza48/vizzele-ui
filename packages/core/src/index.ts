@@ -17,4 +17,12 @@ export { magnetic, type MagneticOptions } from './effects/magnetic';
 export { tilt, type TiltOptions } from './effects/tilt';
 export { spotlight, type SpotlightOptions } from './effects/spotlight';
 export { reveal, type RevealFrom, type RevealOptions } from './effects/reveal';
+export { ripple, type RippleOptions } from './effects/ripple';
+export {
+  cursor,
+  type CursorInstance,
+  type CursorOptions,
+  type CursorState,
+} from './effects/cursor';
+export { particleTrail, type ParticleTrailOptions } from './effects/particles';
 export { effects, registerAll, type EffectName } from './effects';

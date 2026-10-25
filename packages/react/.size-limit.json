@@ -1,0 +1,23 @@
+[
+  {
+    "name": "react (everything)",
+    "path": "dist/index.js",
+    "import": "*",
+    "ignore": ["react", "react-dom"],
+    "limit": "40 kB"
+  },
+  {
+    "name": "react { Button }",
+    "path": "dist/index.js",
+    "import": "{ Button }",
+    "ignore": ["react", "react-dom"],
+    "limit": "6 kB"
+  },
+  {
+    "name": "react { useDrag }",
+    "path": "dist/index.js",
+    "import": "{ useDrag }",
+    "ignore": ["react", "react-dom"],
+    "limit": "5 kB"
+  }
+]

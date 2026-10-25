@@ -43,6 +43,8 @@
       transparent 70%
     );
   --vz-grain-blend: overlay;
+  --vz-holo-blend: screen;
+  --vz-holo-base: 0.28;
 }
 
 [data-theme='light'] {
@@ -78,6 +80,8 @@
     radial-gradient(60% 50% at 50% 100%, rgb(255 178 56 / 0.08), transparent 70%);
   --vz-grain-blend: multiply;
   --vz-grain-opacity: 0.05;
+  --vz-holo-blend: color-dodge;
+  --vz-holo-base: 0.35;
 }
 
 @media (prefers-color-scheme: light) {
@@ -109,5 +113,7 @@
       radial-gradient(50% 45% at 95% 5%, rgb(255 43 214 / 0.08), transparent 70%);
     --vz-grain-blend: multiply;
     --vz-grain-opacity: 0.05;
+    --vz-holo-blend: color-dodge;
+    --vz-holo-base: 0.35;
   }
 }

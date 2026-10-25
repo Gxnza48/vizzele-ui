@@ -71,12 +71,18 @@
   z-index: 2;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(
-    calc(var(--vz-angle, 0deg) + 90deg),
-    transparent 30%,
-    rgb(255 255 255 / calc(0.22 * var(--vz-hover, 0))) 50%,
-    transparent 70%
-  );
+  background:
+    linear-gradient(
+      calc(var(--vz-angle, 0deg) + 90deg),
+      transparent 30%,
+      rgb(255 255 255 / calc(0.22 * var(--vz-hover, 0))) 50%,
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      calc(var(--vz-angle, 0deg) * 0.5 + 60deg),
+      rgb(255 255 255 / 0.05) 0 1px,
+      transparent 1px 4px
+    );
   mix-blend-mode: overlay;
 }
 
@@ -156,6 +162,8 @@
   color: var(--vz-text);
   font: 550 var(--vz-text-sm) / 1 var(--vz-font-sans);
   letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -369,4 +377,114 @@
   to {
     --vz-angle: 360deg;
   }
+}
+
+/* ———————————————————————— Cursor ———————————————————————— */
+
+.vz-cursor-none,
+.vz-cursor-none * {
+  cursor: none !important;
+}
+.vz-cursor {
+  --vz-cursor-size: 36px;
+  position: fixed;
+  inset: 0;
+  z-index: var(--vz-z-cursor);
+  pointer-events: none;
+}
+.vz-cursor > * {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.vz-cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--vz-text);
+  mix-blend-mode: difference;
+  transition: opacity var(--vz-duration-fast);
+}
+.vz-cursor-ring {
+  display: grid;
+  place-items: center;
+  width: var(--vz-cursor-size);
+  height: var(--vz-cursor-size);
+  margin: calc(var(--vz-cursor-size) / -2) 0 0 calc(var(--vz-cursor-size) / -2);
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(transparent, transparent) padding-box,
+    var(--vz-iridescent) border-box;
+  -webkit-mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) padding-box exclude,
+    linear-gradient(#000 0 0);
+  transition:
+    border-radius var(--vz-spring-liquid-duration) var(--vz-spring-liquid),
+    width var(--vz-spring-liquid-duration) var(--vz-spring-liquid);
+}
+.vz-cursor[data-state='hover'] .vz-cursor-ring,
+.vz-cursor[data-label] .vz-cursor-ring {
+  mask: none;
+  -webkit-mask: none;
+  background: color-mix(in oklab, var(--vz-text) 92%, transparent);
+  mix-blend-mode: difference;
+}
+.vz-cursor[data-state='hover'] .vz-cursor-dot,
+.vz-cursor[data-state='text'] .vz-cursor-dot {
+  opacity: 0;
+}
+.vz-cursor[data-state='text'] .vz-cursor-ring {
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  mask: none;
+  -webkit-mask: none;
+  background: var(--vz-accent);
+}
+.vz-cursor[data-state='hidden'] > * {
+  opacity: 0;
+}
+.vz-cursor-label {
+  color: #000;
+  font: 600 7px/1 var(--vz-font-sans);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.vz-cursor-trail {
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  opacity: calc(0.5 - var(--vz-i) * 0.1);
+  background: var(--vz-iridescent-linear);
+  filter: blur(calc(1px + var(--vz-i) * 1px));
+}
+
+/* ———————————————————————— Ripple ———————————————————————— */
+
+.vz-ripple {
+  --vz-ripple-color: var(--vz-iridescent);
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  background:
+    radial-gradient(
+      circle,
+      transparent 52%,
+      color-mix(in oklab, #fff 55%, transparent) 64%,
+      transparent 72%
+    ),
+    var(--vz-ripple-color);
+  filter: blur(1px) saturate(1.4);
+  mix-blend-mode: plus-lighter;
 }

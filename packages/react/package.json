@@ -1,0 +1,84 @@
+{
+  "name": "@vizzele/react",
+  "version": "0.1.0",
+  "description": "Vizzele UI for React — liquid-light components, physics hooks and gestures.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./gl": {
+      "import": {
+        "types": "./dist/gl.d.ts",
+        "default": "./dist/gl.js"
+      },
+      "require": {
+        "types": "./dist/gl.d.cts",
+        "default": "./dist/gl.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "react",
+    "animation",
+    "spring",
+    "physics",
+    "drag",
+    "ui",
+    "components",
+    "motion"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gxnza48/vizzele-ui",
+    "directory": "packages/react"
+  },
+  "homepage": "https://github.com/Gxnza48/vizzele-ui",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src test",
+    "test": "vitest run",
+    "size": "size-limit"
+  },
+  "dependencies": {
+    "@vizzele/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^14.3.0",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.2.0",
+    "jsdom": "^30.1.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "size-limit": "^14.3.0",
+    "tsup": "^9.0.0",
+    "vitest": "^5.0.5"
+  }
+}
