@@ -7,9 +7,59 @@
 }
 
 /* ———————————— Hero ———————————— */
+/* The hero lives inside the word: the page is a giant VIZZELE cut-out, scrolling dives
+   through the "I" into the fluid, and the hero content rises once you're inside. */
+.home-portal {
+  --vz-portal-depth: 0.45;
+}
+.home-portal .vz-portal-word {
+  letter-spacing: -0.05em;
+}
+.home-cover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  justify-items: center;
+  padding: 104px 16px 28px;
+  text-align: center;
+}
+.home-cover .home-announce {
+  align-self: start;
+}
+.home-cover-tag {
+  grid-row: 3;
+  align-self: start;
+  margin: calc(var(--vz-portal-size, 20vw) * 0.42 + 28px) 0 0;
+  color: var(--vz-text-muted);
+  font: 500 var(--vz-text-sm) var(--vz-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* Inside the letters: an iridescent wash under the live ink, which fades as you arrive. */
+.home-portal-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 70% at 20% 40%, #00e5ff, transparent 70%),
+    radial-gradient(40% 70% at 50% 60%, #ff2bd6, transparent 70%),
+    radial-gradient(45% 80% at 80% 40%, #7c5cff, transparent 70%),
+    radial-gradient(30% 50% at 95% 80%, #ffb238, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: calc((1 - var(--vz-portal-p)) * 0.75);
+}
+.home-portal .home-hero-veil {
+  opacity: var(--vz-portal-p);
+}
+.home-portal .home-hero-inner {
+  opacity: clamp(0, (var(--vz-portal-p) - 0.6) * 3, 1);
+  transform: translateY(calc((1 - var(--vz-portal-p)) * 60px));
+}
 .home-hero {
   position: relative;
-  min-height: max(640px, 100svh);
+  height: 100%;
   display: grid;
   place-items: center;
   padding: 120px 16px 80px;
@@ -106,6 +156,9 @@
 }
 .home-scroll-hint {
   position: absolute;
+  padding: 0;
+  background: none;
+  cursor: pointer;
   bottom: 28px;
   left: 50%;
   width: 26px;

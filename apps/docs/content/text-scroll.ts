@@ -409,6 +409,97 @@ horizontalScroll(section, { track: section.querySelector('.track') });`,
     ],
   },
   {
+    slug: 'text-portal',
+    title: 'Text portal',
+    category: 'Scroll',
+    description:
+      'Zoom-through text: a giant word is cut out of the page and scrolling dives into one of its letters until the scene inside fills the screen — then the page carries on. The hero on the home page is one.',
+    keywords: ['zoom through', 'text mask', 'scroll zoom', 'hero', 'dive', 'knockout', 'pin'],
+    isNew: true,
+    height: 460,
+    wide: true,
+    controls: [
+      { type: 'select', name: 'text', options: ['LIQUID', 'VIZZELE', 'DIVE'], default: 'LIQUID' },
+      {
+        type: 'range',
+        name: 'length',
+        label: 'scroll length',
+        min: 0.6,
+        max: 3,
+        step: 0.1,
+        default: 1.5,
+      },
+      { type: 'boolean', name: 'smooth', default: true },
+    ],
+    code: {
+      react: `import { TextPortal } from '@vizzele/react';
+import { FluidBackground } from '@vizzele/react/gl';
+
+<TextPortal text="VIZZELE" focus={1} cover={<p>Scroll to dive in</p>}>
+  <FluidBackground />          {/* the scene inside the word */}
+  <h1>Interfaces that feel liquid</h1>
+</TextPortal>`,
+      vanilla: `import { textPortal } from '@vizzele/core';
+
+textPortal(section, { text: 'VIZZELE', focus: 1 }); // children become the scene`,
+      html: `<section data-vz-portal="focus: 1" data-vz-text="VIZZELE">
+  <img src="/inside.jpg" alt="" />
+  <p data-vz-portal-cover>Scroll to dive in</p>
+</section>`,
+    },
+    props: [
+      { name: 'text', type: 'string', description: 'The giant word (decorative).' },
+      { name: 'children', type: 'ReactNode', description: 'The scene inside the word.' },
+      {
+        name: 'cover',
+        type: 'ReactNode',
+        description: 'Shown over the word at the start, fades as the dive begins.',
+      },
+      {
+        name: 'focus',
+        type: 'number',
+        default: 'middle letter',
+        description:
+          'Index of the letter to dive into — pick one whose centre is ink (I, H, M, N).',
+      },
+      {
+        name: 'length',
+        type: 'number',
+        default: '1.5',
+        description: 'Scroll distance of the dive, in viewport heights.',
+      },
+      {
+        name: 'smooth',
+        type: 'boolean',
+        default: 'true',
+        description: 'Ease between wheel steps.',
+      },
+      {
+        name: 'onProgress',
+        type: '(p: number) => void',
+        description: '0 outside the word, 1 inside.',
+      },
+      {
+        name: 'container',
+        type: 'HTMLElement | Window',
+        default: 'window',
+        description: 'Scroll root.',
+      },
+      {
+        name: '--vz-portal-bg / -depth / -font',
+        type: 'CSS',
+        description: 'Sheet colour, how far the scene zooms in, the word’s font.',
+      },
+    ],
+    a11y: [
+      'The word is decorative (aria-hidden); name the section with a real heading inside the scene.',
+      'Tabbing into the scene jumps straight inside, so keyboard users never land on hidden controls.',
+      'Exposes --vz-portal-p (0..1) and data-state (closed · diving · open) to choreograph your own content.',
+      'With reduced motion there is no dive: the scene is shown as a normal section.',
+      'One SVG mask and a sticky stage — no canvas, no scroll hijacking; it only works while on screen.',
+    ],
+  },
+  {
     slug: 'sticky-stack',
     title: 'Sticky stack',
     category: 'Scroll',

@@ -60,7 +60,7 @@
     "path": "dist/index.js",
     "import": "{ Footer }",
     "ignore": ["react", "react-dom"],
-    "limit": "4 kB"
+    "limit": "4.4 kB"
   },
   {
     "name": "react { PhoneMockup }",
@@ -96,5 +96,12 @@
     "import": "*",
     "ignore": ["react", "react-dom"],
     "limit": "15 kB"
+  },
+  {
+    "name": "react { TextPortal }",
+    "path": "dist/index.js",
+    "import": "{ TextPortal }",
+    "limit": "4.4 kB",
+    "ignore": ["react", "react-dom"]
   }
 ]

@@ -47,5 +47,6 @@ export {
   type MockupOptions,
   type MockupTreeOptions,
 } from './effects/mockup';
+export { textPortal, type TextPortalOptions } from './effects/portal';
 export { effects, registerAll, type EffectName } from './effects';
 export { copyToClipboard } from './clipboard';

@@ -36,6 +36,7 @@ export const demos: Record<string, DemoComponent> = {
   counter: load(() => import('./text-scroll').then((m) => m.CounterDemo)),
   parallax: load(() => import('./text-scroll').then((m) => m.ParallaxDemo)),
   'horizontal-scroll': load(() => import('./text-scroll').then((m) => m.HorizontalScrollDemo)),
+  'text-portal': load(() => import('./text-scroll').then((m) => m.TextPortalDemo)),
   'sticky-stack': load(() => import('./text-scroll').then((m) => m.StickyStackDemo)),
   'scroll-progress': load(() => import('./text-scroll').then((m) => m.ScrollProgressDemo)),
   reveal: load(() => import('./text-scroll').then((m) => m.RevealDemo)),

@@ -1177,6 +1177,28 @@ img {
   margin: 0;
   font-size: clamp(3rem, 2rem + 6vw, 6rem);
 }
+.portal-demo-scene {
+  display: grid;
+  place-content: center;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(50% 70% at 25% 35%, #00e5ff, transparent 70%),
+    radial-gradient(50% 70% at 60% 65%, #ff2bd6, transparent 70%),
+    radial-gradient(50% 80% at 90% 30%, #7c5cff, transparent 70%), #120a24;
+}
+.portal-demo-scene h3 {
+  margin: 0;
+  font-size: clamp(2.4rem, 1.6rem + 3vw, 4rem);
+}
+.portal-demo-cover {
+  position: absolute;
+  inset: auto 0 28px;
+  margin: 0;
+  text-align: center;
+  color: var(--vz-text-muted);
+}
 .hs-demo {
   --vz-hscroll-height: 460px;
 }

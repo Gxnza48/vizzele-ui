@@ -1,5 +1,11 @@
 # @vizzele/core
 
+## 0.5.0
+
+### Minor Changes
+
+- Text portal: zoom-through text. A giant word is cut out of the page and scrolling dives into one of its letters until the scene inside fills the screen, then the page carries on. `textPortal` (core, `data-vz-portal`), `<TextPortal>` (React) and `.vz-portal` styles. One SVG mask and a sticky stage; keyboard focus jumps inside; no dive with reduced motion.
+
 ## 0.4.0
 
 ### Minor Changes

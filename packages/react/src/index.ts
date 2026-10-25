@@ -233,6 +233,7 @@ export {
   type LaptopMockupProps,
   type PhoneMockupProps,
 } from './components/mockup';
+export { TextPortal, type TextPortalProps } from './components/portal';
 
 // Re-export the engine so apps need a single import.
 export {

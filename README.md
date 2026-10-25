@@ -152,8 +152,8 @@ x.set(200);
 Drop two tags into any HTML page. Effects are switched on with `data-vz-*` attributes — no JavaScript to write.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.3/dist/vizzele.min.css" />
-<script src="https://unpkg.com/@vizzele/core@0.3/dist/vizzele.global.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.5/dist/vizzele.min.css" />
+<script src="https://unpkg.com/@vizzele/core@0.5/dist/vizzele.global.js" defer></script>
 
 <body class="vz-body" data-theme="dark" data-vz-liquid-focus>
   <button class="vz-button" data-variant="liquid" data-vz-magnetic="strength: 0.4">Hover me</button>
@@ -327,6 +327,16 @@ toast.success('Published!');
 // render <Toaster /> once, anywhere in your app
 ```
 
+**Text portal** — the home page hero: scroll and the camera dives into a letter of a giant word, then the page carries on.
+
+```tsx
+import { TextPortal } from '@vizzele/react';
+
+<TextPortal text="VIZZELE" focus={1} cover={<p>Scroll to dive in</p>}>
+  <MyHero /> {/* the scene inside the word */}
+</TextPortal>;
+```
+
 ## What's inside
 
 **Originals — effects that don't exist in any other library**
@@ -355,7 +365,7 @@ toast.success('Published!');
 
 **Backgrounds (WebGL2, no three.js)** — fluid simulation · mesh gradient · aurora · silk · lava lamp · wave lines · ripples · particle field · liquid metal · lens grid · caustics · grain
 
-**Text & scroll** — scramble · reveal · shimmer · variable-font weight wave · morphing words · spring counter · parallax · horizontal scroll · sticky stack · scroll progress · smooth scroll
+**Text & scroll** — scramble · reveal · shimmer · variable-font weight wave · morphing words · spring counter · text portal (scroll dives into a giant word) · parallax · horizontal scroll · sticky stack · scroll progress · smooth scroll
 
 <table>
   <tr>
@@ -418,7 +428,7 @@ The spring presets also exist as CSS easings generated from the real physics:
 
 **Is it free?** Yes — MIT licensed, free for personal and commercial use.
 
-**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.3` pick up `0.3.x` fixes on their own.
+**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.5` pick up `0.5.x` fixes on their own.
 
 ## Development
 

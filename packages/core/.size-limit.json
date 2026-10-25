@@ -63,5 +63,11 @@
     "path": "dist/index.js",
     "import": "{ mockup }",
     "limit": "4.5 kB"
+  },
+  {
+    "name": "core { textPortal }",
+    "path": "dist/index.js",
+    "import": "{ textPortal }",
+    "limit": "3.6 kB"
   }
 ]

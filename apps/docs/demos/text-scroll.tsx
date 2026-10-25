@@ -12,6 +12,7 @@ import {
   ShimmerText,
   SmoothScroll,
   StickyStack,
+  TextPortal,
   TextReveal,
   WeightWave,
   type RevealOptions,
@@ -214,6 +215,30 @@ export function HorizontalScrollDemo() {
           </HorizontalScroll>
           <Spacer label="The end" />
         </>
+      )}
+    </ScrollBox>
+  );
+}
+
+export function TextPortalDemo({ values }: P) {
+  const text = String(values.text);
+  return (
+    <ScrollBox>
+      {(box) => (
+        <TextPortal
+          key={text}
+          container={box}
+          text={text}
+          focus={text.indexOf('I')}
+          length={Number(values.length)}
+          smooth={Boolean(values.smooth)}
+          cover={<p className="portal-demo-cover vz-mono">Scroll to dive in ↓</p>}
+        >
+          <div className="portal-demo-scene">
+            <h3 className="vz-display">You’re inside.</h3>
+            <p>The page carries on from here.</p>
+          </div>
+        </TextPortal>
       )}
     </ScrollBox>
   );

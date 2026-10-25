@@ -14,6 +14,7 @@ import { holdToConfirm } from './hold';
 import { surfaceTension } from './surface-tension';
 import { wordmark } from './wordmark';
 import { mockup } from './mockup';
+import { textPortal } from './portal';
 import { liquidGlass } from './glass';
 import {
   counter,
@@ -73,6 +74,8 @@ export const effects = {
   wordmark,
   /** A 3D device; set data-vz-device="iphone|galaxy|laptop". Children become the screen. */
   mockup,
+  /** Zoom-through text: scrolling dives into a giant word (`data-vz-text`). Children become the scene inside. */
+  portal: textPortal,
 };
 
 export type EffectName = keyof typeof effects;

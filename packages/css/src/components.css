@@ -867,6 +867,70 @@
   filter: brightness(calc(1 - var(--vz-covered, 0) * 0.35));
 }
 
+/* Text portal: scrolling dives into a giant word. */
+.vz-portal {
+  --vz-portal-p: 0;
+  position: relative;
+  height: calc(var(--vz-portal-h, 100svh) * (1 + var(--vz-portal-length, 1.5)));
+}
+.vz-portal-stage {
+  position: sticky;
+  top: 0;
+  height: var(--vz-portal-h, 100svh);
+  overflow: hidden;
+  isolation: isolate;
+}
+.vz-portal-scene {
+  position: absolute;
+  inset: 0;
+  transform: scale(calc(1 + (1 - var(--vz-portal-p)) * var(--vz-portal-depth, 0.3)));
+}
+.vz-portal-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  /* Fade the last stretch so the dive always ends fully inside. */
+  opacity: clamp(0, (1 - var(--vz-portal-p)) * 7, 1);
+}
+.vz-portal-fill {
+  fill: var(--vz-portal-bg, var(--vz-bg));
+}
+.vz-portal-word {
+  font-family: var(--vz-portal-font, var(--vz-font-display));
+  font-weight: var(--vz-portal-weight, 800);
+  font-size: min(22vw, 40vh);
+  letter-spacing: -0.04em;
+  fill: #000;
+}
+.vz-portal-cover {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: clamp(0, 1 - var(--vz-portal-p) * 5, 1);
+}
+.vz-portal-cover :is(a, button) {
+  pointer-events: auto;
+}
+.vz-portal:is([data-state='open'], [data-state='static'])
+  :is(.vz-portal-overlay, .vz-portal-cover) {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vz-portal {
+    --vz-portal-p: 1;
+    height: auto;
+  }
+  .vz-portal-stage {
+    position: relative;
+  }
+  .vz-portal :is(.vz-portal-overlay, .vz-portal-cover) {
+    display: none;
+  }
+}
+
 /* ———————————————————————— WebGL canvases ———————————————————————— */
 
 .vz-gl {
