@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "50 kB"
+    "limit": "53 kB"
   },
   {
     "name": "react { Button }",
@@ -68,6 +68,27 @@
     "import": "{ PhoneMockup }",
     "ignore": ["react", "react-dom"],
     "limit": "5 kB"
+  },
+  {
+    "name": "react { CommandPalette }",
+    "path": "dist/index.js",
+    "import": "{ CommandPalette }",
+    "ignore": ["react", "react-dom"],
+    "limit": "5.5 kB"
+  },
+  {
+    "name": "react { OTPInput }",
+    "path": "dist/index.js",
+    "import": "{ OTPInput }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3.5 kB"
+  },
+  {
+    "name": "react { FileDropzone }",
+    "path": "dist/index.js",
+    "import": "{ FileDropzone }",
+    "ignore": ["react", "react-dom"],
+    "limit": "2.5 kB"
   },
   {
     "name": "react/gl (all backgrounds)",

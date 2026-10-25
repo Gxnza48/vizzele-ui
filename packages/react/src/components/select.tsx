@@ -19,16 +19,22 @@ import { canPortal, useFloating, type Placement } from './overlay';
  * The blob that slides between options. Two edge springs (top & bottom) with different
  * stiffness make it stretch in the direction of travel and settle with a wobble.
  */
-function useLiquidHighlight(
+export function useLiquidHighlight(
   container: React.RefObject<HTMLElement | null>,
   blob: React.RefObject<HTMLElement | null>,
 ) {
   const edges = useRef<{ t: Spring; b: Spring } | null>(null);
   const shown = useRef(false);
+  const painted = useRef<HTMLElement | null>(null);
   return useCallback(
     (target: HTMLElement | null) => {
       const el = blob.current;
       if (!el || !container.current) return;
+      // A popup that closed and reopened renders a fresh blob: start it in place.
+      if (painted.current !== el) {
+        painted.current = el;
+        shown.current = false;
+      }
       if (!target) {
         el.style.opacity = '0';
         shown.current = false;
@@ -37,8 +43,10 @@ function useLiquidHighlight(
       if (!edges.current) {
         const paint = () => {
           const e = edges.current!;
-          el.style.transform = `translateY(${e.t.value}px)`;
-          el.style.height = `${Math.max(e.b.value - e.t.value, 0)}px`;
+          const b = blob.current;
+          if (!b) return;
+          b.style.transform = `translateY(${e.t.value}px)`;
+          b.style.height = `${Math.max(e.b.value - e.t.value, 0)}px`;
         };
         edges.current = { t: new Spring({ onUpdate: paint }), b: new Spring({ onUpdate: paint }) };
       }

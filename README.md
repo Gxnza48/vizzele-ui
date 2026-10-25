@@ -201,6 +201,19 @@ import { Select, DropdownMenu, Button } from '@vizzele/react';
 </DropdownMenu>
 ```
 
+**Command palette & form fields**
+
+```tsx
+import { CommandPalette, OTPInput, FileDropzone } from '@vizzele/react';
+
+// ⌘K / Ctrl+K opens it from anywhere
+<CommandPalette items={[{ label: 'New file', group: 'File', shortcut: '⌘N', onSelect: newFile }]} />
+
+<OTPInput length={6} groupSize={3} onComplete={verify} />
+
+<FileDropzone accept="image/*,.pdf" maxSize={5_000_000} onFilesChange={setFiles} hint="Up to 5 MB" />
+```
+
 **Charts**
 
 ```tsx
@@ -334,7 +347,7 @@ toast.success('Published!');
 
 **Mockups (3D)** — iPhone-style phone · Galaxy-style phone · laptop, each with a live, interactive screen
 
-**Components** — Copy button · Sidebar · Footer with a liquid wordmark · Select & Dropdown menu · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · liquid glass with real refraction · Modal that morphs out of its trigger · Tabs · macOS-style Dock · Navbar · Switch / Checkbox / Radio · Input · Tooltip · Popover · Toast · Accordion · Marquee · 3D carousel · image reveal · Skeleton
+**Components** — ⌘K command palette · OTP input · file dropzone · Copy button · Sidebar · Footer with a liquid wordmark · Select & Dropdown menu · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · liquid glass with real refraction · Modal that morphs out of its trigger · Tabs · macOS-style Dock · Navbar · Switch / Checkbox / Radio · Input · Tooltip · Popover · Toast · Accordion · Marquee · 3D carousel · image reveal · Skeleton
 
 **Cursor & pointer** — liquid cursor · magnetic · spotlight borders · 3D tilt with holographic foil · ripple · particle trail
 

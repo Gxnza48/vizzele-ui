@@ -20,9 +20,9 @@ export function HomeHero({ components }: { components: number }) {
       <div className="home-hero-veil" aria-hidden="true" />
       <FloatingShapes />
       <div className="home-hero-inner">
-        <Link href="/docs/phone-iphone" className="home-announce">
-          <span className="home-announce-tag">New</span>3D phone &amp; laptop mockups — put your
-          live app inside
+        <Link href="/docs/command-palette" className="home-announce">
+          <span className="home-announce-tag">New</span>⌘K command palette, OTP input &amp; file
+          dropzone
           <span aria-hidden="true" className="home-announce-arrow">
             →
           </span>

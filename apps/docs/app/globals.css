@@ -269,66 +269,6 @@ img {
   border-radius: 6px;
   border: 1px solid var(--vz-border);
 }
-.search-dialog {
-  width: min(620px, calc(100vw - 32px));
-  max-height: min(560px, calc(100vh - 120px));
-  margin: 12vh auto 0;
-  padding: 0;
-  border-radius: var(--vz-radius-lg);
-  color: var(--vz-text);
-  overflow: hidden;
-}
-.search-dialog::backdrop {
-  background: rgb(3 4 10 / 0.55);
-  backdrop-filter: blur(4px);
-}
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--vz-border);
-}
-.search-box input {
-  flex: 1;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--vz-text);
-  font: 400 1.05rem var(--vz-font-sans);
-}
-.search-box kbd {
-  font-size: 11px;
-  color: var(--vz-text-dim);
-}
-.search-results {
-  list-style: none;
-  margin: 0;
-  padding: 8px;
-  overflow: auto;
-  max-height: 440px;
-}
-.search-results li {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--vz-radius-sm);
-  cursor: pointer;
-}
-.search-results li[aria-selected='true'] {
-  background: var(--vz-surface-strong);
-  box-shadow: inset 2px 0 0 var(--vz-accent);
-}
-.search-cat {
-  color: var(--vz-text-dim);
-  font-size: var(--vz-text-xs);
-}
-.search-empty {
-  color: var(--vz-text-muted);
-  cursor: default !important;
-}
-
 /* ———————————— Docs shell ———————————— */
 .docs-shell {
   max-width: 1280px;

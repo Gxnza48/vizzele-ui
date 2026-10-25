@@ -1,5 +1,18 @@
 # @vizzele/css
 
+## 0.4.0
+
+### Minor Changes
+
+- Command palette and two new form fields:
+  
+  - **CommandPalette** (React): a ⌘K / Ctrl+K palette that drops in over a blurred page. The list springs to fit its results, matched letters glow, sections stay grouped and the liquid highlight slides between commands. Fuzzy label matching (`fuzzyMatch` is exported); keywords and descriptions match as plain text. Controlled or uncontrolled, `hotkey={false}` to bring your own trigger. The docs search now runs on it.
+  - **OTPInput** (React): a one-time-code field where a drop of light stretches to the next cell, characters fall into place and a complete code sends an iridescent wave across. One real input underneath, so paste, SMS autofill (`autocomplete="one-time-code"`) and screen readers just work. Numeric or alphanumeric, grouping, masking, `invalid` shake.
+  - **FileDropzone** (React): swells when a file is dragged over, a pool of light follows the file and a drop sends a splash ring out from where it landed. `accept`, `maxSize` and `maxFiles` validation with `onReject`, a removable file list, and a real file input (with `name`, a plain `<form>` submits every file). `acceptsFile` and `formatBytes` are exported.
+  - `liquidFocus` (core): controls that draw their own focus indicator can opt out with `data-vz-focus-ring="off"`.
+  - Fix: Select and DropdownMenu lost their liquid highlight after the popup was closed and opened again.
+  - Size budgets: the whole React bundle is now held to 53 kB and the full CSS to 19.5 kB.
+
 ## 0.3.0
 
 ### Minor Changes

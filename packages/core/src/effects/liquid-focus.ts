@@ -20,6 +20,8 @@ const TRAIL = { stiffness: 140, damping: 17 };
  * One focus ring for the whole page that travels between focused elements like a drop of
  * mercury — stretching toward where focus went, then settling around it. Keyboard users can
  * follow focus across the page at a glance. Mount once (it is global).
+ *
+ * Controls that draw their own focus indicator opt out with `data-vz-focus-ring="off"`.
  */
 export function liquidFocus(options: LiquidFocusOptions = {}): EffectInstance<LiquidFocusOptions> {
   if (!isBrowser) return inertInstance();
@@ -96,6 +98,7 @@ export function liquidFocus(options: LiquidFocusOptions = {}): EffectInstance<Li
   const onFocusIn = (e: FocusEvent) => {
     const el = e.target;
     if (!(el instanceof HTMLElement) || el === document.body) return;
+    if (el.closest('[data-vz-focus-ring="off"]')) return hide();
     let visible = true;
     try {
       visible = !(opts.keyboardOnly ?? true) || el.matches(':focus-visible');

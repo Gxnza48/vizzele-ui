@@ -3485,3 +3485,477 @@ button.vz-sidebar-heading:hover {
   border-radius: 12px 12px 0 0;
   background: color-mix(in oklab, var(--vz-m-frame), #000 22%);
 }
+
+/* ———————————————————————— Command palette ———————————————————————— */
+
+.vz-command-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--vz-z-modal);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: max(16px, 12vh) 16px 16px;
+}
+.vz-command {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(640px, 100%);
+  overflow: hidden;
+  border-radius: 22px;
+  opacity: 0;
+  transform-origin: 50% 0;
+  outline: none;
+  will-change: transform, opacity;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--vz-glass-highlight) 40%, transparent),
+      transparent 40%
+    ),
+    color-mix(in oklab, var(--vz-bg-elevated) 90%, transparent);
+  box-shadow:
+    inset 0 1px 0 var(--vz-glass-highlight),
+    0 30px 80px -20px rgb(0 0 0 / 0.65),
+    0 0 0 1px var(--vz-border);
+}
+.vz-command::before {
+  /* a thin iridescent rim along the top */
+  content: '';
+  position: absolute;
+  inset: 0 18% auto;
+  height: 1px;
+  background: var(--vz-iridescent-linear);
+  opacity: 0.7;
+}
+.vz-command-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--vz-border);
+}
+.vz-command-search {
+  flex: none;
+  color: var(--vz-text-dim);
+}
+.vz-command-input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  border: 0;
+  outline: none;
+  background: none;
+  color: var(--vz-text);
+  font: 400 var(--vz-text-md) / 1.2 var(--vz-font-sans);
+}
+.vz-command-input:focus-visible,
+.vz-otp-input:focus-visible,
+.vz-dropzone input:focus-visible {
+  /* these controls show focus themselves (the palette, the caret, the zone's ring) */
+  outline: none;
+  box-shadow: none;
+}
+.vz-command-input::placeholder {
+  color: var(--vz-text-dim);
+}
+.vz-command-kbd,
+.vz-command-foot kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 6px;
+  border: 1px solid var(--vz-border);
+  background: var(--vz-surface);
+  color: var(--vz-text-muted);
+  font: 500 11px var(--vz-font-mono);
+}
+.vz-command-list {
+  max-height: min(380px, 55vh);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.vz-command-list > div {
+  padding: 6px;
+}
+.vz-command-option {
+  min-height: 42px;
+}
+.vz-command-option mark {
+  background: none;
+  color: var(--vz-accent-text);
+  font-weight: 650;
+  text-shadow: 0 0 12px color-mix(in oklab, var(--vz-cyan) 55%, transparent);
+}
+.vz-command-empty {
+  margin: 0;
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+.vz-command-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--vz-border);
+  color: var(--vz-text-dim);
+  font-size: var(--vz-text-xs);
+}
+.vz-command-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-command .vz-option {
+    animation: vz-option-in 320ms var(--vz-ease-out) both;
+    animation-delay: calc(var(--vz-i, 0) * 18ms);
+  }
+}
+
+/* ———————————————————————— OTP input ———————————————————————— */
+
+.vz-otp {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  isolation: isolate;
+}
+.vz-otp-cells {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vz-otp-cell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 58px;
+  flex: 0 1 48px;
+  min-width: 0;
+  border-radius: var(--vz-radius-md);
+  border: 1px solid var(--vz-border-strong);
+  background: var(--vz-surface);
+  color: var(--vz-text);
+  font: 600 24px / 1 var(--vz-font-mono);
+  transition:
+    border-color var(--vz-duration-fast),
+    background var(--vz-duration-fast);
+}
+.vz-otp-cell[data-filled] {
+  border-color: color-mix(in oklab, var(--vz-accent) 45%, var(--vz-border-strong));
+}
+.vz-otp-cell[data-current]::after {
+  /* the blinking text caret inside the empty cell */
+  content: '';
+  width: 2px;
+  height: 24px;
+  border-radius: 2px;
+  background: var(--vz-accent-text);
+  animation: vz-otp-blink 1s steps(1) infinite;
+}
+.vz-otp-sep {
+  flex: none;
+  width: 12px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--vz-border-strong);
+}
+.vz-otp-char {
+  display: inline-block;
+}
+.vz-otp-caret {
+  /* the drop of light that slides between cells */
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  height: 100%;
+  width: 0;
+  border-radius: var(--vz-radius-md);
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--vz-cyan) 14%, transparent),
+    color-mix(in oklab, var(--vz-magenta) 10%, transparent)
+  );
+  box-shadow:
+    inset 0 0 0 1.5px var(--vz-accent),
+    0 0 0 4px color-mix(in oklab, var(--vz-accent) 16%, transparent),
+    0 0 26px -4px color-mix(in oklab, var(--vz-magenta) 45%, transparent);
+  will-change: transform, width;
+  transition: opacity var(--vz-duration-fast);
+}
+.vz-otp[data-focused] .vz-otp-caret {
+  opacity: 1;
+}
+.vz-otp-input {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  opacity: 0;
+  background: none;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px; /* keeps iOS from zooming in */
+  cursor: text;
+}
+.vz-otp[data-invalid] .vz-otp-cell {
+  border-color: var(--vz-danger);
+  color: var(--vz-danger);
+}
+.vz-otp[data-invalid] .vz-otp-caret {
+  box-shadow:
+    inset 0 0 0 1.5px var(--vz-danger),
+    0 0 0 4px color-mix(in oklab, var(--vz-danger) 18%, transparent);
+}
+.vz-otp[data-disabled] {
+  opacity: 0.5;
+}
+.vz-otp[data-disabled] .vz-otp-input {
+  cursor: not-allowed;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-otp-char {
+    animation: vz-otp-drop 460ms var(--vz-spring-bouncy, var(--vz-ease-out)) both;
+  }
+  .vz-otp[data-complete]:not([data-invalid]) .vz-otp-cell {
+    animation: vz-otp-wave 900ms var(--vz-ease-out) both;
+    animation-delay: calc(var(--vz-i, 0) * 55ms);
+  }
+  .vz-otp[data-invalid] .vz-otp-cells {
+    animation: vz-copy-shake 420ms var(--vz-ease-out);
+  }
+}
+@keyframes vz-otp-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.5);
+    filter: blur(4px);
+  }
+}
+@keyframes vz-otp-wave {
+  35% {
+    transform: translateY(-4px);
+    border-color: var(--vz-accent);
+    box-shadow: 0 10px 26px -10px color-mix(in oklab, var(--vz-cyan) 70%, transparent);
+    background: color-mix(in oklab, var(--vz-accent) 12%, var(--vz-surface));
+  }
+}
+@keyframes vz-otp-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ———————————————————————— File dropzone ———————————————————————— */
+
+.vz-dropzone-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.vz-dropzone {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 190px;
+  padding: 32px 24px;
+  border-radius: var(--vz-radius-lg);
+  border: 1.5px dashed var(--vz-border-strong);
+  background: var(--vz-surface);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform var(--vz-spring-jelly-duration, 500ms) var(--vz-spring-jelly, var(--vz-ease-out)),
+    border-color var(--vz-duration-fast),
+    background var(--vz-duration-base);
+}
+.vz-dropzone:hover {
+  border-color: color-mix(in oklab, var(--vz-accent) 50%, var(--vz-border-strong));
+  background: var(--vz-surface-hover);
+}
+.vz-dropzone:focus-within {
+  border-color: var(--vz-accent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--vz-accent) 18%, transparent);
+}
+.vz-dropzone[data-over] {
+  transform: scale(1.02);
+  border-style: solid;
+  border-color: var(--vz-accent);
+  background: color-mix(in oklab, var(--vz-accent) 7%, var(--vz-surface));
+}
+.vz-dropzone > :not(.vz-dropzone-pool, .vz-dropzone-splash) {
+  position: relative;
+  z-index: 1;
+}
+.vz-dropzone-pool {
+  /* a pool of light that follows the dragged file */
+  position: absolute;
+  left: var(--vz-drop-x, 50%);
+  top: var(--vz-drop-y, 50%);
+  z-index: 0;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  translate: -50% -50%;
+  scale: 0.4;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--vz-cyan) 32%, transparent),
+    color-mix(in oklab, var(--vz-magenta) 16%, transparent) 55%,
+    transparent
+  );
+  filter: blur(6px);
+  transition:
+    opacity var(--vz-duration-base),
+    scale var(--vz-spring-jelly-duration, 500ms) var(--vz-spring-jelly, var(--vz-ease-out)),
+    left 140ms var(--vz-ease-out),
+    top 140ms var(--vz-ease-out);
+}
+.vz-dropzone[data-over] .vz-dropzone-pool {
+  opacity: 1;
+  scale: 1;
+}
+.vz-dropzone-splash {
+  position: absolute;
+  z-index: 0;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border-radius: 50%;
+  border: 2px solid var(--vz-accent);
+  pointer-events: none;
+  opacity: 0;
+}
+.vz-dropzone-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 6px;
+  border-radius: 16px;
+  background: var(--vz-surface-strong);
+  color: var(--vz-accent-text);
+  box-shadow: inset 0 1px 0 var(--vz-glass-highlight);
+  transition: transform var(--vz-spring-bouncy-duration, 500ms)
+    var(--vz-spring-bouncy, var(--vz-ease-out));
+}
+.vz-dropzone[data-over] .vz-dropzone-icon {
+  transform: translateY(-6px) scale(1.08);
+}
+.vz-dropzone-title {
+  font: 600 var(--vz-text-md) / 1.3 var(--vz-font-sans);
+  color: var(--vz-text);
+}
+.vz-dropzone-title u {
+  text-decoration-color: var(--vz-accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  color: var(--vz-accent-text);
+}
+.vz-dropzone-hint {
+  font-size: var(--vz-text-sm);
+  color: var(--vz-text-muted);
+}
+.vz-dropzone[data-rejected] {
+  border-color: var(--vz-danger);
+}
+.vz-dropzone[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vz-dropzone-files {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vz-dropzone-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 6px 6px 6px 14px;
+  border-radius: var(--vz-radius-md);
+  border: 1px solid var(--vz-border);
+  background: var(--vz-surface);
+  font-size: var(--vz-text-sm);
+}
+.vz-dropzone-file-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--vz-text);
+}
+.vz-dropzone-file-size {
+  flex: none;
+  font: 500 var(--vz-text-xs) var(--vz-font-mono);
+  color: var(--vz-text-dim);
+}
+.vz-dropzone-remove {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--vz-text-muted);
+  cursor: pointer;
+}
+.vz-dropzone-remove:hover {
+  background: var(--vz-surface-strong);
+  color: var(--vz-danger);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .vz-dropzone-splash {
+    animation: vz-dropzone-splash 720ms var(--vz-ease-out) forwards;
+  }
+  .vz-dropzone[data-rejected] {
+    animation: vz-copy-shake 420ms var(--vz-ease-out);
+  }
+  .vz-dropzone-file {
+    animation: vz-option-in 360ms var(--vz-ease-out) both;
+    animation-delay: calc(min(var(--vz-i, 0), 6) * 30ms);
+  }
+}
+@keyframes vz-dropzone-splash {
+  0% {
+    opacity: 1;
+    transform: scale(0.2);
+    border-width: 6px;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(16);
+    border-width: 0.5px;
+  }
+}

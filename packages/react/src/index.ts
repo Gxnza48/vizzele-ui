@@ -211,6 +211,23 @@ export {
 } from './components/footer';
 
 export {
+  CommandPalette,
+  fuzzyMatch,
+  type CommandItem,
+  type CommandPaletteProps,
+  type FuzzyMatch,
+} from './components/command';
+export {
+  FileDropzone,
+  OTPInput,
+  acceptsFile,
+  formatBytes,
+  type FileDropzoneProps,
+  type FileRejection,
+  type OTPInputProps,
+} from './components/fields';
+
+export {
   LaptopMockup,
   PhoneMockup,
   type LaptopMockupProps,

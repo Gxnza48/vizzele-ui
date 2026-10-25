@@ -7,6 +7,7 @@ import { uiEntries } from './ui';
 import { kitEntries } from './kit';
 import { mockupEntries } from './mockups';
 import { menuEntries } from './menus';
+import { formEntries } from './forms';
 import { dataEntries } from './data';
 import { originalEntries } from './originals';
 
@@ -20,6 +21,7 @@ export const entries: DocEntry[] = [
   ...kitEntries,
   ...mockupEntries,
   ...menuEntries,
+  ...formEntries,
   ...dataEntries,
   ...originalEntries,
 ];

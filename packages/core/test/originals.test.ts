@@ -27,6 +27,22 @@ describe('liquidFocus', () => {
     expect(ring.hasAttribute('data-visible')).toBe(false);
     inst.destroy();
   });
+
+  it('skips controls that opt out with data-vz-focus-ring="off"', () => {
+    const inst = liquidFocus({ keyboardOnly: false });
+    const btn = document.createElement('button');
+    const wrap = document.createElement('div');
+    wrap.dataset.vzFocusRing = 'off';
+    const field = document.createElement('input');
+    wrap.appendChild(field);
+    document.body.append(btn, wrap);
+    const ring = document.querySelector<HTMLElement>('.vz-focus-drop')!;
+    btn.focus();
+    expect(ring.hasAttribute('data-visible')).toBe(true);
+    field.focus();
+    expect(ring.hasAttribute('data-visible')).toBe(false);
+    inst.destroy();
+  });
 });
 
 describe('holdToConfirm', () => {
