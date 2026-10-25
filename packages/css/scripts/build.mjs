@@ -25,6 +25,7 @@ const order = [
   'themes.css',
   'base.css',
   'components.css',
+  'ui.css',
   'utilities.css',
 ];
 const minify = (css) =>

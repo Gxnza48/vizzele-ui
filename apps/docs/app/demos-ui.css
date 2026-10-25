@@ -1,0 +1,171 @@
+/* Styles for the UI component demos. */
+.card-demo-bg {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  background:
+    radial-gradient(
+      circle at 25% 35%,
+      color-mix(in oklab, var(--vz-magenta) 70%, transparent),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 75% 65%,
+      color-mix(in oklab, var(--vz-cyan) 70%, transparent),
+      transparent 32%
+    );
+}
+.card-demo {
+  width: min(320px, 90%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.card-demo h3 {
+  margin: 8px 0 0;
+  font-size: 1.6rem;
+}
+.card-demo p {
+  margin: 0 0 8px;
+}
+.card-demo-chip {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+}
+.glass-demo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+.glass-demo-stripes {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.85) 0 2px, transparent 2px 28px),
+    repeating-linear-gradient(0deg, rgb(5 7 13 / 0.35) 0 2px, transparent 2px 28px);
+  mix-blend-mode: overlay;
+}
+.glass-demo-panel {
+  position: relative;
+  width: min(420px, 80%);
+  padding: 36px 32px;
+  text-align: center;
+  color: #fff;
+  border-radius: 36px;
+}
+.glass-demo-panel h3 {
+  margin: 0;
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+.glass-demo-panel p {
+  margin: 8px 0 0;
+  opacity: 0.85;
+}
+.modal-demo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.tabs-demo-panel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: var(--vz-radius-md);
+  border: 1px solid var(--vz-border);
+  background: var(--vz-surface);
+}
+.tabs-demo-panel p {
+  margin: 0;
+}
+.tabs-demo-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  flex: none;
+}
+.navbar-demo {
+  background: var(--vz-bg);
+}
+.navbar-demo-page {
+  padding: 40px 24px 60px;
+  display: grid;
+  gap: 18px;
+}
+.navbar-demo-page h3 {
+  margin: 30px 0 10px;
+  font-size: clamp(2rem, 1.5rem + 3vw, 3.6rem);
+}
+.navbar-demo-block {
+  height: 160px;
+  border-radius: var(--vz-radius-lg);
+  opacity: 0.85;
+}
+.toggles-demo {
+  gap: 64px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.icon-tile {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--vz-border);
+  background: var(--vz-surface);
+  color: var(--vz-text);
+  cursor: pointer;
+}
+.icon-tile:hover {
+  background: var(--vz-surface-hover);
+}
+.popover-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 280px;
+}
+.marquee-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--vz-border);
+  background: var(--vz-surface);
+  font: 650 1.2rem var(--vz-font-display);
+  white-space: nowrap;
+}
+.marquee-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.carousel-card {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+  background-size: cover;
+  background-position: center;
+}
+.carousel-card figcaption {
+  font: 600 12px var(--vz-font-mono);
+  color: #fff;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.5);
+}
+.skeleton-demo {
+  width: 100%;
+}

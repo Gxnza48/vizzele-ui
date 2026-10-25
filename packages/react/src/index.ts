@@ -84,6 +84,63 @@ export {
   type WeightWaveProps,
 } from './components/text';
 
+// UI components
+export {
+  Button,
+  Card,
+  Checkbox,
+  Input,
+  LiquidGlass,
+  RadioGroup,
+  Skeleton,
+  Switch,
+  type ButtonProps,
+  type ButtonVariant,
+  type CardProps,
+  type CheckboxProps,
+  type InputProps,
+  type LiquidGlassProps,
+  type RadioGroupProps,
+  type SkeletonProps,
+  type SwitchProps,
+} from './components/controls';
+export {
+  Modal,
+  Popover,
+  Toaster,
+  Tooltip,
+  toast,
+  type ModalProps,
+  type Placement,
+  type PopoverProps,
+  type PopoverTriggerProps,
+  type ToastData,
+  type ToastVariant,
+  type ToasterProps,
+  type TooltipProps,
+} from './components/overlay';
+export {
+  Accordion,
+  Dock,
+  Navbar,
+  Tabs,
+  type AccordionItem,
+  type AccordionProps,
+  type DockItem,
+  type DockProps,
+  type NavbarProps,
+  type TabItem,
+  type TabsProps,
+} from './components/nav';
+export {
+  Carousel3D,
+  ImageReveal,
+  Marquee,
+  type Carousel3DProps,
+  type ImageRevealProps,
+  type MarqueeProps,
+} from './components/media';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,

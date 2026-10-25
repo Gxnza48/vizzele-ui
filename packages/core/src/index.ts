@@ -13,6 +13,7 @@ export * from './reorder';
 export * from './physics';
 export * from './scroll';
 export * from './effects/text';
+export * from './effects/glass';
 export * from './split-text';
 export * from './color';
 export { init, observe, parseOptions, registerEffect } from './declarative';

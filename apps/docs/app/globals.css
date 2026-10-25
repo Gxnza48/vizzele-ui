@@ -605,6 +605,7 @@ img {
   justify-content: center;
 }
 .demo-col {
+  display: flex;
   flex-direction: column;
   gap: 24px;
 }

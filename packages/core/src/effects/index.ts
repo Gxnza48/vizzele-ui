@@ -8,6 +8,7 @@ import { ripple } from './ripple';
 import { cursor, type CursorOptions } from './cursor';
 import { particleTrail, type ParticleTrailOptions } from './particles';
 import { reorder } from '../reorder';
+import { liquidGlass } from './glass';
 import {
   counter,
   morphText,
@@ -28,6 +29,7 @@ export const effects = {
   reveal,
   drag: draggable,
   ripple,
+  'liquid-glass': liquidGlass,
   reorder,
   scramble,
   'text-reveal': textReveal,

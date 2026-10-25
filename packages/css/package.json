@@ -16,6 +16,7 @@
     "./springs.css": "./dist/springs.css",
     "./base.css": "./dist/base.css",
     "./components.css": "./dist/components.css",
+    "./ui.css": "./dist/ui.css",
     "./utilities.css": "./dist/utilities.css",
     "./package.json": "./package.json"
   },

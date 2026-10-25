@@ -3,6 +3,7 @@ import { pointerEntries } from './pointer';
 import { dragEntries } from './drag';
 import { scrollEntries, textEntries } from './text-scroll';
 import { backgroundEntries } from './backgrounds';
+import { uiEntries } from './ui';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -10,6 +11,7 @@ export const entries: DocEntry[] = [
   ...backgroundEntries,
   ...textEntries,
   ...scrollEntries,
+  ...uiEntries,
 ];
 
 export const guides = [

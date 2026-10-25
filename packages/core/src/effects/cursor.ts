@@ -91,7 +91,9 @@ export function cursor(options: CursorOptions = {}): CursorInstance {
       ...ringSpring,
       onUpdate: ({ x, y }) => {
         const speed = Math.hypot(vx, vy);
-        const stretch = opts.stretch === false ? 0 : clamp(speed / 3000, 0, 0.45);
+        // The text beam stays upright; only the ring stretches like liquid.
+        const stretch =
+          opts.stretch === false || state === 'text' ? 0 : clamp(speed / 3000, 0, 0.45);
         setTransform(ring, 'pos', {
           x,
           y,
