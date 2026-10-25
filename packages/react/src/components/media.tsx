@@ -175,6 +175,8 @@ export function Marquee({
       style={{ '--vz-marquee-gap': `${gap}px`, ...style } as CSSProperties}
       role="marquee"
       aria-label={label}
+      // Focusable: it pauses on focus, and becomes a scrollable row with reduced motion.
+      tabIndex={0}
     >
       <div ref={track} className="vz-marquee-js-track">
         {Array.from({ length: copies }, (_, i) => (

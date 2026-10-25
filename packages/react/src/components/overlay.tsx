@@ -526,7 +526,7 @@ function addToast(input: ToastInput, variant?: ToastVariant) {
  *     toast('Saved');
  *     toast.success({ title: 'Deployed', description: 'vizzele-ui is live' });
  */
-export const toast = Object.assign(addToast, {
+export const toast = /* @__PURE__ */ Object.assign(addToast, {
   success: (t: ToastInput) => addToast(t, 'success'),
   error: (t: ToastInput) => addToast(t, 'error'),
   info: (t: ToastInput) => addToast(t, 'info'),

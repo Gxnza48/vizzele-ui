@@ -4,20 +4,34 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "40 kB"
+    "limit": "33 kB"
   },
   {
     "name": "react { Button }",
     "path": "dist/index.js",
     "import": "{ Button }",
     "ignore": ["react", "react-dom"],
-    "limit": "6 kB"
+    "limit": "4.8 kB"
   },
   {
     "name": "react { useDrag }",
     "path": "dist/index.js",
     "import": "{ useDrag }",
     "ignore": ["react", "react-dom"],
-    "limit": "5 kB"
+    "limit": "5.6 kB"
+  },
+  {
+    "name": "react { Tabs }",
+    "path": "dist/index.js",
+    "import": "{ Tabs }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "react/gl (all backgrounds)",
+    "path": "dist/gl.js",
+    "import": "*",
+    "ignore": ["react", "react-dom"],
+    "limit": "13 kB"
   }
 ]

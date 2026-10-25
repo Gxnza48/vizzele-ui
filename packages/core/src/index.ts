@@ -15,6 +15,7 @@ export * from './scroll';
 export * from './effects/text';
 export * from './effects/glass';
 export * from './split-text';
+export { srOnly, accessibleText, type AccessibleText } from './a11y';
 export * from './color';
 export { init, observe, parseOptions, registerEffect } from './declarative';
 export type { EffectInstance, EffectFactory } from './effects/types';

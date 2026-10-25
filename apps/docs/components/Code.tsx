@@ -4,7 +4,8 @@ import { CodeTabs } from './CodeTabs';
 async function highlight(code: string, lang: string) {
   return codeToHtml(code.trim(), {
     lang,
-    themes: { dark: 'vesper', light: 'github-light' },
+    // Both themes meet WCAG AA contrast for every token, comments included.
+    themes: { dark: 'github-dark-default', light: 'github-light-default' },
     defaultColor: false,
   });
 }

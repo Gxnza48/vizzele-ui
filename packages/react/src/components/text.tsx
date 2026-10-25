@@ -62,27 +62,34 @@ export interface ScrambleTextHandle {
 }
 
 /** Text that decodes from random glyphs. */
-export const ScrambleText = forwardRef<ScrambleTextHandle, ScrambleTextProps>(function ScrambleText(
-  { children, as: Tag = 'span', className, duration, chars, trigger, ...rest },
-  ref,
-) {
-  const el = useRef<HTMLElement>(null);
-  const inst = useRef<ReturnType<typeof scramble> | null>(null);
-  useImperativeHandle(ref, () => ({ play: () => inst.current?.play() }), []);
-  useEffect(() => {
-    if (!el.current) return;
-    inst.current = scramble(el.current, {
-      text: children,
-      ...(duration !== undefined ? { duration } : {}),
-      ...(chars !== undefined ? { chars } : {}),
-      ...(trigger !== undefined ? { trigger } : {}),
-    });
-    return () => inst.current?.destroy();
-  }, [children, duration, chars, trigger]);
-  return (
-    <Tag ref={el} className={cx('vz-scramble', className)} {...useOpaqueText(children)} {...rest} />
-  );
-});
+export const ScrambleText = /* @__PURE__ */ forwardRef<ScrambleTextHandle, ScrambleTextProps>(
+  function ScrambleText(
+    { children, as: Tag = 'span', className, duration, chars, trigger, ...rest },
+    ref,
+  ) {
+    const el = useRef<HTMLElement>(null);
+    const inst = useRef<ReturnType<typeof scramble> | null>(null);
+    useImperativeHandle(ref, () => ({ play: () => inst.current?.play() }), []);
+    useEffect(() => {
+      if (!el.current) return;
+      inst.current = scramble(el.current, {
+        text: children,
+        ...(duration !== undefined ? { duration } : {}),
+        ...(chars !== undefined ? { chars } : {}),
+        ...(trigger !== undefined ? { trigger } : {}),
+      });
+      return () => inst.current?.destroy();
+    }, [children, duration, chars, trigger]);
+    return (
+      <Tag
+        ref={el}
+        className={cx('vz-scramble', className)}
+        {...useOpaqueText(children)}
+        {...rest}
+      />
+    );
+  },
+);
 
 // ——————————————————————————— Reveal by unit ———————————————————————————
 
@@ -268,7 +275,7 @@ export type RevealProps = DivProps &
   };
 
 /** Fades/slides its content in on scroll. Set `stagger` to reveal children one by one. */
-export const Reveal = forwardRef<HTMLElement, RevealProps>(function Reveal(
+export const Reveal = /* @__PURE__ */ forwardRef<HTMLElement, RevealProps>(function Reveal(
   {
     as: Tag = 'div',
     from,
@@ -311,7 +318,7 @@ export const Reveal = forwardRef<HTMLElement, RevealProps>(function Reveal(
 export type ParallaxProps = DivProps & ParallaxOptions & { disabled?: boolean };
 
 /** Moves at a different speed than the page for depth. */
-export const Parallax = forwardRef<HTMLElement, ParallaxProps>(function Parallax(
+export const Parallax = /* @__PURE__ */ forwardRef<HTMLElement, ParallaxProps>(function Parallax(
   { as: Tag = 'div', speed, axis, zoom, container, disabled, ...rest },
   ref,
 ) {

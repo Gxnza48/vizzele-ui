@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useEffect,
   useId,
   useRef,
   useState,
@@ -44,7 +45,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * The Vizzele button. `liquid` flows with the pointer, `holo` has a prismatic rim that turns
  * toward it, `glow` breathes light. All variants can be magnetic and ripple on press.
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+export const Button = /* @__PURE__ */ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     variant = 'default',
     size = 'md',
@@ -107,25 +108,27 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 export type LiquidGlassProps = DivProps & LiquidGlassOptions;
 
 /** A pane of liquid glass that refracts what's behind it (Chromium) or frosts it (elsewhere). */
-export const LiquidGlass = forwardRef<HTMLElement, LiquidGlassProps>(function LiquidGlass(
-  { as: Tag = 'div', refraction, bezel, blur, dispersion, saturation, className, ...rest },
-  ref,
-) {
-  const opts: LiquidGlassOptions = {};
-  if (refraction !== undefined) opts.refraction = refraction;
-  if (bezel !== undefined) opts.bezel = bezel;
-  if (blur !== undefined) opts.blur = blur;
-  if (dispersion !== undefined) opts.dispersion = dispersion;
-  if (saturation !== undefined) opts.saturation = saturation;
-  const own = useVizzeleEffect(liquidGlass, opts);
-  return (
-    <Tag
-      ref={useMergedRef(ref, own)}
-      className={cx('vz-glass vz-liquid-glass', className)}
-      {...rest}
-    />
-  );
-});
+export const LiquidGlass = /* @__PURE__ */ forwardRef<HTMLElement, LiquidGlassProps>(
+  function LiquidGlass(
+    { as: Tag = 'div', refraction, bezel, blur, dispersion, saturation, className, ...rest },
+    ref,
+  ) {
+    const opts: LiquidGlassOptions = {};
+    if (refraction !== undefined) opts.refraction = refraction;
+    if (bezel !== undefined) opts.bezel = bezel;
+    if (blur !== undefined) opts.blur = blur;
+    if (dispersion !== undefined) opts.dispersion = dispersion;
+    if (saturation !== undefined) opts.saturation = saturation;
+    const own = useVizzeleEffect(liquidGlass, opts);
+    return (
+      <Tag
+        ref={useMergedRef(ref, own)}
+        className={cx('vz-glass vz-liquid-glass', className)}
+        {...rest}
+      />
+    );
+  },
+);
 
 // ——————————————————————————— Card ———————————————————————————
 
@@ -137,7 +140,7 @@ export interface CardProps extends DivProps {
 }
 
 /** Surface for content, in four materials. */
-export const Card = forwardRef<HTMLElement, CardProps>(function Card(
+export const Card = /* @__PURE__ */ forwardRef<HTMLElement, CardProps>(function Card(
   { as: Tag = 'div', variant = 'default', interactive, className, ...rest },
   ref,
 ) {
@@ -173,7 +176,7 @@ export interface SwitchProps extends Omit<InputBase, 'onChange'> {
 }
 
 /** A switch whose thumb stretches as it travels and lands with a jelly bounce. Native input underneath. */
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+export const Switch = /* @__PURE__ */ forwardRef<HTMLInputElement, SwitchProps>(function Switch(
   { label, description, className, onCheckedChange, onChange, style, ...rest },
   ref,
 ) {
@@ -210,39 +213,43 @@ export interface CheckboxProps extends Omit<InputBase, 'onChange'> {
 }
 
 /** A checkbox whose tick draws itself with a spring and whose box bounces. */
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-  { label, description, className, onCheckedChange, onChange, indeterminate, style, ...rest },
-  ref,
-) {
-  const own = useRef<HTMLInputElement>(null);
-  if (own.current) own.current.indeterminate = !!indeterminate;
-  return (
-    <label className={cx('vz-checkbox', className)} style={style}>
-      <input
-        ref={useMergedRef(ref, own)}
-        type="checkbox"
-        className="vz-check-input"
-        aria-checked={indeterminate ? 'mixed' : undefined}
-        onChange={(e) => {
-          onChange?.(e);
-          onCheckedChange?.(e.target.checked);
-        }}
-        {...rest}
-      />
-      <span className="vz-check-box" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          {indeterminate ? <path d="M6 12h12" /> : <path d="M5 12.5l4.5 4.5L19 7.5" />}
-        </svg>
-      </span>
-      {(label || description) && (
-        <span className="vz-choice-text">
-          {label && <span className="vz-choice-label">{label}</span>}
-          {description && <span className="vz-choice-desc">{description}</span>}
+export const Checkbox = /* @__PURE__ */ forwardRef<HTMLInputElement, CheckboxProps>(
+  function Checkbox(
+    { label, description, className, onCheckedChange, onChange, indeterminate, style, ...rest },
+    ref,
+  ) {
+    const own = useRef<HTMLInputElement>(null);
+    // The native property is what assistive tech reads (aria-checked isn't allowed on checkboxes).
+    useEffect(() => {
+      if (own.current) own.current.indeterminate = !!indeterminate;
+    }, [indeterminate]);
+    return (
+      <label className={cx('vz-checkbox', className)} style={style}>
+        <input
+          ref={useMergedRef(ref, own)}
+          type="checkbox"
+          className="vz-check-input"
+          onChange={(e) => {
+            onChange?.(e);
+            onCheckedChange?.(e.target.checked);
+          }}
+          {...rest}
+        />
+        <span className="vz-check-box" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            {indeterminate ? <path d="M6 12h12" /> : <path d="M5 12.5l4.5 4.5L19 7.5" />}
+          </svg>
         </span>
-      )}
-    </label>
-  );
-});
+        {(label || description) && (
+          <span className="vz-choice-text">
+            {label && <span className="vz-choice-label">{label}</span>}
+            {description && <span className="vz-choice-desc">{description}</span>}
+          </span>
+        )}
+      </label>
+    );
+  },
+);
 
 export interface RadioGroupProps {
   name?: string;
@@ -312,7 +319,7 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 }
 
 /** Text field with a floating label and a border of light that follows the pointer and wakes on focus. */
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = /* @__PURE__ */ forwardRef<HTMLInputElement, InputProps>(function Input(
   {
     label,
     hint,

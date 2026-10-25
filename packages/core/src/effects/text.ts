@@ -7,6 +7,7 @@ import { frame } from '../scheduler';
 import { splitText, type SplitTextResult } from '../split-text';
 import { Spring, resolveSpring, type SpringConfig, type SpringPreset } from '../spring';
 import { inertInstance, type EffectInstance } from './types';
+import { accessibleText } from '../a11y';
 
 // ——————————————————————————— Scramble ———————————————————————————
 
@@ -28,15 +29,16 @@ export function scramble(el: HTMLElement, options: ScrambleOptions = {}) {
   if (!isBrowser) return { ...inertInstance<ScrambleOptions>(), play() {} };
   let opts = options;
   let final = opts.text ?? el.textContent ?? '';
-  el.setAttribute('aria-label', final);
+  const a11y = accessibleText(el, final);
+  const out = a11y.visual;
   let stop: (() => void) | null = null;
 
   const play = () => {
     stop?.();
     final = opts.text ?? final;
-    el.setAttribute('aria-label', final);
+    a11y.setLabel(final);
     if (prefersReducedMotion()) {
-      el.textContent = final;
+      out.textContent = final;
       return;
     }
     const duration = opts.duration ?? 900;
@@ -52,14 +54,14 @@ export function scramble(el: HTMLElement, options: ScrambleOptions = {}) {
       t += (delta * 1000) / duration;
       if (t - lastSwap < 0.03 && t < 1) return true;
       lastSwap = t;
-      let out = '';
+      let next = '';
       for (let i = 0; i < final.length; i++) {
         const c = final[i]!;
-        out += c === ' ' || t >= settle[i]! ? c : chars[Math.floor(Math.random() * chars.length)];
+        next += c === ' ' || t >= settle[i]! ? c : chars[Math.floor(Math.random() * chars.length)];
       }
-      el.textContent = out;
+      out.textContent = next;
       if (t >= 1) {
-        el.textContent = final;
+        out.textContent = final;
         stop = null;
         return false;
       }
@@ -418,8 +420,11 @@ export function counter(el: HTMLElement, options: CounterOptions) {
       ...opts.format,
     });
   let formatter = fmt();
+  const label = (v: number) => `${opts.prefix ?? ''}${formatter.format(v)}${opts.suffix ?? ''}`;
+  // Screen readers get the final value once; the ticking digits are aria-hidden.
+  const a11y = accessibleText(el, label(opts.to));
   const render = (v: number) => {
-    el.textContent = `${opts.prefix ?? ''}${formatter.format(v)}${opts.suffix ?? ''}`;
+    a11y.visual.textContent = label(v);
   };
   el.style.fontVariantNumeric = 'tabular-nums';
   const spring = new Spring({
@@ -429,10 +434,6 @@ export function counter(el: HTMLElement, options: CounterOptions) {
     onUpdate: render,
   });
   render(opts.from ?? 0);
-  el.setAttribute(
-    'aria-label',
-    `${opts.prefix ?? ''}${formatter.format(opts.to)}${opts.suffix ?? ''}`,
-  );
   const start = () => {
     spring.set(opts.to);
   };
@@ -441,15 +442,13 @@ export function counter(el: HTMLElement, options: CounterOptions) {
   return {
     set(value: number) {
       opts = { ...opts, to: value };
-      el.setAttribute(
-        'aria-label',
-        `${opts.prefix ?? ''}${formatter.format(value)}${opts.suffix ?? ''}`,
-      );
+      a11y.setLabel(label(value));
       spring.set(value);
     },
     update(next: Partial<CounterOptions>) {
       opts = { ...opts, ...next };
       formatter = fmt();
+      a11y.setLabel(label(opts.to));
       if (next.to !== undefined) spring.set(next.to);
     },
     destroy() {

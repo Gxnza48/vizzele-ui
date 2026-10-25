@@ -26,8 +26,11 @@ interface Tracker {
 
 const trackers = new Map<ScrollContainer, Tracker>();
 
+/** Structural check: `instanceof Window` fails across realms (iframes) and in some test DOMs. */
+const isWin = (c: ScrollContainer): c is Window => (c as Window).window === c;
+
 const read = (c: ScrollContainer) =>
-  c instanceof Window
+  isWin(c)
     ? {
         y: c.scrollY,
         x: c.scrollX,
@@ -85,10 +88,8 @@ export function onScroll(
   };
 }
 
-const viewportHeight = (c: ScrollContainer) =>
-  c instanceof Window ? c.innerHeight : c.clientHeight;
-const viewportTop = (c: ScrollContainer) =>
-  c instanceof Window ? 0 : c.getBoundingClientRect().top;
+const viewportHeight = (c: ScrollContainer) => (isWin(c) ? c.innerHeight : c.clientHeight);
+const viewportTop = (c: ScrollContainer) => (isWin(c) ? 0 : c.getBoundingClientRect().top);
 
 /**
  * How far an element has travelled through the viewport:
@@ -296,7 +297,7 @@ export interface SmoothScrollOptions {
 export function smoothScroll(options: SmoothScrollOptions = {}) {
   if (!isBrowser || prefersReducedMotion()) return { scrollTo: (_y: number) => {}, destroy: noop };
   const c = options.container ?? window;
-  const el = c instanceof Window ? (document.scrollingElement ?? document.documentElement) : c;
+  const el = isWin(c) ? (document.scrollingElement ?? document.documentElement) : c;
   let target = el.scrollTop;
   let current = el.scrollTop;
   let running: (() => void) | null = null;

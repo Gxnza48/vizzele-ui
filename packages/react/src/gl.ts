@@ -75,7 +75,7 @@ function makeGL<O extends object>(
   factory: (canvas: HTMLCanvasElement, o: O) => GLInstance<O> | null,
   fallback?: (canvas: HTMLCanvasElement, o: O) => GLInstance<O> | null,
 ) {
-  const Component = forwardRef<HTMLCanvasElement, O & GLCanvasProps>(
+  const Component = /* @__PURE__ */ forwardRef<HTMLCanvasElement, O & GLCanvasProps>(
     function GLComponent(props, ref) {
       const { className, style, fill = true, paused, ...options } = props;
       const { ref: own, unsupported } = useGLEffect(factory, options as unknown as O, {
@@ -95,7 +95,7 @@ function makeGL<O extends object>(
 }
 
 /** Interactive fluid simulation stirred by the pointer. Falls back to a mesh gradient. */
-export const FluidBackground = makeGL<FluidOptions>(
+export const FluidBackground = /* @__PURE__ */ makeGL<FluidOptions>(
   'FluidBackground',
   fluid as (c: HTMLCanvasElement, o: FluidOptions) => GLInstance<FluidOptions> | null,
   meshGradient as unknown as (
@@ -104,15 +104,21 @@ export const FluidBackground = makeGL<FluidOptions>(
   ) => GLInstance<FluidOptions> | null,
 );
 /** Animated iridescent mesh gradient that bends around the pointer. */
-export const MeshGradient = makeGL<MeshGradientOptions>('MeshGradient', meshGradient);
+export const MeshGradient = /* @__PURE__ */ makeGL<MeshGradientOptions>(
+  'MeshGradient',
+  meshGradient,
+);
 /** Particles that part around (or swirl into) the pointer. */
-export const ParticleField = makeGL<ParticleFieldOptions>('ParticleField', particleField);
+export const ParticleField = /* @__PURE__ */ makeGL<ParticleFieldOptions>(
+  'ParticleField',
+  particleField,
+);
 /** Raymarched liquid chrome blobs with an iridescent film. */
-export const LiquidMetal = makeGL<LiquidMetalOptions>('LiquidMetal', liquidMetal);
+export const LiquidMetal = /* @__PURE__ */ makeGL<LiquidMetalOptions>('LiquidMetal', liquidMetal);
 /** A grid that bulges like a lens under the pointer. */
-export const LensGrid = makeGL<LensGridOptions>('LensGrid', lensGrid);
+export const LensGrid = /* @__PURE__ */ makeGL<LensGridOptions>('LensGrid', lensGrid);
 /** GPU film grain. For a zero-JS alternative use the `vz-grain` class. */
-export const Grain = makeGL<GrainOptions>('Grain', grain);
+export const Grain = /* @__PURE__ */ makeGL<GrainOptions>('Grain', grain);
 
 export type {
   FluidOptions,

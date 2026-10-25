@@ -1,3 +1,5 @@
+import { srOnly } from './a11y';
+
 export interface SplitTextOptions {
   /** Granularity. Lines also produce words, words also produce chars. Default `'chars'`. */
   by?: 'chars' | 'words' | 'lines';
@@ -13,18 +15,17 @@ export interface SplitTextResult {
 
 /**
  * Splits an element's text into `<span>`s so each char / word / line can be animated.
- * Screen readers still read the original sentence: the element gets an `aria-label`
- * and the spans are `aria-hidden`. Inline markup inside the element is flattened.
+ * Screen readers still read the original sentence from a visually-hidden copy; the
+ * spans are `aria-hidden`. Inline markup inside the element is flattened.
  */
 export function splitText(
   el: HTMLElement,
   { by = 'chars' }: SplitTextOptions = {},
 ): SplitTextResult {
   const html = el.innerHTML;
-  const hadLabel = el.getAttribute('aria-label');
   const text = (el.textContent ?? '').replace(/\s+/g, ' ').trim();
-  el.setAttribute('aria-label', hadLabel ?? text);
   el.textContent = '';
+  el.appendChild(srOnly(text));
 
   const chars: HTMLElement[] = [];
   const words: HTMLElement[] = [];
@@ -66,7 +67,7 @@ export function splitText(
       }
       groups[groups.length - 1]!.push(w);
     }
-    el.textContent = '';
+    el.replaceChildren(srOnly(text));
     groups.forEach((g, li) => {
       const line = document.createElement('span');
       line.className = 'vz-line';
@@ -88,8 +89,6 @@ export function splitText(
     lines,
     revert() {
       el.innerHTML = html;
-      if (hadLabel === null) el.removeAttribute('aria-label');
-      else el.setAttribute('aria-label', hadLabel);
     },
   };
 }

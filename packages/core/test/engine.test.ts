@@ -187,16 +187,16 @@ describe('color', () => {
 });
 
 describe('splitText', () => {
-  it('splits into words and chars, keeps an accessible label, and reverts', () => {
+  it('splits into words and chars, keeps an accessible copy, and reverts', () => {
     const el = document.createElement('h1');
     el.innerHTML = 'Hola <em>mundo</em>';
     const s = splitText(el);
     expect(s.words.length).toBe(2);
     expect(s.chars.length).toBe(9);
-    expect(el.getAttribute('aria-label')).toBe('Hola mundo');
+    expect(el.querySelector('.vz-sr-only')!.textContent).toBe('Hola mundo');
+    expect(el.hasAttribute('aria-label')).toBe(false);
     expect(s.words[0]!.getAttribute('aria-hidden')).toBe('true');
     s.revert();
     expect(el.innerHTML).toBe('Hola <em>mundo</em>');
-    expect(el.hasAttribute('aria-label')).toBe(false);
   });
 });

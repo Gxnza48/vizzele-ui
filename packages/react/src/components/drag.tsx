@@ -80,20 +80,22 @@ function splitDragProps<T extends object>(props: T): [DragOptions, Omit<T, keyof
 }
 
 /** Makes its element draggable — throw it, snap it, bound it. */
-export const Draggable = forwardRef<HTMLElement, DraggableProps>(function Draggable(props, ref) {
-  const { as: Tag = 'div', disabled, controlsRef, className, ...all } = props;
-  const [dragOpts, rest] = splitDragProps(all);
-  const [own, controls] = useDrag<HTMLElement>(dragOpts, !disabled);
-  useImperativeHandle(controlsRef, () => controls.current as DragControls, [controls]);
-  return (
-    <Tag
-      ref={useMergedRef(ref, own)}
-      className={cx('vz-draggable', className)}
-      tabIndex={dragOpts.keyboard === false ? undefined : 0}
-      {...rest}
-    />
-  );
-});
+export const Draggable = /* @__PURE__ */ forwardRef<HTMLElement, DraggableProps>(
+  function Draggable(props, ref) {
+    const { as: Tag = 'div', disabled, controlsRef, className, ...all } = props;
+    const [dragOpts, rest] = splitDragProps(all);
+    const [own, controls] = useDrag<HTMLElement>(dragOpts, !disabled);
+    useImperativeHandle(controlsRef, () => controls.current as DragControls, [controls]);
+    return (
+      <Tag
+        ref={useMergedRef(ref, own)}
+        className={cx('vz-draggable', className)}
+        tabIndex={dragOpts.keyboard === false ? undefined : 0}
+        {...rest}
+      />
+    );
+  },
+);
 
 // ——————————————————————————— Drag to dismiss ———————————————————————————
 
@@ -170,7 +172,9 @@ export function useDragDismiss<E extends HTMLElement = HTMLElement>(
 
 // ——————————————————————————— Reorder ———————————————————————————
 
-const ReorderContext = createContext<{ axis: 'x' | 'y'; handle: boolean } | null>(null);
+const ReorderContext = /* @__PURE__ */ createContext<{ axis: 'x' | 'y'; handle: boolean } | null>(
+  null,
+);
 
 export interface ReorderGroupProps<T> extends Omit<DivProps, 'onChange' | 'values'> {
   values: T[];
@@ -236,28 +240,27 @@ export function ReorderGroup<T>({
 
 export type ReorderItemProps = DivProps;
 
-export const ReorderItem = forwardRef<HTMLElement, ReorderItemProps>(function ReorderItem(
-  { as: Tag = 'li', className, style, ...rest },
-  ref,
-) {
-  const ctx = useContext(ReorderContext);
-  return (
-    <Tag
-      ref={ref}
-      role="listitem"
-      tabIndex={0}
-      aria-roledescription="draggable item"
-      aria-grabbed={false}
-      data-vz-reorder-item=""
-      className={cx('vz-reorder-item', className)}
-      style={{
-        touchAction: ctx?.handle ? undefined : ctx?.axis === 'x' ? 'pan-y' : 'pan-x',
-        ...style,
-      }}
-      {...rest}
-    />
-  );
-});
+export const ReorderItem = /* @__PURE__ */ forwardRef<HTMLElement, ReorderItemProps>(
+  function ReorderItem({ as: Tag = 'li', className, style, ...rest }, ref) {
+    const ctx = useContext(ReorderContext);
+    return (
+      <Tag
+        ref={ref}
+        role="listitem"
+        tabIndex={0}
+        aria-roledescription="draggable item"
+        aria-grabbed={false}
+        data-vz-reorder-item=""
+        className={cx('vz-reorder-item', className)}
+        style={{
+          touchAction: ctx?.handle ? undefined : ctx?.axis === 'x' ? 'pan-y' : 'pan-x',
+          ...style,
+        }}
+        {...rest}
+      />
+    );
+  },
+);
 
 /** Drag handle for `<ReorderGroup useHandle>`. */
 export function ReorderHandle({ className, ...rest }: DivProps) {
@@ -475,7 +478,7 @@ function SwipeCard({
 }
 
 /** Tinder-style stack: drag the top card left or right to swipe it away. */
-export const SwipeStack = forwardRef(SwipeStackInner) as <T>(
+export const SwipeStack = /* @__PURE__ */ forwardRef(SwipeStackInner) as <T>(
   props: SwipeStackProps<T> & { ref?: React.Ref<SwipeStackHandle> },
 ) => ReturnType<typeof SwipeStackInner>;
 
@@ -692,6 +695,8 @@ export function BottomSheet({
       },
       prefersReducedMotion() ? 0 : 320,
     );
+    // sheetHeight only reads window size and latest props; it needs no dependency.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [latest]);
 
   useEffect(() => {
@@ -934,6 +939,8 @@ export function PhysicsWorld({
   const world = useRef<PhysicsWorldApi | null>(null);
   const count = Children.count(children);
   const latest = useLatest(options);
+  // `count` recreates the world (see below), so the handle must be refreshed with it.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useImperativeHandle(worldRef, () => world.current as PhysicsWorldApi, [count]);
   useEffect(() => {
     const el = root.current;

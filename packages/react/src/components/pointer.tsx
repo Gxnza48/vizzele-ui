@@ -43,26 +43,25 @@ export interface CursorProps extends CursorOptions {
  * Replaces the native cursor with Vizzele's liquid cursor. Render it once, near the root.
  * Does nothing on touch devices or with reduced motion.
  */
-export const Cursor = forwardRef<CursorInstance | null, CursorProps>(function Cursor(
-  { disabled, ...options },
-  ref,
-) {
-  const instance = useRef<CursorInstance | null>(null);
-  const latest = useLatest(options);
-  useImperativeHandle(ref, () => instance.current as CursorInstance, []);
-  useEffect(() => {
-    if (disabled) return;
-    instance.current = cursor(latest.current);
-    return () => {
-      instance.current?.destroy();
-      instance.current = null;
-    };
-  }, [disabled, latest, options.trail, options.hideNative]);
-  useEffect(() => {
-    instance.current?.update(options);
-  });
-  return null;
-});
+export const Cursor = /* @__PURE__ */ forwardRef<CursorInstance | null, CursorProps>(
+  function Cursor({ disabled, ...options }, ref) {
+    const instance = useRef<CursorInstance | null>(null);
+    const latest = useLatest(options);
+    useImperativeHandle(ref, () => instance.current as CursorInstance, []);
+    useEffect(() => {
+      if (disabled) return;
+      instance.current = cursor(latest.current);
+      return () => {
+        instance.current?.destroy();
+        instance.current = null;
+      };
+    }, [disabled, latest, options.trail, options.hideNative]);
+    useEffect(() => {
+      instance.current?.update(options);
+    });
+    return null;
+  },
+);
 
 // ——————————————————————————— Particle trail ———————————————————————————
 
@@ -101,7 +100,7 @@ export function ParticleTrail({ disabled, burstOnClick = true, ...options }: Par
 export type MagneticProps = DivProps & MagneticOptions & { disabled?: boolean };
 
 /** Children are pulled toward the pointer when it gets close. */
-export const Magnetic = forwardRef<HTMLElement, MagneticProps>(function Magnetic(
+export const Magnetic = /* @__PURE__ */ forwardRef<HTMLElement, MagneticProps>(function Magnetic(
   {
     as: Tag = 'div',
     strength,
@@ -141,7 +140,7 @@ export const Magnetic = forwardRef<HTMLElement, MagneticProps>(function Magnetic
 export type TiltProps = DivProps & TiltOptions & { disabled?: boolean };
 
 /** 3D tilt toward the pointer. Exposes `--vz-px`, `--vz-py`, `--vz-angle`, `--vz-hover` to CSS. */
-export const Tilt = forwardRef<HTMLElement, TiltProps>(function Tilt(
+export const Tilt = /* @__PURE__ */ forwardRef<HTMLElement, TiltProps>(function Tilt(
   { as: Tag = 'div', max, perspective, scale, reverse, axis, spring, disabled, className, ...rest },
   ref,
 ) {
@@ -156,7 +155,7 @@ export const Tilt = forwardRef<HTMLElement, TiltProps>(function Tilt(
 export type HoloCardProps = TiltProps;
 
 /** A card with holographic foil that shifts with the viewing angle. */
-export const HoloCard = forwardRef<HTMLElement, HoloCardProps>(function HoloCard(
+export const HoloCard = /* @__PURE__ */ forwardRef<HTMLElement, HoloCardProps>(function HoloCard(
   { className, max = 14, ...rest },
   ref,
 ) {
@@ -166,7 +165,7 @@ export const HoloCard = forwardRef<HTMLElement, HoloCardProps>(function HoloCard
 export type SpotlightProps = DivProps & SpotlightOptions & { disabled?: boolean };
 
 /** Light that follows the pointer over the element, lighting its border on approach. */
-export const Spotlight = forwardRef<HTMLElement, SpotlightProps>(function Spotlight(
+export const Spotlight = /* @__PURE__ */ forwardRef<HTMLElement, SpotlightProps>(function Spotlight(
   { as: Tag = 'div', proximity, spring, disabled, className, ...rest },
   ref,
 ) {
@@ -179,17 +178,16 @@ export const Spotlight = forwardRef<HTMLElement, SpotlightProps>(function Spotli
 });
 
 /** A card lit by the pointer. */
-export const SpotlightCard = forwardRef<HTMLElement, SpotlightProps>(function SpotlightCard(
-  { className, ...rest },
-  ref,
-) {
-  return <Spotlight ref={ref} className={cx('vz-card', className)} {...rest} />;
-});
+export const SpotlightCard = /* @__PURE__ */ forwardRef<HTMLElement, SpotlightProps>(
+  function SpotlightCard({ className, ...rest }, ref) {
+    return <Spotlight ref={ref} className={cx('vz-card', className)} {...rest} />;
+  },
+);
 
 export type RippleProps = DivProps & RippleOptions & { disabled?: boolean };
 
 /** Adds a liquid ripple on press to its element. */
-export const Ripple = forwardRef<HTMLElement, RippleProps>(function Ripple(
+export const Ripple = /* @__PURE__ */ forwardRef<HTMLElement, RippleProps>(function Ripple(
   { as: Tag = 'div', color, opacity, spring, keyboard, disabled, ...rest },
   ref,
 ) {

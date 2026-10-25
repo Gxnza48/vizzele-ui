@@ -5,3 +5,6 @@ node_modules
 pnpm-lock.yaml
 brand/**/*.png
 CHANGELOG.md
+.github/assets
+brand/**/*.svg
+*.tsbuildinfo

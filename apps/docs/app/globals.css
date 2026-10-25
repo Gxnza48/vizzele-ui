@@ -1221,3 +1221,11 @@ img {
     radial-gradient(circle at 30% 40%, var(--vz-magenta), transparent 45%),
     radial-gradient(circle at 70% 60%, var(--vz-cyan), transparent 45%), var(--vz-bg-sunken);
 }
+
+/* Light theme: code sits on the brightest paper so every token keeps AA contrast. */
+[data-theme='light'] .code {
+  background: #fdfcfa;
+}
+[data-theme='light'] .code-body .shiki span[style*='--shiki-light:#6E7781'] {
+  color: #57606a;
+}

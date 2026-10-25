@@ -139,7 +139,7 @@ export function Tabs({
               role="tab"
               id={`${base}-tab-${item.value}`}
               aria-selected={selected}
-              aria-controls={`${base}-panel-${item.value}`}
+              aria-controls={item.content !== undefined ? `${base}-panel-${item.value}` : undefined}
               tabIndex={selected ? 0 : -1}
               disabled={item.disabled}
               data-value={item.value}
