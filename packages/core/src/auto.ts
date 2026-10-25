@@ -3,20 +3,8 @@
  *
  *     import '@vizzele/core/auto';
  */
-import { isBrowser } from './env';
-import { observe } from './declarative';
-import { registerAll } from './effects';
+import { autoInit } from './auto-init';
 
-registerAll();
-
-if (isBrowser) {
-  const start = () => {
-    document.documentElement.classList.add('vz-ready');
-    observe(document.body);
-  };
-  if (document.readyState === 'loading')
-    document.addEventListener('DOMContentLoaded', start, { once: true });
-  else start();
-}
+autoInit();
 
 export {};

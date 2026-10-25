@@ -1,6 +1,6 @@
 {
   "name": "@vizzele/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Zero-dependency physics, gesture and motion engine behind Vizzele UI — springs, inertia, drag, magnetic, tilt, spotlight and more.",
   "license": "MIT",
   "type": "module",
@@ -72,7 +72,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/check-global.mjs",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src test",

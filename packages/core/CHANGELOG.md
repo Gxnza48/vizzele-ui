@@ -1,5 +1,11 @@
 # @vizzele/core
 
+## 0.1.1
+
+### Patch Changes
+
+- Fix the CDN build (`vizzele.global.js`): it now auto-initializes `data-vz-*` attributes again. In 0.1.0 the auto-init import was tree-shaken away, so plain-HTML usage did nothing.
+
 ## 0.1.0
 
 ### Minor Changes
