@@ -147,8 +147,8 @@ export function particleField(canvas: HTMLCanvasElement, options: ParticleFieldO
             ay += (dy / d) * k;
           }
         }
-        let vx = (vel[ix]! + ax * dt) * Math.exp(-5 * dt);
-        let vy = (vel[iy]! + ay * dt) * Math.exp(-5 * dt);
+        const vx = (vel[ix]! + ax * dt) * Math.exp(-5 * dt);
+        const vy = (vel[iy]! + ay * dt) * Math.exp(-5 * dt);
         x += vx * dt;
         y += vy * dt;
         vel[ix] = vx;
