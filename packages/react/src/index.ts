@@ -56,6 +56,34 @@ export {
 } from './components/drag';
 export { useModalFocus } from './hooks/a11y';
 
+// Text & scroll
+export {
+  Counter,
+  HorizontalScroll,
+  MorphText,
+  Parallax,
+  Reveal,
+  ScrambleText,
+  ScrollProgress,
+  ShimmerText,
+  SmoothScroll,
+  StickyStack,
+  TextReveal,
+  WeightWave,
+  type CounterProps,
+  type HorizontalScrollProps,
+  type MorphTextProps,
+  type ParallaxProps,
+  type RevealProps,
+  type ScrambleTextHandle,
+  type ScrambleTextProps,
+  type ScrollProgressProps,
+  type ShimmerTextProps,
+  type StickyStackProps,
+  type TextRevealProps,
+  type WeightWaveProps,
+} from './components/text';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,

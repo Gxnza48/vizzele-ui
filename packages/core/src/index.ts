@@ -11,6 +11,8 @@ export * from './observe';
 export * from './drag';
 export * from './reorder';
 export * from './physics';
+export * from './scroll';
+export * from './effects/text';
 export * from './split-text';
 export * from './color';
 export { init, observe, parseOptions, registerEffect } from './declarative';

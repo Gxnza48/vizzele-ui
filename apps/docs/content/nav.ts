@@ -1,8 +1,14 @@
 import type { Category, DocEntry } from '@/lib/types';
 import { pointerEntries } from './pointer';
 import { dragEntries } from './drag';
+import { scrollEntries, textEntries } from './text-scroll';
 
-export const entries: DocEntry[] = [...pointerEntries, ...dragEntries];
+export const entries: DocEntry[] = [
+  ...pointerEntries,
+  ...dragEntries,
+  ...textEntries,
+  ...scrollEntries,
+];
 
 export const guides = [
   {

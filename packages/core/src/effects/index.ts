@@ -8,6 +8,16 @@ import { ripple } from './ripple';
 import { cursor, type CursorOptions } from './cursor';
 import { particleTrail, type ParticleTrailOptions } from './particles';
 import { reorder } from '../reorder';
+import {
+  counter,
+  morphText,
+  scramble,
+  textReveal,
+  weightWave,
+  type CounterOptions,
+  type MorphTextOptions,
+} from './text';
+import { horizontalScroll, parallax, scrollProgress, stickyStack } from '../scroll';
 import { createPhysicsWorld, type PhysicsOptions } from '../physics';
 
 /** Every effect that can be used declaratively as `data-vz-<name>`. */
@@ -19,6 +29,17 @@ export const effects = {
   drag: draggable,
   ripple,
   reorder,
+  scramble,
+  'text-reveal': textReveal,
+  'weight-wave': weightWave,
+  morph: (el: HTMLElement, o?: Partial<MorphTextOptions>) =>
+    morphText(el, { words: (el.textContent ?? '').split('|').map((w) => w.trim()), ...o }),
+  counter: (el: HTMLElement, o?: Partial<CounterOptions>) =>
+    counter(el, { to: Number(el.textContent) || 0, ...o }),
+  parallax,
+  'scroll-progress': scrollProgress,
+  'horizontal-scroll': (el: HTMLElement) => horizontalScroll(el),
+  'sticky-stack': (el: HTMLElement) => stickyStack(el),
   /** Every child of the element becomes a physics body. */
   physics: (el: HTMLElement, o?: PhysicsOptions) => {
     const world = createPhysicsWorld(el, o);
