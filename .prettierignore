@@ -8,3 +8,4 @@ CHANGELOG.md
 .github/assets
 brand/**/*.svg
 *.tsbuildinfo
+packages/css/src/springs.css
