@@ -24,15 +24,31 @@
 
 ## What's inside
 
-| Package                            | What it is                                                                                                                                      | Size (min + brotli)                                               |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`@vizzele/core`](packages/core)   | Zero-dependency engine: analytic springs, inertia, drag, physics world, scroll, text effects, `data-vz-*` attributes, WebGL backgrounds (`/gl`) | 18.9 kB all · `Spring` 1.7 kB · `draggable` 4.8 kB · `/gl` 9.6 kB |
-| [`@vizzele/react`](packages/react) | 50+ components and hooks built on the core (SSR-safe, `'use client'` ready)                                                                     | 30.3 kB all · `Button` 4.3 kB · `Tabs` 2.7 kB                     |
-| [`@vizzele/css`](packages/css)     | Tokens, themes, liquid-light materials and pure-CSS motion utilities                                                                            | 9.7 kB                                                            |
+| Package                            | What it is                                                                                                                                      | Size (min + brotli)                                                |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [`@vizzele/core`](packages/core)   | Zero-dependency engine: analytic springs, inertia, drag, physics world, scroll, text effects, `data-vz-*` attributes, WebGL backgrounds (`/gl`) | 22.8 kB all · `Spring` 1.7 kB · `draggable` 4.8 kB · `/gl` 10.5 kB |
+| [`@vizzele/react`](packages/react) | 70+ components and hooks built on the core (SSR-safe, `'use client'` ready)                                                                     | 41.2 kB all · `Button` 4.3 kB · `LineChart` 4.5 kB                 |
+| [`@vizzele/css`](packages/css)     | Tokens, themes, liquid-light materials and pure-CSS motion utilities                                                                            | 13.3 kB                                                            |
 
 Everything is tree-shakeable — you pay for what you import. Sizes are enforced in CI with `size-limit`.
 
 ## The catalog
+
+**Originals — effects that don't exist in any other library**
+
+- **Liquid focus** — one page-wide focus ring that travels between elements like a drop of mercury
+- **Liquid selection** — text selection as springy blobs of light that fuse across lines
+- **Hold to confirm** — a button that fills with liquid (real wave simulation: it splashes, sloshes and drains)
+- **Caustics** — glass that casts the moving net of light you see at the bottom of a pool
+- **Surface tension** — items that lean toward the pointer and fuse with their neighbours like drops
+
+[![Five original effects](.github/assets/originals.webp)](https://vizzele-ui.vercel.app/docs/liquid-focus)
+
+**Charts** — line & area · bar (grouped / stacked) · donut · sparkline · stat card. Values spring between datasets, a crosshair snaps to the nearest point, arrow keys read every value, and each chart carries a hidden data table. The palette is the brand's hues stepped into a colorblind-safe, contrast-checked band per theme.
+
+**AI** — an agent orb with seven states (idle · listening · thinking · working · speaking · success · error) that reacts to a live voice level, a status line announced to screen readers, and a step-by-step progress timeline.
+
+[![Charts and an agent](.github/assets/dashboard.webp)](https://vizzele-ui.vercel.app/docs/line-chart)
 
 **Cursor & pointer** — liquid cursor with trail and states · magnetic · spotlight borders · 3D tilt with holographic foil · liquid ripple · particle trail
 
@@ -44,7 +60,7 @@ Everything is tree-shakeable — you pay for what you import. Sizes are enforced
 
 **Scroll** — parallax · horizontal scroll section · sticky stacking cards · reading progress · staggered reveals · optional smooth scroll
 
-**Components** — Button (liquid · holo · glow) · Card (glass · holo · spotlight) · **liquid glass with real refraction** · Modal that morphs out of its trigger · Tabs with a liquid indicator · macOS-style Dock · Navbar that condenses on scroll · Switch / Checkbox / Radio · Input with a border of light · Tooltip · Popover · Toast · Accordion · draggable Marquee · 3D carousel · liquid image reveal · iridescent Skeleton
+**Components** — Select & Dropdown menu with a liquid highlight · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · **liquid glass with real refraction** · Modal that morphs out of its trigger · Tabs with a liquid indicator · macOS-style Dock · Navbar that condenses on scroll · Switch / Checkbox / Radio · Input with a border of light · Tooltip · Popover · Toast · Accordion · draggable Marquee · 3D carousel · liquid image reveal · iridescent Skeleton
 
 <table>
   <tr>

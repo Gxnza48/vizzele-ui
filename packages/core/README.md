@@ -23,12 +23,33 @@ magnetic(button, { strength: 0.4 });
 tilt(holoCard, { max: 14 }); // exposes --vz-px, --vz-angle… for CSS
 ```
 
+### Originals
+
+Effects you won't find in any other library:
+
+```ts
+import { liquidFocus, liquidSelection, holdToConfirm, surfaceTension } from '@vizzele/core';
+
+liquidFocus(); // one focus ring for the page that travels like mercury
+liquidSelection({ root: article }); // text selection as fusing blobs of light
+holdToConfirm(deleteButton, { duration: 1400, onConfirm: remove }); // fills with liquid
+surfaceTension(chips, { reach: 90 }); // items fuse like drops near the pointer
+```
+
 ### WebGL backgrounds
 
 ```ts
-import { fluid, meshGradient, liquidMetal, particleField, lensGrid } from '@vizzele/core/gl';
+import {
+  fluid,
+  meshGradient,
+  liquidMetal,
+  particleField,
+  lensGrid,
+  caustics,
+} from '@vizzele/core/gl';
 
 const sim = fluid(canvas) ?? meshGradient(canvas); // fluid needs float render targets
+caustics(canvasBehindCard, { target: card }); // glass that casts pool light
 ```
 
 ### Declarative
