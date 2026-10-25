@@ -152,8 +152,8 @@ x.set(200);
 Drop two tags into any HTML page. Effects are switched on with `data-vz-*` attributes — no JavaScript to write.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.1/dist/vizzele.min.css" />
-<script src="https://unpkg.com/@vizzele/core@0.1/dist/vizzele.global.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.2/dist/vizzele.min.css" />
+<script src="https://unpkg.com/@vizzele/core@0.2/dist/vizzele.global.js" defer></script>
 
 <body class="vz-body" data-theme="dark" data-vz-liquid-focus>
   <button class="vz-button" data-variant="liquid" data-vz-magnetic="strength: 0.4">Hover me</button>
@@ -247,13 +247,42 @@ import { CausticCard } from '@vizzele/react/gl';
 **WebGL backgrounds** (from `@vizzele/react/gl`, so they only load when you use them)
 
 ```tsx
-import { FluidBackground, MeshGradient } from '@vizzele/react/gl';
+import { Aurora, FluidBackground, LavaLamp, Ripples } from '@vizzele/react/gl';
 
 <section style={{ position: 'relative' }}>
   <FluidBackground /> {/* fills its nearest positioned parent */}
   <h1>Stir the ink behind this text</h1>
 </section>;
+
+<Aurora bands={4} />
+<LavaLamp blobs={6} />
+<Ripples rain /> {/* tap to drop rings into the surface */}
 ```
+
+**Copy button, sidebar and footer**
+
+```tsx
+import Link from 'next/link';
+import { CopyButton, Footer, Sidebar } from '@vizzele/react';
+
+<CopyButton value="npm i @vizzele/react">Copy</CopyButton>
+
+<Sidebar
+  active={pathname}
+  linkAs={Link}
+  sections={[{ title: 'Workspace', items: [{ href: '/', label: 'Overview' }, { href: '/inbox', label: 'Inbox', badge: 3 }] }]}
+/>
+
+<Footer
+  linkAs={Link}
+  brand={<Logo />}
+  columns={[{ title: 'Product', links: [{ href: '/pricing', label: 'Pricing' }] }]}
+  legal="© 2026 Acme"
+  wordmark="Acme" // giant liquid letters that reach for the pointer
+/>
+```
+
+> **Using an AI assistant?** Every page in the [docs](https://vizzele-ui.vercel.app/docs) has a **Copy prompt** button: it copies the install command, the code, the props and the rules, ready to paste into ChatGPT, Claude, Cursor or v0.
 
 **Toasts**
 
@@ -283,13 +312,13 @@ toast.success('Published!');
 
 [![Charts and an agent](.github/assets/dashboard.webp)](https://vizzele-ui.vercel.app/docs/line-chart)
 
-**Components** — Select & Dropdown menu · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · liquid glass with real refraction · Modal that morphs out of its trigger · Tabs · macOS-style Dock · Navbar · Switch / Checkbox / Radio · Input · Tooltip · Popover · Toast · Accordion · Marquee · 3D carousel · image reveal · Skeleton
+**Components** — Copy button · Sidebar · Footer with a liquid wordmark · Select & Dropdown menu · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · liquid glass with real refraction · Modal that morphs out of its trigger · Tabs · macOS-style Dock · Navbar · Switch / Checkbox / Radio · Input · Tooltip · Popover · Toast · Accordion · Marquee · 3D carousel · image reveal · Skeleton
 
 **Cursor & pointer** — liquid cursor · magnetic · spotlight borders · 3D tilt with holographic foil · ripple · particle trail
 
 **Drag & physics** — throwable cards with inertia · reorder list · swipe stack · elastic slider · drag-to-dismiss · bottom sheet · infinite canvas · 2D physics world
 
-**Backgrounds (WebGL2, no three.js)** — fluid simulation · mesh gradient · particle field · liquid metal · lens grid · caustics · grain
+**Backgrounds (WebGL2, no three.js)** — fluid simulation · mesh gradient · aurora · silk · lava lamp · wave lines · ripples · particle field · liquid metal · lens grid · caustics · grain
 
 **Text & scroll** — scramble · reveal · shimmer · variable-font weight wave · morphing words · spring counter · parallax · horizontal scroll · sticky stack · scroll progress · smooth scroll
 
@@ -308,11 +337,11 @@ toast.success('Published!');
 
 | Import                       | min + brotli |
 | ---------------------------- | ------------ |
-| `@vizzele/react` (all of it) | 41 kB        |
+| `@vizzele/react` (all of it) | 44 kB        |
 | `Button`                     | 4.3 kB       |
 | `LineChart`                  | 4.5 kB       |
 | `@vizzele/core` `Spring`     | 1.7 kB       |
-| `@vizzele/css` (all of it)   | 13 kB        |
+| `@vizzele/css` (all of it)   | 15 kB        |
 
 ## Theming
 
@@ -353,6 +382,8 @@ The spring presets also exist as CSS easings generated from the real physics:
 **What if WebGL isn't available?** WebGL backgrounds fall back to a static iridescent gradient. Liquid glass refracts in Chromium and becomes frosted glass elsewhere.
 
 **Is it free?** Yes — MIT licensed, free for personal and commercial use.
+
+**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.2` pick up `0.2.x` fixes on their own.
 
 ## Development
 

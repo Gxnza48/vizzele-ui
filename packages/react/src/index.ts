@@ -194,6 +194,22 @@ export {
   type SurfaceTensionProps,
 } from './components/originals';
 
+export { CopyButton, useClipboard, type CopyButtonProps, type CopyState } from './components/copy';
+export {
+  Sidebar,
+  type SidebarItem,
+  type SidebarProps,
+  type SidebarSection,
+} from './components/sidebar';
+export {
+  Footer,
+  Wordmark,
+  type FooterColumn,
+  type FooterLink,
+  type FooterProps,
+  type WordmarkProps,
+} from './components/footer';
+
 // Re-export the engine so apps need a single import.
 export {
   Spring,
@@ -202,6 +218,7 @@ export {
   frame,
   setReducedMotion,
   prefersReducedMotion,
+  copyToClipboard,
   type DragOptions,
   type DragControls,
   type DragState,
@@ -213,4 +230,5 @@ export {
   type RevealOptions,
   type PhysicsWorld as PhysicsWorldApi,
   type PhysicsOptions,
+  type WordmarkOptions,
 } from '@vizzele/core';

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { entries, getEntry } from '@/content/nav';
 import { Playground } from '@/components/Playground';
 import { MultiCode } from '@/components/Code';
+import { CopyPrompt } from '@/components/CopyPrompt';
+import { componentPrompt } from '@/lib/prompt';
 
 export function generateStaticParams() {
   return entries.map((e) => ({ slug: e.slug }));
@@ -40,6 +42,10 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
         <p className="doc-eyebrow">{entry.category}</p>
         <h1 className="vz-heading doc-title">{entry.title}</h1>
         <p className="doc-lead">{entry.description}</p>
+        <div className="doc-actions">
+          <CopyPrompt prompt={componentPrompt(entry)} />
+          <span className="doc-actions-hint">Paste it into ChatGPT, Claude, Cursor or v0.</span>
+        </div>
       </header>
 
       <Playground

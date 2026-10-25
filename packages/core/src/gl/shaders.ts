@@ -13,18 +13,23 @@ uniform float uPresence;
 ${GLSL_COMMON}
 `;
 
-interface ShaderEffectOptions {
+export interface ShaderEffectOptions {
   colors?: readonly string[];
   /** Render-resolution multiplier. Default 1. */
   resolution?: number;
 }
 
 /** Runs a fullscreen shader on a canvas with time, size, palette and an eased pointer. */
-function shaderEffect<O extends ShaderEffectOptions>(
+export function shaderEffect<O extends ShaderEffectOptions>(
   canvas: HTMLCanvasElement,
   fragment: string,
   options: O,
-  setUniforms: (pass: ReturnType<typeof createPass>, opts: O) => void,
+  setUniforms: (
+    pass: ReturnType<typeof createPass>,
+    opts: O,
+    gl: WebGL2RenderingContext,
+    time: number,
+  ) => void,
 ) {
   let opts = options;
   const gl = getGL(canvas);
@@ -44,7 +49,7 @@ function shaderEffect<O extends ShaderEffectOptions>(
         .set('uMouse', [pointer.state.x, pointer.state.y])
         .set('uPresence', pointer.state.presence);
       setPalette(pass, opts.colors);
-      setUniforms(pass, opts);
+      setUniforms(pass, opts, gl, time);
       pass.draw();
     },
   });

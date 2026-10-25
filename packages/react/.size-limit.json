@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "44 kB"
+    "limit": "47 kB"
   },
   {
     "name": "react { Button }",
@@ -42,10 +42,31 @@
     "limit": "3 kB"
   },
   {
+    "name": "react { CopyButton }",
+    "path": "dist/index.js",
+    "import": "{ CopyButton }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "react { Sidebar }",
+    "path": "dist/index.js",
+    "import": "{ Sidebar }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3.5 kB"
+  },
+  {
+    "name": "react { Footer }",
+    "path": "dist/index.js",
+    "import": "{ Footer }",
+    "ignore": ["react", "react-dom"],
+    "limit": "4 kB"
+  },
+  {
     "name": "react/gl (all backgrounds)",
     "path": "dist/gl.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "13 kB"
+    "limit": "15 kB"
   }
 ]

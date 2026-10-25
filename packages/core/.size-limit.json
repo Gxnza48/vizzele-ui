@@ -27,7 +27,7 @@
     "name": "core/gl (all WebGL effects)",
     "path": "dist/gl.js",
     "import": "*",
-    "limit": "11 kB"
+    "limit": "14.5 kB"
   },
   {
     "name": "core/gl { meshGradient }",
@@ -51,5 +51,11 @@
     "path": "dist/index.js",
     "import": "{ liquidFocus }",
     "limit": "3 kB"
+  },
+  {
+    "name": "core { wordmark }",
+    "path": "dist/index.js",
+    "import": "{ wordmark }",
+    "limit": "2.8 kB"
   }
 ]

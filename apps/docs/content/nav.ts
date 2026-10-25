@@ -4,6 +4,7 @@ import { dragEntries } from './drag';
 import { scrollEntries, textEntries } from './text-scroll';
 import { backgroundEntries } from './backgrounds';
 import { uiEntries } from './ui';
+import { kitEntries } from './kit';
 import { menuEntries } from './menus';
 import { dataEntries } from './data';
 import { originalEntries } from './originals';
@@ -15,6 +16,7 @@ export const entries: DocEntry[] = [
   ...textEntries,
   ...scrollEntries,
   ...uiEntries,
+  ...kitEntries,
   ...menuEntries,
   ...dataEntries,
   ...originalEntries,
@@ -64,8 +66,8 @@ export const sidebar = [
   {
     title: 'Getting started' as const,
     items: [
-      { href: '/docs', title: 'Introduction' },
-      ...guides.map((g) => ({ href: `/docs/guides/${g.slug}`, title: g.title })),
+      { href: '/docs', title: 'Introduction', isNew: false },
+      ...guides.map((g) => ({ href: `/docs/guides/${g.slug}`, title: g.title, isNew: false })),
     ],
   },
   ...categoryOrder
@@ -73,7 +75,7 @@ export const sidebar = [
       title: cat,
       items: entries
         .filter((e) => e.category === cat)
-        .map((e) => ({ href: `/docs/${e.slug}`, title: e.title })),
+        .map((e) => ({ href: `/docs/${e.slug}`, title: e.title, isNew: !!e.isNew })),
     }))
     .filter((g) => g.items.length),
 ];

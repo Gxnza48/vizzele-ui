@@ -8,6 +8,7 @@ import './demos-ui.css';
 import './home.css';
 import { SiteHeader } from '@/components/SiteHeader';
 import { SiteEffects } from '@/components/SiteEffects';
+import { SiteFooter } from '@/components/SiteFooter';
 
 const url = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://vizzele-ui.vercel.app';
 
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <SiteHeader />
         <div id="main">{children}</div>
+        <SiteFooter />
         <SiteEffects />
       </body>
     </html>

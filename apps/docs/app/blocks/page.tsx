@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { ComponentType } from 'react';
 import { MultiCode } from '@/components/Code';
+import { CopyPrompt } from '@/components/CopyPrompt';
+import { blockPrompt } from '@/lib/prompt';
 import { AiChat } from '@/blocks/AiChat';
 import { Analytics } from '@/blocks/Analytics';
 import { Pricing } from '@/blocks/Pricing';
@@ -85,6 +87,15 @@ export default function BlocksPage() {
               {title}
             </h2>
             <p>{description}</p>
+            <CopyPrompt
+              prompt={blockPrompt(
+                title,
+                description,
+                file,
+                source(`${file}.tsx`),
+                source(`${file}.css`),
+              )}
+            />
           </div>
           <div className="blocks-stage">
             <Block />

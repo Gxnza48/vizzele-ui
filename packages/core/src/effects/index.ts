@@ -12,6 +12,7 @@ import { liquidFocus, type LiquidFocusOptions } from './liquid-focus';
 import { liquidSelection } from './liquid-selection';
 import { holdToConfirm } from './hold';
 import { surfaceTension } from './surface-tension';
+import { wordmark } from './wordmark';
 import { liquidGlass } from './glass';
 import {
   counter,
@@ -67,6 +68,8 @@ export const effects = {
       onConfirm: () => el.dispatchEvent(new CustomEvent('vz-confirm', { bubbles: true })),
     }),
   'surface-tension': surfaceTension,
+  /** Giant text of liquid light: letters rise, reach for the pointer and wobble. */
+  wordmark,
 };
 
 export type EffectName = keyof typeof effects;

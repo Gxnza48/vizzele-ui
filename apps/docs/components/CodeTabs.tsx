@@ -1,22 +1,12 @@
 'use client';
 
 import { useId, useState } from 'react';
+import { CopyButton } from '@vizzele/react';
 
 export function CodeTabs({ tabs }: { tabs: { label: string; html: string; raw: string }[] }) {
   const [active, setActive] = useState(0);
-  const [copied, setCopied] = useState(false);
   const id = useId();
   const current = tabs[active]!;
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(current.raw);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1400);
-    } catch {
-      /* clipboard blocked */
-    }
-  };
 
   return (
     <div className="code">
@@ -45,9 +35,9 @@ export function CodeTabs({ tabs }: { tabs: { label: string; html: string; raw: s
         ) : (
           <span className="code-lang">{current.label}</span>
         )}
-        <button type="button" className="code-copy" onClick={copy} aria-live="polite">
-          {copied ? 'Copied' : 'Copy'}
-        </button>
+        <CopyButton value={current.raw} size="sm" className="code-copy">
+          Copy
+        </CopyButton>
       </div>
       <div
         id={`${id}-panel`}

@@ -2166,3 +2166,781 @@ html.vz-liquid-focus :focus-visible {
     --vz-caustics-blend: multiply;
   }
 }
+
+/* ———————————— Copy button ———————————— */
+.vz-copy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 12px 0 10px;
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-pill);
+  background: var(--vz-surface);
+  color: var(--vz-text-muted);
+  font: 500 var(--vz-text-sm) / 1 var(--vz-font-sans);
+  cursor: pointer;
+  isolation: isolate;
+  overflow: visible;
+  white-space: nowrap;
+  transition:
+    color var(--vz-duration-fast) var(--vz-ease-out),
+    border-color var(--vz-duration-base) var(--vz-ease-out),
+    background-color var(--vz-duration-fast) var(--vz-ease-out),
+    scale var(--vz-spring-snappy-duration) var(--vz-spring-snappy);
+}
+.vz-copy[data-size='sm'] {
+  height: 28px;
+  padding: 0 10px 0 8px;
+  gap: 6px;
+  font-size: var(--vz-text-xs);
+}
+.vz-copy[data-icon-only] {
+  width: 34px;
+  padding: 0;
+}
+.vz-copy[data-size='sm'][data-icon-only] {
+  width: 28px;
+}
+.vz-copy:hover {
+  color: var(--vz-text);
+  background: var(--vz-surface-hover);
+  border-color: var(--vz-border-strong);
+}
+.vz-copy:active {
+  scale: 0.94;
+}
+.vz-copy[data-state='copied'] {
+  color: var(--vz-text);
+  border-color: color-mix(in oklab, var(--vz-accent) 55%, transparent);
+  animation: vz-copy-jelly var(--vz-spring-jelly-duration) var(--vz-spring-jelly);
+}
+.vz-copy[data-state='error'] {
+  color: var(--vz-danger);
+  border-color: color-mix(in oklab, var(--vz-danger) 55%, transparent);
+  animation: vz-copy-shake 420ms var(--vz-ease-out);
+}
+/* The wash: liquid light spreading from where you pressed. Clipped to the pill. */
+.vz-copy-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.vz-copy-wash::before {
+  content: '';
+  position: absolute;
+  left: var(--vz-copy-x);
+  top: var(--vz-copy-y);
+  width: 260%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--vz-iridescent);
+  opacity: 0;
+  scale: 0;
+}
+.vz-copy[data-state='copied'] .vz-copy-wash::before {
+  animation: vz-copy-wash 1.6s var(--vz-ease-out) forwards;
+}
+.vz-copy-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+.vz-copy[data-size='sm'] .vz-copy-icon {
+  width: 14px;
+  height: 14px;
+}
+.vz-copy-icon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.vz-copy-sheet {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition:
+    transform var(--vz-spring-snappy-duration) var(--vz-spring-snappy),
+    opacity var(--vz-duration-fast) var(--vz-ease-out);
+}
+.vz-copy:hover .vz-copy-sheet-back {
+  transform: translate(-1px, -1px);
+}
+.vz-copy-check,
+.vz-copy-cross {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-width: 2.4;
+}
+.vz-copy-check {
+  stroke: var(--vz-accent-text);
+}
+.vz-copy:not([data-state='idle']) .vz-copy-sheet {
+  opacity: 0;
+  transform: scale(0.3) rotate(-12deg);
+}
+.vz-copy[data-state='copied'] .vz-copy-check {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 420ms var(--vz-ease-out) 90ms;
+}
+.vz-copy[data-state='error'] .vz-copy-cross {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 300ms var(--vz-ease-out);
+}
+/* Both labels share one cell, so the button never changes width. */
+.vz-copy-text {
+  display: inline-grid;
+  overflow: hidden;
+  padding-block: 2px;
+}
+.vz-copy-idle,
+.vz-copy-done {
+  grid-area: 1 / 1;
+  text-align: start;
+  transition:
+    transform var(--vz-spring-liquid-duration) var(--vz-spring-liquid),
+    opacity var(--vz-duration-base) var(--vz-ease-out),
+    filter var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-copy-done {
+  transform: translateY(110%);
+  opacity: 0;
+  filter: blur(4px);
+}
+.vz-copy:not([data-state='idle']) .vz-copy-idle {
+  transform: translateY(-110%);
+  opacity: 0;
+  filter: blur(4px);
+}
+.vz-copy:not([data-state='idle']) .vz-copy-done {
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+/* Droplets that burst out of the icon. */
+.vz-copy-drops {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.vz-copy-drops i {
+  position: absolute;
+  left: var(--vz-copy-x);
+  top: var(--vz-copy-y);
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: 50%;
+  background: var(--vz-iridescent);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--vz-accent) 60%, transparent);
+  animation: vz-copy-drop 720ms var(--vz-ease-out) forwards;
+}
+.vz-copy-drops i:nth-child(2n) {
+  width: 3px;
+  height: 3px;
+  margin: -1.5px;
+  animation-duration: 600ms;
+}
+/* Icon-only: a "Copied" bubble rises off the button like a drop leaving the surface. */
+.vz-copy-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  padding: 5px 10px;
+  border-radius: var(--vz-radius-pill);
+  background: var(--vz-text);
+  color: var(--vz-bg);
+  font: 600 var(--vz-text-xs) / 1 var(--vz-font-sans);
+  pointer-events: none;
+  opacity: 0;
+  translate: -50% 6px;
+  scale: 0.2 0.5;
+  transform-origin: 50% 100%;
+}
+.vz-copy-bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 7px;
+  height: 7px;
+  margin: -4px 0 0 -3.5px;
+  rotate: 45deg;
+  border-radius: 1px;
+  background: inherit;
+}
+.vz-copy:not([data-state='idle']) .vz-copy-bubble {
+  animation: vz-copy-bubble 1.8s var(--vz-spring-jelly) forwards;
+}
+.vz-copy[data-state='error'] .vz-copy-bubble {
+  background: var(--vz-danger);
+  color: #fff;
+}
+@keyframes vz-copy-jelly {
+  0% {
+    scale: 1;
+  }
+  18% {
+    scale: 1.1 0.88;
+  }
+  40% {
+    scale: 0.95 1.06;
+  }
+  100% {
+    scale: 1;
+  }
+}
+@keyframes vz-copy-shake {
+  25% {
+    translate: -4px 0;
+  }
+  50% {
+    translate: 3px 0;
+  }
+  75% {
+    translate: -2px 0;
+  }
+}
+@keyframes vz-copy-wash {
+  0% {
+    opacity: 0.38;
+    scale: 0;
+  }
+  40% {
+    opacity: 0.16;
+  }
+  100% {
+    opacity: 0;
+    scale: 1;
+  }
+}
+@keyframes vz-copy-drop {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--vz-a)) translateX(4px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--vz-a)) translateX(26px) scale(0.2);
+  }
+}
+@keyframes vz-copy-bubble {
+  0% {
+    opacity: 0;
+    translate: -50% 8px;
+    scale: 0.2 0.5;
+  }
+  22% {
+    opacity: 1;
+    translate: -50% -8px;
+    scale: 1;
+  }
+  80% {
+    opacity: 1;
+    translate: -50% -10px;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    translate: -50% -22px;
+    scale: 0.9;
+  }
+}
+
+/* ———————————— Sidebar ———————————— */
+.vz-sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  font-family: var(--vz-font-sans);
+}
+.vz-sidebar[data-variant='panel'] {
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-lg);
+  background:
+    radial-gradient(
+      120% 40% at 0% 0%,
+      color-mix(in oklab, var(--vz-cyan) 7%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      100% 30% at 100% 100%,
+      color-mix(in oklab, var(--vz-magenta) 6%, transparent),
+      transparent 70%
+    ),
+    color-mix(in oklab, var(--vz-bg-elevated) 82%, transparent);
+  backdrop-filter: blur(var(--vz-blur-md)) saturate(var(--vz-glass-saturation));
+  box-shadow: inset 0 1px 0 var(--vz-glass-highlight);
+}
+/* An iridescent edge that lights up next to the pointer. */
+.vz-sidebar[data-variant='panel']::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  right: -1px;
+  width: 1px;
+  background: linear-gradient(var(--vz-cyan), var(--vz-magenta), var(--vz-amber), var(--vz-acid));
+  mask: radial-gradient(90px 120px at 50% var(--vz-sy, -200px), #000, transparent);
+  pointer-events: none;
+}
+.vz-sidebar-header {
+  padding: 14px 14px 6px;
+}
+.vz-sidebar-footer {
+  margin-top: auto;
+  padding: 10px 14px 14px;
+  border-top: 1px solid var(--vz-border);
+}
+.vz-sidebar-scroll {
+  position: relative;
+  min-height: 0;
+  overflow: auto;
+  padding: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--vz-border-strong) transparent;
+}
+.vz-sidebar[data-variant='plain'] .vz-sidebar-scroll {
+  padding: 0;
+}
+.vz-sidebar-section + .vz-sidebar-section {
+  margin-top: 14px;
+}
+.vz-sidebar-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0 0 4px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: var(--vz-radius-sm);
+  background: none;
+  color: var(--vz-text-dim);
+  font: 600 11px / 1.2 var(--vz-font-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: start;
+}
+.vz-sidebar-heading::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--vz-iridescent);
+  opacity: 0.7;
+}
+button.vz-sidebar-heading {
+  cursor: pointer;
+}
+button.vz-sidebar-heading:hover {
+  color: var(--vz-text);
+}
+.vz-sidebar-heading span {
+  flex: 1;
+}
+.vz-sidebar-heading svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: rotate var(--vz-spring-snappy-duration) var(--vz-spring-snappy);
+}
+.vz-sidebar-heading[aria-expanded='false'] svg {
+  rotate: -90deg;
+}
+.vz-sidebar-fold {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows var(--vz-spring-smooth-duration) var(--vz-spring-smooth),
+    opacity var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-sidebar-fold[data-open='false'] {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+.vz-sidebar-fold > ul {
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vz-sidebar-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: var(--vz-radius-sm);
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+  line-height: 1.3;
+  text-decoration: none;
+  transition:
+    color var(--vz-duration-fast) var(--vz-ease-out),
+    translate var(--vz-spring-snappy-duration) var(--vz-spring-snappy);
+}
+.vz-sidebar-link:hover {
+  color: var(--vz-text);
+  translate: 2px 0;
+}
+.vz-sidebar-link[aria-current='page'] {
+  color: var(--vz-text);
+  font-weight: 550;
+}
+.vz-sidebar-icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  flex: none;
+  opacity: 0.8;
+}
+.vz-sidebar-icon svg {
+  width: 100%;
+  height: 100%;
+}
+.vz-sidebar-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vz-sidebar-badge {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: var(--vz-radius-pill);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  color: var(--vz-text);
+  background:
+    linear-gradient(var(--vz-bg-elevated), var(--vz-bg-elevated)) padding-box,
+    var(--vz-iridescent-linear) border-box;
+  border: 1px solid transparent;
+}
+/* The current-page marker: a glass pill with a bar of light, stretched by two springs. */
+.vz-sidebar-marker {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  right: 8px;
+  z-index: 0;
+  border-radius: var(--vz-radius-sm);
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--vz-cyan) 16%, transparent),
+      color-mix(in oklab, var(--vz-magenta) 7%, transparent) 60%,
+      transparent
+    ),
+    var(--vz-surface-strong);
+  box-shadow:
+    inset 0 1px 0 var(--vz-glass-highlight),
+    0 6px 20px -10px color-mix(in oklab, var(--vz-accent) 60%, transparent);
+  pointer-events: none;
+  transition: opacity var(--vz-duration-base) var(--vz-ease-out);
+}
+.vz-sidebar[data-variant='plain'] .vz-sidebar-marker {
+  left: 0;
+  right: 0;
+}
+.vz-sidebar-marker::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(var(--vz-cyan), var(--vz-magenta), var(--vz-amber));
+  box-shadow: 0 0 10px color-mix(in oklab, var(--vz-cyan) 70%, transparent);
+}
+.vz-sidebar-marker[data-hidden='true'] {
+  opacity: 0;
+}
+.vz-sidebar-hover {
+  position: absolute;
+  top: 0;
+  left: 8px;
+  right: 8px;
+  height: var(--vz-hh, 34px);
+  z-index: 0;
+  border-radius: var(--vz-radius-sm);
+  background: var(--vz-surface-hover);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(var(--vz-ht, 0));
+  transition:
+    transform var(--vz-spring-snappy-duration) var(--vz-spring-snappy),
+    height var(--vz-spring-snappy-duration) var(--vz-spring-snappy),
+    opacity var(--vz-duration-fast) var(--vz-ease-out);
+}
+.vz-sidebar[data-variant='plain'] .vz-sidebar-hover {
+  left: 0;
+  right: 0;
+}
+.vz-sidebar-hover[data-on='true'] {
+  opacity: 1;
+}
+
+/* ———————————— Footer ———————————— */
+.vz-footer {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--vz-border);
+  font-family: var(--vz-font-sans);
+  background:
+    radial-gradient(
+      70% 60% at 50% 115%,
+      color-mix(in oklab, var(--vz-magenta) 10%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 50% at 15% 120%,
+      color-mix(in oklab, var(--vz-cyan) 10%, transparent),
+      transparent 70%
+    );
+}
+/* A hairline of light along the top edge that brightens under the pointer. */
+.vz-footer::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--vz-cyan),
+    var(--vz-magenta),
+    var(--vz-amber),
+    var(--vz-acid),
+    var(--vz-cyan)
+  );
+  mask: radial-gradient(260px 2px at var(--vz-fx, 50%) 50%, #000 20%, rgb(0 0 0 / 0.15));
+  pointer-events: none;
+}
+.vz-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 16px 0;
+}
+.vz-footer-top {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 2.2fr;
+  gap: 40px;
+}
+.vz-footer-brand {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+.vz-footer-tagline {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+  line-height: 1.6;
+}
+.vz-footer-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 28px 24px;
+}
+.vz-footer-title {
+  margin: 0 0 14px;
+  color: var(--vz-text-dim);
+  font-size: var(--vz-text-xs);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.vz-footer-col ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Underlines pour in from the left as liquid light. */
+.vz-footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 2px;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+  text-decoration: none;
+  background: linear-gradient(90deg, var(--vz-cyan), var(--vz-magenta), var(--vz-amber)) 0 100% / 0%
+    1px no-repeat;
+  transition:
+    color var(--vz-duration-fast) var(--vz-ease-out),
+    background-size var(--vz-spring-liquid-duration) var(--vz-spring-liquid);
+}
+.vz-footer-link:hover {
+  color: var(--vz-text);
+  background-size: 100% 1px;
+}
+.vz-footer-link svg {
+  width: 10px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.6;
+  transition: translate var(--vz-spring-snappy-duration) var(--vz-spring-snappy);
+}
+.vz-footer-link:hover svg {
+  translate: 2px -2px;
+}
+.vz-footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--vz-border);
+  color: var(--vz-text-dim);
+  font-size: var(--vz-text-xs);
+}
+.vz-footer > .vz-wordmark {
+  max-width: 1232px;
+  margin: 8px auto 0;
+  padding-inline: 16px;
+}
+@media (max-width: 800px) {
+  .vz-footer-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vz-footer-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ———————————— Wordmark ———————————— */
+.vz-wordmark {
+  position: relative;
+  overflow: hidden;
+  /* Room above the letters for them to rise into. */
+  padding-top: calc(var(--vz-wordmark-size, 18vw) * 0.24);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+.vz-wordmark-glyphs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: max-content;
+  margin-inline: auto;
+  font: 800 var(--vz-wordmark-size, 18vw) / 0.86 var(--vz-font-display);
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  /* Letters sink into the surface at the bottom edge. */
+  mask: linear-gradient(#000 52%, rgb(0 0 0 / 0.35) 78%, transparent 96%);
+}
+.vz-wordmark-char {
+  display: inline-block;
+  color: transparent;
+  transform-origin: 50% 100%;
+  will-change: transform;
+  /* Two layers clipped to the glyphs: a dimming veil with a hole where the spotlight is,
+     over an iridescent band that spans the whole word and slowly flows. */
+  background-image:
+    radial-gradient(
+      circle calc(var(--vz-wordmark-size, 18vw) * 1.25) at
+        calc(var(--vz-mx, 50%) - var(--vz-ox, 0px)) calc(var(--vz-my, 40%) - var(--vz-oy, 0px)),
+      transparent 0%,
+      color-mix(in oklab, var(--vz-bg) 35%, transparent) 40%,
+      color-mix(in oklab, var(--vz-bg) 82%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      var(--vz-cyan),
+      var(--vz-violet),
+      var(--vz-magenta),
+      var(--vz-amber),
+      var(--vz-acid),
+      var(--vz-cyan)
+    );
+  background-size:
+    auto,
+    var(--vz-wordmark-w, 100vw) 100%;
+  background-position:
+    0 0,
+    calc(var(--vz-flow, 0px) - var(--vz-ox, 0px)) 0;
+  background-repeat: no-repeat, repeat-x;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.vz-wordmark[data-vz-enter='pending'] .vz-wordmark-char {
+  opacity: 0;
+  transform: translateY(105%);
+}
+/* The liquid surface the letters rise out of. */
+.vz-wordmark-surface {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 0;
+  height: 28%;
+  background: radial-gradient(
+    50% 100% at calc(var(--vz-mx, 50%)) 100%,
+    color-mix(in oklab, var(--vz-cyan) calc(14% + var(--vz-spot, 0) * 16%), transparent),
+    transparent 70%
+  );
+  filter: blur(18px);
+  pointer-events: none;
+}
+@media (forced-colors: active) {
+  .vz-wordmark-char {
+    color: CanvasText;
+    background: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vz-copy,
+  .vz-copy-drops i,
+  .vz-copy-wash::before {
+    animation: none !important;
+  }
+  .vz-copy-drops {
+    display: none;
+  }
+  .vz-copy:not([data-state='idle']) .vz-copy-bubble {
+    animation: none;
+    opacity: 1;
+    translate: -50% -8px;
+    scale: 1;
+  }
+  .vz-sidebar-fold,
+  .vz-sidebar-hover,
+  .vz-sidebar-link {
+    transition: none;
+  }
+}

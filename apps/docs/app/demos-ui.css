@@ -316,3 +316,81 @@
   background: var(--vz-iridescent-linear);
   vertical-align: 1px;
 }
+
+/* ———————————— Kit demos: copy, sidebar, footer, wordmark ———————————— */
+.kit-copy {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 22px;
+}
+.kit-copy-install {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 16px;
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-pill);
+  background: var(--vz-bg-elevated);
+}
+.kit-copy-install code {
+  font: 500 var(--vz-text-sm) var(--vz-font-mono);
+  color: var(--vz-text);
+}
+.kit-sidebar {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 20px;
+  width: min(100%, 620px);
+  height: 440px;
+}
+.kit-sidebar .vz-sidebar {
+  height: 100%;
+}
+.kit-sidebar-brand {
+  margin: 0;
+  font: 700 1.05rem var(--vz-font-display);
+}
+.kit-sidebar-user {
+  margin: 0;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-xs);
+}
+.kit-sidebar-page {
+  align-self: center;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+@media (max-width: 600px) {
+  .kit-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+  }
+  .kit-sidebar .vz-sidebar {
+    height: 400px;
+  }
+}
+.kit-footer {
+  align-self: stretch;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--vz-radius-lg);
+}
+.kit-footer .vz-footer {
+  border-top: 0;
+}
+.kit-footer-brand {
+  font: 700 1.3rem var(--vz-font-display);
+}
+.kit-wordmark {
+  width: min(100%, 640px);
+  display: grid;
+  gap: 8px;
+  padding-inline: 16px;
+}
+.kit-wordmark-hint {
+  margin: 0;
+  text-align: center;
+  color: var(--vz-text-dim);
+  font-size: var(--vz-text-xs);
+}

@@ -259,6 +259,198 @@ lensGrid(canvas, { cell: 36 });`,
     a11y: glA11y,
   },
   {
+    slug: 'aurora',
+    title: 'Aurora',
+    category: 'Backgrounds',
+    isNew: true,
+    description:
+      'Curtains of northern light rippling over a starry sky. They lean toward the pointer and glow brighter under it.',
+    keywords: ['northern lights', 'borealis', 'sky', 'glow', 'webgl', 'hero'],
+    height: 480,
+    wide: true,
+    controls: [
+      { type: 'range', name: 'bands', label: 'curtains', min: 1, max: 5, default: 3 },
+      { type: 'range', name: 'height', min: 0.1, max: 0.8, step: 0.01, default: 0.45 },
+      { type: 'range', name: 'speed', min: 0, max: 1.5, step: 0.05, default: 0.3 },
+      { type: 'range', name: 'intensity', min: 0.3, max: 2, step: 0.05, default: 1 },
+    ],
+    code: {
+      react: `import { Aurora } from '@vizzele/react/gl';
+
+<section style={{ position: 'relative' }}>
+  <Aurora bands={3} height={0.45} />
+  <h1>Night shift</h1>
+</section>`,
+      vanilla: `import { aurora } from '@vizzele/core/gl';
+
+aurora(canvas, { bands: 3, speed: 0.3 });`,
+    },
+    props: [
+      { name: 'bands', type: 'number', default: '3', description: 'Light curtains (1–5).' },
+      {
+        name: 'height',
+        type: 'number',
+        default: '0.45',
+        description: 'Where the curtains hang, 0 bottom … 1 top.',
+      },
+      { name: 'speed', type: 'number', default: '0.3', description: 'Drift speed.' },
+      { name: 'intensity', type: 'number', default: '1', description: 'Brightness.' },
+      colorsProp,
+    ],
+    a11y: glA11y,
+  },
+  {
+    slug: 'silk',
+    title: 'Silk',
+    category: 'Backgrounds',
+    isNew: true,
+    description:
+      'Flowing iridescent satin with a soft sheen running along the folds. The pointer presses a dent into the cloth.',
+    keywords: ['satin', 'fabric', 'folds', 'sheen', 'webgl', 'luxury'],
+    height: 460,
+    wide: true,
+    controls: [
+      { type: 'range', name: 'scale', label: 'folds', min: 0.4, max: 2.5, step: 0.05, default: 1 },
+      { type: 'range', name: 'sheen', min: 0, max: 2, step: 0.05, default: 1 },
+      { type: 'range', name: 'speed', min: 0, max: 1.2, step: 0.05, default: 0.35 },
+      { type: 'range', name: 'intensity', min: 0.3, max: 1.6, step: 0.05, default: 0.9 },
+    ],
+    code: {
+      react: `import { Silk } from '@vizzele/react/gl';
+
+<Silk scale={1} sheen={1} />`,
+      vanilla: `import { silk } from '@vizzele/core/gl';
+
+silk(canvas, { sheen: 1.2 });`,
+    },
+    props: [
+      {
+        name: 'scale',
+        type: 'number',
+        default: '1',
+        description: 'Fold size — higher means more, smaller folds.',
+      },
+      { name: 'sheen', type: 'number', default: '1', description: 'Satin highlight strength.' },
+      { name: 'speed', type: 'number', default: '0.35', description: 'Flow speed.' },
+      { name: 'intensity', type: 'number', default: '0.9', description: 'Brightness.' },
+      colorsProp,
+    ],
+    a11y: glA11y,
+  },
+  {
+    slug: 'lava-lamp',
+    title: 'Lava lamp',
+    category: 'Backgrounds',
+    isNew: true,
+    description:
+      'Blobs of glossy wax rise, merge and split. Your pointer is one more blob — push it into the others and they fuse.',
+    keywords: ['metaballs', 'blobs', 'goo', 'retro', 'webgl', 'liquid'],
+    height: 480,
+    wide: true,
+    controls: [
+      { type: 'range', name: 'blobs', min: 1, max: 10, default: 7 },
+      { type: 'range', name: 'size', min: 0.5, max: 1.8, step: 0.05, default: 1 },
+      { type: 'range', name: 'speed', min: 0, max: 2, step: 0.05, default: 0.5 },
+      { type: 'range', name: 'gloss', min: 0, max: 1.5, step: 0.05, default: 0.8 },
+    ],
+    code: {
+      react: `import { LavaLamp } from '@vizzele/react/gl';
+
+<LavaLamp blobs={7} speed={0.5} />`,
+      vanilla: `import { lavaLamp } from '@vizzele/core/gl';
+
+lavaLamp(canvas, { blobs: 7 });`,
+    },
+    props: [
+      { name: 'blobs', type: 'number', default: '7', description: 'Number of blobs (max 10).' },
+      { name: 'size', type: 'number', default: '1', description: 'Blob size.' },
+      { name: 'speed', type: 'number', default: '0.5', description: 'Rise speed.' },
+      { name: 'gloss', type: 'number', default: '0.8', description: 'Glossy highlight.' },
+      colorsProp,
+    ],
+    a11y: glA11y,
+  },
+  {
+    slug: 'wave-lines',
+    title: 'Wave lines',
+    category: 'Backgrounds',
+    isNew: true,
+    description:
+      'Dozens of fine lines rolling like an ocean of sound, iridescent along their length. The pointer lifts them and sends a ring outward.',
+    keywords: ['lines', 'waves', 'sound', 'oscilloscope', 'contour', 'webgl'],
+    height: 460,
+    wide: true,
+    controls: [
+      { type: 'range', name: 'lines', min: 10, max: 90, default: 42 },
+      { type: 'range', name: 'amplitude', min: 0, max: 3, step: 0.05, default: 1 },
+      { type: 'range', name: 'speed', min: 0, max: 1.5, step: 0.05, default: 0.4 },
+      { type: 'range', name: 'thickness', min: 0.5, max: 4, step: 0.1, default: 1.2 },
+    ],
+    code: {
+      react: `import { WaveLines } from '@vizzele/react/gl';
+
+<WaveLines lines={42} amplitude={1} />`,
+      vanilla: `import { waveLines } from '@vizzele/core/gl';
+
+waveLines(canvas, { lines: 42 });`,
+    },
+    props: [
+      { name: 'lines', type: 'number', default: '42', description: 'Number of lines.' },
+      { name: 'amplitude', type: 'number', default: '1', description: 'Wave height.' },
+      { name: 'speed', type: 'number', default: '0.4', description: 'Wave speed.' },
+      {
+        name: 'thickness',
+        type: 'number',
+        default: '1.2',
+        description: 'Line thickness (CSS px).',
+      },
+      colorsProp,
+    ],
+    a11y: glA11y,
+  },
+  {
+    slug: 'ripples',
+    title: 'Ripples',
+    category: 'Backgrounds',
+    isNew: true,
+    description:
+      'A dark liquid surface. Click or tap to drop rings that spread and bend the light below; when nobody is touching, it rains softly.',
+    keywords: ['water', 'rain', 'drops', 'pond', 'click', 'webgl'],
+    height: 460,
+    wide: true,
+    controls: [
+      { type: 'boolean', name: 'rain', default: true },
+      { type: 'range', name: 'speed', min: 0.3, max: 2.5, step: 0.05, default: 1 },
+      { type: 'range', name: 'decay', min: 0.3, max: 3, step: 0.05, default: 1 },
+      { type: 'range', name: 'intensity', min: 0.3, max: 2, step: 0.05, default: 1 },
+    ],
+    code: {
+      react: `import { Ripples } from '@vizzele/react/gl';
+
+<Ripples rain speed={1} />`,
+      vanilla: `import { ripples } from '@vizzele/core/gl';
+
+const pond = ripples(canvas, { rain: false });
+pond?.drop(0.5, 0.5); // x, y in 0..1`,
+    },
+    props: [
+      {
+        name: 'rain',
+        type: 'boolean',
+        default: 'true',
+        description: 'Drops fall on their own while idle.',
+      },
+      { name: 'speed', type: 'number', default: '1', description: 'How fast rings travel.' },
+      { name: 'decay', type: 'number', default: '1', description: 'How quickly rings fade.' },
+      { name: 'intensity', type: 'number', default: '1', description: 'Brightness.' },
+      colorsProp,
+    ],
+    a11y: [
+      ...glA11y,
+      'Clicks pass straight through to the content on top; the surface listens on the window and only reacts inside its own box.',
+    ],
+  },
+  {
     slug: 'grain',
     title: 'Grain',
     category: 'Backgrounds',

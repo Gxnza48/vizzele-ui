@@ -3,7 +3,18 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Sidebar as VzSidebar } from '@vizzele/react';
 import { sidebar } from '@/content/nav';
+
+const sections = sidebar.map((group) => ({
+  title: group.title,
+  collapsible: true,
+  items: group.items.map((item) => ({
+    href: item.href,
+    label: item.title,
+    ...(item.isNew ? { badge: 'New' } : {}),
+  })),
+}));
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -22,26 +33,16 @@ export function Sidebar() {
       >
         {open ? 'Close menu' : 'Browse components'}
       </button>
-      <nav
+      {/* Remount on open so the current page scrolls into view inside the drawer. */}
+      <VzSidebar
+        key={String(open)}
         id="docs-sidebar"
         className={`sidebar ${open ? 'is-open' : ''}`}
-        aria-label="Documentation"
-      >
-        {sidebar.map((group) => (
-          <div key={group.title} className="sidebar-group">
-            <p className="sidebar-title">{group.title}</p>
-            <ul>
-              {group.items.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </nav>
+        label="Documentation"
+        sections={sections}
+        active={pathname ?? undefined}
+        linkAs={Link}
+      />
     </>
   );
 }

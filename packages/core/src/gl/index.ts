@@ -14,6 +14,18 @@ export {
   type MeshGradientOptions,
 } from './shaders';
 export { particleField, type ParticleFieldOptions } from './particle-field';
+export {
+  aurora,
+  lavaLamp,
+  ripples,
+  silk,
+  waveLines,
+  type AuroraOptions,
+  type LavaLampOptions,
+  type RipplesOptions,
+  type SilkOptions,
+  type WaveLinesOptions,
+} from './backgrounds';
 
 /** True when the browser can run Vizzele's WebGL2 effects. */
 export function supportsWebGL2(): boolean {

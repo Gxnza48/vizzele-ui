@@ -1,12 +1,17 @@
 'use client';
 
 import {
+  Aurora,
   FluidBackground,
   Grain,
+  LavaLamp,
   LensGrid,
   LiquidMetal,
   MeshGradient,
   ParticleField,
+  Ripples,
+  Silk,
+  WaveLines,
 } from '@vizzele/react/gl';
 import type { ControlValues } from '@/lib/types';
 
@@ -110,6 +115,76 @@ export function GrainDemo({ values }: P) {
     >
       {!css && <Grain opacity={Number(values.opacity)} size={Number(values.size)} />}
       <Overlay title="Film" hint={css ? 'CSS only — zero JavaScript' : 'Rendered on the GPU'} />
+    </div>
+  );
+}
+
+export function AuroraDemo({ values }: P) {
+  return (
+    <div className="bg-demo">
+      <Aurora
+        bands={Number(values.bands)}
+        height={Number(values.height)}
+        speed={Number(values.speed)}
+        intensity={Number(values.intensity)}
+      />
+      <Overlay title="Northern light" hint="The curtains lean toward you" />
+    </div>
+  );
+}
+
+export function SilkDemo({ values }: P) {
+  return (
+    <div className="bg-demo">
+      <Silk
+        scale={Number(values.scale)}
+        sheen={Number(values.sheen)}
+        speed={Number(values.speed)}
+        intensity={Number(values.intensity)}
+      />
+      <Overlay title="Silk" hint="Press into the cloth with your pointer" />
+    </div>
+  );
+}
+
+export function LavaLampDemo({ values }: P) {
+  return (
+    <div className="bg-demo">
+      <LavaLamp
+        blobs={Number(values.blobs)}
+        size={Number(values.size)}
+        speed={Number(values.speed)}
+        gloss={Number(values.gloss)}
+      />
+      <Overlay title="Lava" hint="You are a blob too — touch the others" />
+    </div>
+  );
+}
+
+export function WaveLinesDemo({ values }: P) {
+  return (
+    <div className="bg-demo">
+      <WaveLines
+        lines={Number(values.lines)}
+        amplitude={Number(values.amplitude)}
+        speed={Number(values.speed)}
+        thickness={Number(values.thickness)}
+      />
+      <Overlay title="Swell" hint="Glide over the lines to lift them" />
+    </div>
+  );
+}
+
+export function RipplesDemo({ values }: P) {
+  return (
+    <div className="bg-demo">
+      <Ripples
+        rain={Boolean(values.rain)}
+        speed={Number(values.speed)}
+        decay={Number(values.decay)}
+        intensity={Number(values.intensity)}
+      />
+      <Overlay title="Still water" hint="Click or tap anywhere to drop a ring" />
     </div>
   );
 }

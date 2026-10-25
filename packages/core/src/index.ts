@@ -36,4 +36,6 @@ export { liquidSelection, type LiquidSelectionOptions } from './effects/liquid-s
 export { holdToConfirm, type HoldToConfirmOptions } from './effects/hold';
 export { surfaceTension, type SurfaceTensionOptions } from './effects/surface-tension';
 export { gooFilter } from './effects/goo';
+export { wordmark, type WordmarkOptions } from './effects/wordmark';
 export { effects, registerAll, type EffectName } from './effects';
+export { copyToClipboard } from './clipboard';

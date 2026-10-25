@@ -8,20 +8,30 @@ import {
   type HTMLAttributes,
 } from 'react';
 import {
+  aurora,
   caustics,
   fluid,
   grain,
+  lavaLamp,
   lensGrid,
   liquidMetal,
   meshGradient,
   particleField,
+  ripples,
+  silk,
+  waveLines,
+  type AuroraOptions,
   type CausticsOptions,
   type FluidOptions,
   type GrainOptions,
+  type LavaLampOptions,
   type LensGridOptions,
   type LiquidMetalOptions,
   type MeshGradientOptions,
   type ParticleFieldOptions,
+  type RipplesOptions,
+  type SilkOptions,
+  type WaveLinesOptions,
 } from '@vizzele/core/gl';
 import { cx, useLatest, useMergedRef } from './hooks/utils';
 
@@ -129,6 +139,16 @@ export const LiquidMetal = /* @__PURE__ */ makeGL<LiquidMetalOptions>('LiquidMet
 export const LensGrid = /* @__PURE__ */ makeGL<LensGridOptions>('LensGrid', lensGrid);
 /** GPU film grain. For a zero-JS alternative use the `vz-grain` class. */
 export const Grain = /* @__PURE__ */ makeGL<GrainOptions>('Grain', grain);
+/** Curtains of northern light that lean toward the pointer. */
+export const Aurora = /* @__PURE__ */ makeGL<AuroraOptions>('Aurora', aurora);
+/** Flowing iridescent satin; the pointer presses a dent into it. */
+export const Silk = /* @__PURE__ */ makeGL<SilkOptions>('Silk', silk);
+/** Glossy wax blobs that rise and merge; the pointer is one more blob. */
+export const LavaLamp = /* @__PURE__ */ makeGL<LavaLampOptions>('LavaLamp', lavaLamp);
+/** Fine iridescent lines rolling like waves; the pointer lifts them. */
+export const WaveLines = /* @__PURE__ */ makeGL<WaveLinesOptions>('WaveLines', waveLines);
+/** A liquid surface: click or tap to drop rings; gentle rain when idle. */
+export const Ripples = /* @__PURE__ */ makeGL<RipplesOptions>('Ripples', ripples);
 
 export interface CausticCardProps
   extends Omit<CausticsOptions, 'target'>, Omit<HTMLAttributes<HTMLDivElement>, 'color'> {
@@ -192,11 +212,16 @@ export const CausticCard = /* @__PURE__ */ forwardRef<HTMLDivElement, CausticCar
 );
 
 export type {
+  AuroraOptions,
   CausticsOptions,
   FluidOptions,
   GrainOptions,
+  LavaLampOptions,
   LensGridOptions,
   LiquidMetalOptions,
   MeshGradientOptions,
   ParticleFieldOptions,
+  RipplesOptions,
+  SilkOptions,
+  WaveLinesOptions,
 };
