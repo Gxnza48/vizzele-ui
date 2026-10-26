@@ -32,6 +32,7 @@ import {
 } from '@vizzele/react';
 import { CausticCard, LensGrid, LiquidMetal, MeshGradient } from '@vizzele/react/gl';
 import { makeRows } from '@/demos/data';
+import { usePhone } from './usePhone';
 
 const hues = ['#00e5ff', '#ff2bd6', '#ffb238', '#a8ff3e', '#7c5cff'];
 const gradient = (i: number) =>
@@ -330,6 +331,7 @@ const script: { state: AgentState; at: number; label?: string }[] = [
 ];
 
 function Data() {
+  const phone = usePhone();
   const [seed, setSeed] = useState(0);
   const rows = useMemo(() => makeRows(seed), [seed]);
   const [tick, setTick] = useState(0);
@@ -357,10 +359,10 @@ function Data() {
         <Agent
           state={step.state}
           name="Analyst"
-          size={110}
+          size={phone ? 64 : 110}
           label={step.label}
           className="home-dash-status"
-          layout="stack"
+          layout={phone ? 'row' : 'stack'}
         />
         <AgentSteps steps={steps} aria-label="Agent progress" />
       </aside>
@@ -379,7 +381,7 @@ function Data() {
             { key: 'web', label: 'Web' },
             { key: 'app', label: 'App' },
           ]}
-          height={260}
+          height={phone ? 200 : 260}
         />
       </div>
     </div>
@@ -450,25 +452,84 @@ const panels: Panel[] = [
 
 /** The middle of the page: one pinned row of live panels, travelled sideways as you scroll. */
 export function HomeCollection({ components }: { components: number }) {
-  return (
+  const phone = usePhone();
+  const wrap = useRef<HTMLDivElement>(null);
+  const [slide, setSlide] = useState(0);
+
+  // Phones swipe the row natively (scroll-snap); the pager follows the panel in view.
+  useEffect(() => {
+    const viewport = wrap.current?.querySelector<HTMLElement>('.vz-hscroll-viewport');
+    if (!phone || !viewport) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const left = viewport.getBoundingClientRect().left;
+        let best = 0;
+        let dist = Infinity;
+        viewport.querySelectorAll<HTMLElement>('.coll-panel').forEach((p, i) => {
+          const d = Math.abs(p.getBoundingClientRect().left - left - 16);
+          if (d < dist) {
+            dist = d;
+            best = i;
+          }
+        });
+        setSlide(best);
+      });
+    };
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      viewport.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [phone]);
+
+  const goTo = (i: number) => {
+    const viewport = wrap.current?.querySelector<HTMLElement>('.vz-hscroll-viewport');
+    const panel = viewport?.querySelectorAll<HTMLElement>('.coll-panel')[i];
+    if (viewport && panel) viewport.scrollTo({ left: panel.offsetLeft - 16, behavior: 'smooth' });
+  };
+
+  const intro = (
     <>
-      <Toaster position="bottom-right" />
-      <HorizontalScroll label="The collection" className="home-coll" trackClassName="coll-track">
-        <article className="coll-intro" aria-labelledby="coll-title">
-          <p className="home-eyebrow">The collection</p>
-          <h2 id="coll-title" className="vz-display home-h2">
-            {components} pieces. All of them alive.
-          </h2>
+      <p className="home-eyebrow">The collection</p>
+      <h2 id="coll-title" className="vz-display home-h2">
+        {components} pieces. All of them alive.
+      </h2>
+    </>
+  );
+
+  return (
+    <div ref={wrap} className="coll-wrap">
+      <Toaster position={phone ? 'bottom-center' : 'bottom-right'} />
+      {phone && (
+        <header className="coll-intro-phone">
+          {intro}
           <p className="home-sub">
-            Keep scrolling — the page turns sideways. Everything on the way is the real thing: drag
-            it, press it, break it.
+            Swipe through — every panel is the real thing. Drag it, press it, break it.
           </p>
-          <span className="coll-arrow" aria-hidden="true">
-            →
-          </span>
-        </article>
+        </header>
+      )}
+      <HorizontalScroll label="The collection" className="home-coll" trackClassName="coll-track">
+        {!phone && (
+          <article className="coll-intro" aria-labelledby="coll-title">
+            {intro}
+            <p className="home-sub">
+              Keep scrolling — the page turns sideways. Everything on the way is the real thing:
+              drag it, press it, break it.
+            </p>
+            <span className="coll-arrow" aria-hidden="true">
+              →
+            </span>
+          </article>
+        )}
         {panels.map((p, i) => (
-          <article key={p.title} className="coll-panel" aria-labelledby={`coll-${i}`}>
+          <article
+            key={p.title}
+            className="coll-panel"
+            aria-labelledby={`coll-${i}`}
+            data-panel={i}
+          >
             <header className="coll-copy">
               <span className="coll-n vz-mono">
                 {String(i + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
@@ -486,6 +547,19 @@ export function HomeCollection({ components }: { components: number }) {
           </article>
         ))}
       </HorizontalScroll>
-    </>
+      {phone && (
+        <nav className="coll-pager" aria-label="Collection panels">
+          {panels.map((p, i) => (
+            <button
+              key={p.title}
+              type="button"
+              aria-label={`${i + 1}: ${p.title}`}
+              aria-current={i === slide ? 'true' : undefined}
+              onClick={() => goTo(i)}
+            />
+          ))}
+        </nav>
+      )}
+    </div>
   );
 }
