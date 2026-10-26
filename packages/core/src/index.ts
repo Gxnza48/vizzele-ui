@@ -35,7 +35,7 @@ export { liquidFocus, type LiquidFocusOptions } from './effects/liquid-focus';
 export { liquidSelection, type LiquidSelectionOptions } from './effects/liquid-selection';
 export { holdToConfirm, type HoldToConfirmOptions } from './effects/hold';
 export { surfaceTension, type SurfaceTensionOptions } from './effects/surface-tension';
-export { gooFilter } from './effects/goo';
+export { gooFilter, stepSpring } from './effects/goo';
 export { wordmark, type WordmarkOptions } from './effects/wordmark';
 export {
   mockup,

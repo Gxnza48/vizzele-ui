@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "53 kB"
+    "limit": "59 kB"
   },
   {
     "name": "react { Button }",
@@ -103,5 +103,33 @@
     "import": "{ TextPortal }",
     "limit": "4.4 kB",
     "ignore": ["react", "react-dom"]
+  },
+  {
+    "name": "react { GooeyMenu }",
+    "path": "dist/index.js",
+    "import": "{ GooeyMenu }",
+    "ignore": ["react", "react-dom"],
+    "limit": "1.8 kB"
+  },
+  {
+    "name": "react { LiquidGauge }",
+    "path": "dist/index.js",
+    "import": "{ LiquidGauge }",
+    "ignore": ["react", "react-dom"],
+    "limit": "2.8 kB"
+  },
+  {
+    "name": "react { SignaturePad }",
+    "path": "dist/index.js",
+    "import": "{ SignaturePad }",
+    "ignore": ["react", "react-dom"],
+    "limit": "2.6 kB"
+  },
+  {
+    "name": "react { StreamText }",
+    "path": "dist/index.js",
+    "import": "{ StreamText }",
+    "ignore": ["react", "react-dom"],
+    "limit": "1.8 kB"
   }
 ]

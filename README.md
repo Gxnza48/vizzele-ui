@@ -152,8 +152,8 @@ x.set(200);
 Drop two tags into any HTML page. Effects are switched on with `data-vz-*` attributes — no JavaScript to write.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.5/dist/vizzele.min.css" />
-<script src="https://unpkg.com/@vizzele/core@0.5/dist/vizzele.global.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.6/dist/vizzele.min.css" />
+<script src="https://unpkg.com/@vizzele/core@0.6/dist/vizzele.global.js" defer></script>
 
 <body class="vz-body" data-theme="dark" data-vz-liquid-focus>
   <button class="vz-button" data-variant="liquid" data-vz-magnetic="strength: 0.4">Hover me</button>
@@ -355,6 +355,8 @@ import { TextPortal } from '@vizzele/react';
 
 [![Charts and an agent](.github/assets/dashboard.webp)](https://vizzele-ui.vercel.app/docs/line-chart)
 
+**New in 0.6** — gooey menu (a FAB that splits into drops) · avatar stack fused like liquid · liquid stepper · liquid gauge that sloshes · liquid star rating · number scrubber with inertia · pull to refresh with a drop that snaps free · signature pad with iridescent ink · stream text for AI answers · border light that swings to meet the pointer
+
 **Mockups (3D)** — iPhone-style phone · Galaxy-style phone · laptop, each with a live, interactive screen
 
 **Components** — ⌘K command palette · OTP input · file dropzone · Copy button · Sidebar · Footer with a liquid wordmark · Select & Dropdown menu · Button (liquid · holo · glow) · Card (glass · holo · spotlight) · liquid glass with real refraction · Modal that morphs out of its trigger · Tabs · macOS-style Dock · Navbar · Switch / Checkbox / Radio · Input · Tooltip · Popover · Toast · Accordion · Marquee · 3D carousel · image reveal · Skeleton
@@ -436,7 +438,7 @@ The spring presets also exist as CSS easings generated from the real physics:
 
 **Is it free?** Yes — MIT licensed, free for personal and commercial use.
 
-**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.5` pick up `0.5.x` fixes on their own.
+**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.6` pick up `0.6.x` fixes on their own.
 
 ## Development
 

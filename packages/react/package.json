@@ -1,6 +1,6 @@
 {
   "name": "@vizzele/react",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Vizzele UI for React — liquid-light components, physics hooks and gestures.",
   "license": "MIT",
   "type": "module",

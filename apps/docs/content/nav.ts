@@ -10,6 +10,7 @@ import { menuEntries } from './menus';
 import { formEntries } from './forms';
 import { dataEntries } from './data';
 import { originalEntries } from './originals';
+import { liquidKitEntries } from './liquid-kit';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -24,6 +25,7 @@ export const entries: DocEntry[] = [
   ...formEntries,
   ...dataEntries,
   ...originalEntries,
+  ...liquidKitEntries,
 ];
 
 export const guides = [

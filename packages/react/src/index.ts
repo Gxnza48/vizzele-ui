@@ -234,6 +234,38 @@ export {
   type PhoneMockupProps,
 } from './components/mockup';
 export { TextPortal, type TextPortalProps } from './components/portal';
+export {
+  AvatarStack,
+  GooeyMenu,
+  LiquidStepper,
+  type AvatarPerson,
+  type AvatarStackProps,
+  type GooeyMenuItem,
+  type GooeyMenuProps,
+  type LiquidStep,
+  type LiquidStepperProps,
+} from './components/goo';
+export {
+  LiquidGauge,
+  LiquidRating,
+  type LiquidGaugeProps,
+  type LiquidRatingProps,
+} from './components/vessel';
+export {
+  NumberScrubber,
+  PullToRefresh,
+  type NumberScrubberProps,
+  type PullToRefreshProps,
+} from './components/gestures';
+export {
+  BorderLight,
+  SignaturePad,
+  StreamText,
+  type BorderLightProps,
+  type SignaturePadHandle,
+  type SignaturePadProps,
+  type StreamTextProps,
+} from './components/ink';
 
 // Re-export the engine so apps need a single import.
 export {

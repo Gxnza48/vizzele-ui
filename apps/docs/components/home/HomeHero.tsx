@@ -21,9 +21,8 @@ export function HomeHero({ components }: { components: number }) {
       onProgress={(p) => setInside(p > 0.7)}
       cover={
         <div className="home-cover">
-          <Link href="/docs/text-portal" className="home-announce">
-            <span className="home-announce-tag">New</span>Text portal — the dive you are about to
-            take
+          <Link href="/docs/gooey-menu" className="home-announce">
+            <span className="home-announce-tag">New</span>10 new liquid components
             <span aria-hidden="true" className="home-announce-arrow">
               →
             </span>

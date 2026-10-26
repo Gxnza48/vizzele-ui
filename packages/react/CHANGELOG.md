@@ -1,5 +1,16 @@
 # @vizzele/react
 
+## 0.6.0
+
+### Minor Changes
+
+- Ten new components: GooeyMenu, AvatarStack, LiquidStepper, LiquidGauge, LiquidRating, NumberScrubber, PullToRefresh, SignaturePad, StreamText and BorderLight. Core exports `stepSpring`.
+
+### Patch Changes
+
+- Updated dependencies
+  - @vizzele/core@0.6.0
+
 ## 0.5.2
 
 ### Patch Changes
