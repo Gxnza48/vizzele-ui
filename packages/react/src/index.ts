@@ -266,6 +266,38 @@ export {
   type SignaturePadProps,
   type StreamTextProps,
 } from './components/ink';
+export {
+  AuthPanel,
+  PasswordInput,
+  PasswordStrength,
+  scorePassword,
+  type AuthMode,
+  type AuthPanelProps,
+  type AuthProvider,
+  type AuthSubmitData,
+  type PasswordCheck,
+  type PasswordInputProps,
+  type PasswordScore,
+  type PasswordStrengthProps,
+} from './components/auth';
+export {
+  ClickSpark,
+  DotGrid,
+  HeartButton,
+  Orbit,
+  SplitFlap,
+  ThemeToggle,
+  confetti,
+  type ClickSparkProps,
+  type ConfettiOptions,
+  type DotGridProps,
+  type HeartButtonProps,
+  type OrbitProps,
+  type OrbitRing,
+  type SplitFlapProps,
+  type Theme,
+  type ThemeToggleProps,
+} from './components/delight';
 
 // Re-export the engine so apps need a single import.
 export {

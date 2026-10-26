@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "59 kB"
+    "limit": "65 kB"
   },
   {
     "name": "react { Button }",
@@ -131,5 +131,33 @@
     "import": "{ StreamText }",
     "ignore": ["react", "react-dom"],
     "limit": "1.8 kB"
+  },
+  {
+    "name": "react { AuthPanel }",
+    "path": "dist/index.js",
+    "import": "{ AuthPanel }",
+    "ignore": ["react", "react-dom"],
+    "limit": "7.6 kB"
+  },
+  {
+    "name": "react { DotGrid }",
+    "path": "dist/index.js",
+    "import": "{ DotGrid }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3.2 kB"
+  },
+  {
+    "name": "react { ThemeToggle }",
+    "path": "dist/index.js",
+    "import": "{ ThemeToggle }",
+    "ignore": ["react", "react-dom"],
+    "limit": "1.6 kB"
+  },
+  {
+    "name": "react { confetti }",
+    "path": "dist/index.js",
+    "import": "{ confetti }",
+    "ignore": ["react", "react-dom"],
+    "limit": "2 kB"
   }
 ]

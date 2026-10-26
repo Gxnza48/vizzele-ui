@@ -783,3 +783,48 @@
   font-size: 1rem;
   font-weight: 500;
 }
+
+/* ———— 0.7 demos ———— */
+.dl-field {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 380px);
+}
+.dl-samples {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dl-spark {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 100%;
+  cursor: crosshair;
+  user-select: none;
+}
+.dl-tt {
+  scale: 1.6;
+}
+.dl-flap {
+  font-size: clamp(14px, 4.6vw, 34px);
+  max-width: 100%;
+}
+.dl-orbit {
+  color: var(--vz-text);
+}
+.dl-grid {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 100%;
+  text-align: center;
+}
+.dl-grid h3 {
+  margin: 0;
+  font: 700 clamp(28px, 6vw, 48px) / 1 var(--vz-font-display);
+  letter-spacing: -0.03em;
+}

@@ -21,8 +21,8 @@ export function HomeHero({ components }: { components: number }) {
       onProgress={(p) => setInside(p > 0.7)}
       cover={
         <div className="home-cover">
-          <Link href="/docs/gooey-menu" className="home-announce">
-            <span className="home-announce-tag">New</span>10 new liquid components
+          <Link href="/docs/auth-panel" className="home-announce">
+            <span className="home-announce-tag">New</span>Auth panel + 9 new effects
             <span aria-hidden="true" className="home-announce-arrow">
               →
             </span>

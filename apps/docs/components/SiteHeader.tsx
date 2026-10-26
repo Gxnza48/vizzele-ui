@@ -152,7 +152,7 @@ export function SiteHeader() {
             Vizzele <span className="brand-ui">UI</span>
           </span>
           <span className="brand-version" aria-hidden="true">
-            v0.6
+            v0.7
           </span>
         </Link>
         <nav

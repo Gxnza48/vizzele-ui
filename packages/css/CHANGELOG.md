@@ -1,5 +1,11 @@
 # @vizzele/css
 
+## 0.7.0
+
+### Minor Changes
+
+- Ten new pieces. **AuthPanel** — a liquid-glass sign-in / sign-up card with Continue with Google (and GitHub or your own providers), a mode switch that stretches like a drop, a name field that pours in for sign-up, validation with focus on the first error, and a submit button that melts into a spinner, then a check, with confetti. **PasswordInput** — the show/hide button is an eye that follows the pointer and shuts when hidden; warns about Caps Lock. **PasswordStrength** and `scorePassword()` — a liquid tube that fills and changes colour, with rules that tick themselves off. Plus `confetti()`, **ClickSpark**, **HeartButton**, **ThemeToggle** (day to night, with a View Transitions circle reveal), **SplitFlap**, **Orbit** and **DotGrid**.
+
 ## 0.6.1
 
 ### Patch Changes

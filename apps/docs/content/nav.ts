@@ -11,6 +11,7 @@ import { formEntries } from './forms';
 import { dataEntries } from './data';
 import { originalEntries } from './originals';
 import { liquidKitEntries } from './liquid-kit';
+import { delightEntries } from './delight';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -26,6 +27,7 @@ export const entries: DocEntry[] = [
   ...dataEntries,
   ...originalEntries,
   ...liquidKitEntries,
+  ...delightEntries,
 ];
 
 export const guides = [
