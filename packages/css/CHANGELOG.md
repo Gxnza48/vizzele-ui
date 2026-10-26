@@ -1,5 +1,11 @@
 # @vizzele/css
 
+## 0.6.1
+
+### Patch Changes
+
+- 2b6b72b: Cursor: over buttons and links the ring now opens up but stays hollow, so you can still see what you are about to click (it used to fill solid). Wordmark: the dot of an "i" no longer vanishes when the letter rises toward the pointer, and the right edge of each glyph is no longer shaved off.
+
 ## 0.6.0
 
 ### Minor Changes
