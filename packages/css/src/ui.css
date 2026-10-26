@@ -2846,8 +2846,6 @@ button.vz-sidebar-heading:hover {
 .vz-wordmark {
   position: relative;
   overflow: hidden;
-  /* Room above the letters for them to rise into. */
-  padding-top: calc(var(--vz-wordmark-size, 18vw) * 0.24);
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
@@ -2861,11 +2859,24 @@ button.vz-sidebar-heading:hover {
   font: 800 var(--vz-wordmark-size, 18vw) / 0.86 var(--vz-font-display);
   letter-spacing: -0.045em;
   white-space: nowrap;
+  /* Room above the letters for them to rise into. It sits inside the row so the mask covers
+     it too: anything lifted outside the mask's box (like the dot of an i) would vanish. */
+  padding-top: calc(var(--vz-wordmark-size, 18vw) * 0.24);
   /* Letters sink into the surface at the bottom edge. */
-  mask: linear-gradient(#000 52%, rgb(0 0 0 / 0.35) 78%, transparent 96%);
+  mask: linear-gradient(
+    to top,
+    transparent calc(var(--vz-wordmark-size, 18vw) * 0.034),
+    rgb(0 0 0 / 0.35) calc(var(--vz-wordmark-size, 18vw) * 0.19),
+    #000 calc(var(--vz-wordmark-size, 18vw) * 0.41)
+  );
 }
 .vz-wordmark-char {
   display: inline-block;
+  /* The tight tracking lives in the margin, not letter-spacing: letter-spacing shrinks the box
+     the fill is clipped to and shaves the right edge off each glyph. Padding gives overhangs room. */
+  letter-spacing: 0;
+  padding-inline: 0.06em;
+  margin-inline: -0.06em -0.105em;
   color: transparent;
   transform-origin: 50% 100%;
   will-change: transform;
