@@ -828,3 +828,200 @@
   font: 700 clamp(28px, 6vw, 48px) / 1 var(--vz-font-display);
   letter-spacing: -0.03em;
 }
+
+/* ———— 0.8 demos ———— */
+.ks-stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 28px clamp(12px, 4vw, 48px) 48px;
+}
+.ks-kb {
+  max-width: 1080px;
+}
+.ks-kbd-line {
+  margin: 0;
+  font-size: var(--vz-text-lg);
+  text-align: center;
+}
+.ks-thumb {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+}
+.ks-link {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--vz-accent-text);
+  font: 600 var(--vz-text-sm) / 1 var(--vz-font-sans);
+  cursor: pointer;
+}
+.ks-shop {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+.ks-shop-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--vz-border);
+}
+.ks-shop-brand {
+  font: 700 var(--vz-text-lg) / 1 var(--vz-font-display);
+}
+.ks-products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.ks-product {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-lg);
+  background: var(--vz-surface);
+}
+.ks-product p {
+  margin: 0;
+}
+.ks-product-art {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--vz-radius-md);
+}
+.ks-product-name {
+  font-weight: 600;
+}
+.ks-product .vz-add-cart {
+  margin-top: 6px;
+  padding: 0 12px;
+}
+.ks-logos {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 22px;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+.ks-logos .vz-logos {
+  width: 100%;
+}
+.ks-stickers {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 5vw, 56px);
+  width: 100%;
+  min-height: 100%;
+  padding: 40px 16px 56px;
+}
+.ks-sticker {
+  display: grid;
+  place-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+}
+.ks-sticker-drop {
+  background: radial-gradient(circle at 30% 25%, #2a2f55, #090b18);
+}
+.ks-sticker-drop svg {
+  width: 72px;
+  fill: #00e5ff;
+  filter: drop-shadow(0 0 10px rgb(0 229 255 / 0.6));
+}
+.ks-sticker-text {
+  width: 150px;
+  height: 84px;
+  background: linear-gradient(135deg, #ff2bd6, #ffb238);
+  color: #1a0012;
+  font: 900 28px / 1 var(--vz-font-display);
+  letter-spacing: -0.02em;
+  transform: rotate(-4deg);
+}
+.ks-sticker-emoji {
+  border-radius: 50%;
+  background: #fff6c9;
+  font-size: 64px;
+}
+.ks-sticker-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.ks-compare {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 24px 16px;
+}
+.ks-compare .vz-compare {
+  width: min(100%, 760px);
+  aspect-ratio: 16 / 9;
+}
+.ks-raw {
+  filter: grayscale(0.85) contrast(0.8) brightness(0.9);
+}
+.ks-flip {
+  width: min(100%, 300px);
+}
+.ks-face {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 300px;
+  padding: 24px;
+  border: 1px solid var(--vz-border-strong);
+  background: var(--vz-bg-elevated);
+}
+.ks-face p {
+  margin: 0;
+}
+.ks-face-front {
+  background:
+    radial-gradient(
+      120% 80% at 100% 0%,
+      color-mix(in oklab, var(--vz-violet) 30%, transparent),
+      transparent 60%
+    ),
+    var(--vz-bg-elevated);
+}
+.ks-face-front .vz-badge {
+  justify-self: start;
+}
+.ks-face-price {
+  font: 700 48px / 1 var(--vz-font-display);
+  letter-spacing: -0.03em;
+}
+.ks-face-price span {
+  color: var(--vz-text-muted);
+  font-size: 18px;
+}
+.ks-face-hint {
+  align-self: end;
+  margin-top: auto;
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+}
+.ks-face-back ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+}

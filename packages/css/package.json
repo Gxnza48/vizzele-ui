@@ -1,6 +1,6 @@
 {
   "name": "@vizzele/css",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Vizzele UI design tokens, themes, liquid-light materials and pure-CSS animation utilities.",
   "license": "MIT",
   "type": "module",

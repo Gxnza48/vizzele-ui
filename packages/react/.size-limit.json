@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "65 kB"
+    "limit": "72 kB"
   },
   {
     "name": "react { Button }",
@@ -159,5 +159,26 @@
     "import": "{ confetti }",
     "ignore": ["react", "react-dom"],
     "limit": "2 kB"
+  },
+  {
+    "name": "react { MechanicalKeyboard }",
+    "path": "dist/index.js",
+    "import": "{ MechanicalKeyboard }",
+    "ignore": ["react", "react-dom"],
+    "limit": "4.2 kB"
+  },
+  {
+    "name": "react { ShoppingCart }",
+    "path": "dist/index.js",
+    "import": "{ ShoppingCart }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "react { Sticker }",
+    "path": "dist/index.js",
+    "import": "{ Sticker }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3.2 kB"
   }
 ]

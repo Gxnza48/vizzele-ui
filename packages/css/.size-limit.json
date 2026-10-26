@@ -2,7 +2,7 @@
   {
     "name": "css (everything, min+gz)",
     "path": "dist/vizzele.min.css",
-    "limit": "24.5 kB"
+    "limit": "28.5 kB"
   },
   {
     "name": "css tokens+themes",

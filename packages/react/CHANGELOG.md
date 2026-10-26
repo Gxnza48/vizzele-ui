@@ -1,5 +1,15 @@
 # @vizzele/react
 
+## 0.8.0
+
+### Minor Changes
+
+- Eleven new pieces. **MechanicalKeyboard** — a keyboard you can play, in full, TKL, 65% (68) or 60% layouts: creamy keycaps that sink and spring back, RGB underglow (wave, reactive, breathe, static) that ripples out from every press, four keycap sets, an optional synthesised thock, and a text field above it that drives it. **Kbd** — a keycap for shortcuts that presses when you hit the key. **ShoppingCart**, **AddToCartButton** (throws the product into the cart in an arc), **CartButton** and `flyToCart()`. **LogoMarquee** for sponsors, **Countdown** with rolling digits, **Sticker** (peel it from a corner along a real fold, carry it and stick it again, with holographic foil), **Badge**, **StatusBadge**, **CompareSlider** and **FlipCard**.
+
+### Patch Changes
+
+- @vizzele/core@0.8.0
+
 ## 0.7.0
 
 ### Minor Changes

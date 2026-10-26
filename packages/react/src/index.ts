@@ -298,6 +298,41 @@ export {
   type Theme,
   type ThemeToggleProps,
 } from './components/delight';
+export {
+  Kbd,
+  MechanicalKeyboard,
+  type KbdProps,
+  type KeyboardLayout,
+  type MechanicalKeyboardProps,
+} from './components/keyboard';
+export {
+  AddToCartButton,
+  CartButton,
+  Countdown,
+  LogoMarquee,
+  ShoppingCart,
+  flyToCart,
+  type AddToCartButtonProps,
+  type CartButtonProps,
+  type CartItem,
+  type CountdownProps,
+  type LogoMarqueeLogo,
+  type LogoMarqueeProps,
+  type ShoppingCartProps,
+} from './components/shop';
+export {
+  Badge,
+  CompareSlider,
+  FlipCard,
+  StatusBadge,
+  Sticker,
+  type BadgeProps,
+  type CompareSliderProps,
+  type FlipCardProps,
+  type Status,
+  type StatusBadgeProps,
+  type StickerProps,
+} from './components/fun';
 
 // Re-export the engine so apps need a single import.
 export {

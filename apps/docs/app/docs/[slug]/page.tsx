@@ -67,7 +67,8 @@ export default async function ComponentPage({ params }: { params: Promise<{ slug
           <h2 id="props" className="vz-heading">
             Props
           </h2>
-          <div className="table-wrap">
+          {/* Focusable, so a table wider than the screen can be scrolled from the keyboard. */}
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Props table">
             <table className="props-table">
               <thead>
                 <tr>
