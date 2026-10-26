@@ -4,6 +4,7 @@ import {
   useId,
   useRef,
   useState,
+  type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
   type CSSProperties,
   type InputHTMLAttributes,
@@ -26,7 +27,11 @@ import type { DivProps } from './pointer';
 
 export type ButtonVariant = 'default' | 'liquid' | 'holo' | 'glow' | 'ghost';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    // Link attributes, for `as="a"` or a router Link.
+    Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel' | 'download' | 'hrefLang'> {
   variant?: ButtonVariant;
   size?: 'sm' | 'md' | 'lg';
   /** Pull toward the pointer. Pass options to tune it. */

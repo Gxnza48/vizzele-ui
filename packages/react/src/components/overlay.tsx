@@ -29,8 +29,10 @@ export interface ModalProps {
   children?: ReactNode;
   /** Max width. Default 520px. */
   width?: number | string;
-  /** Close by dragging the header down, Escape or the backdrop. Default true. */
+  /** Close by dragging the header down, Escape, the backdrop or the × button. Default true. */
   dismissible?: boolean;
+  /** Accessible name of the × button. Default "Close". */
+  closeLabel?: string;
   className?: string;
 }
 
@@ -47,6 +49,7 @@ export function Modal({
   children,
   width = 520,
   dismissible = true,
+  closeLabel = 'Close',
   className,
 }: ModalProps) {
   const [mounted, setMounted] = useState(open);
@@ -192,16 +195,24 @@ export function Modal({
                 {title}
               </h2>
             )}
-            <button type="button" className="vz-modal-close" onClick={close} aria-label="Close">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M6 6l12 12M18 6L6 18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
+            {/* A dialog that must be answered has no way out but its own buttons. */}
+            {dismissible && (
+              <button
+                type="button"
+                className="vz-modal-close"
+                onClick={close}
+                aria-label={closeLabel}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M6 6l12 12M18 6L6 18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            )}
           </div>
           {description && (
             <p id={descId} className="vz-modal-desc">

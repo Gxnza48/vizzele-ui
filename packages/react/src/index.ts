@@ -318,6 +318,7 @@ export {
   type CountdownProps,
   type LogoMarqueeLogo,
   type LogoMarqueeProps,
+  type ShoppingCartLabels,
   type ShoppingCartProps,
 } from './components/shop';
 export {

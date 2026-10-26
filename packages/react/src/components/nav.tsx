@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from 'react';
 import { Spring, clamp, onScroll, prefersReducedMotion, resolveSpring } from '@vizzele/core';
-import { cx, useIsomorphicLayoutEffect, useLatest } from '../hooks/utils';
+import { cx, inertProps, useIsomorphicLayoutEffect, useLatest } from '../hooks/utils';
 
 // ——————————————————————————— Tabs ———————————————————————————
 
@@ -526,7 +526,7 @@ function AccordionSection({
         aria-labelledby={`${id}-trigger`}
         className="vz-accordion-panel"
         hidden={false}
-        inert={!open || undefined}
+        {...inertProps(!open)}
       >
         <div ref={inner} className="vz-accordion-content">
           {item.content}

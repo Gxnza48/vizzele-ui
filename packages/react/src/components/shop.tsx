@@ -204,17 +204,22 @@ export interface CartButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
   count?: number;
   /** Accessible name. Default "Cart". */
   label?: string;
+  /** How the count is spoken. Default "3 items". */
+  countLabel?: (count: number) => string;
 }
 
 /** A bag icon with a count that pops whenever it goes up — the target for AddToCartButton. */
 export const CartButton = /* @__PURE__ */ forwardRef<HTMLButtonElement, CartButtonProps>(
-  function CartButton({ count = 0, label = 'Cart', className, ...rest }, ref) {
+  function CartButton(
+    { count = 0, label = 'Cart', countLabel = itemsLabel, className, ...rest },
+    ref,
+  ) {
     return (
       <button
         ref={ref}
         type="button"
         className={cx('vz-cart-button', className)}
-        aria-label={count ? `${label}, ${count} ${count === 1 ? 'item' : 'items'}` : label}
+        aria-label={count ? `${label}, ${countLabel(count)}` : label}
         {...rest}
       >
         <Icon d={BAG} />
@@ -240,7 +245,48 @@ export interface CartItem {
   image?: string | ReactNode;
   /** A line under the name — size, colour. */
   meta?: ReactNode;
+  /** Most you can have of this one (stock). Default the cart's maxQuantity. */
+  max?: number;
 }
+
+/** Every word the cart says, for translation. */
+export interface ShoppingCartLabels {
+  items: (count: number) => string;
+  freeShippingUnlocked: ReactNode;
+  awayFromFreeShipping: (amount: ReactNode) => ReactNode;
+  empty: ReactNode;
+  list: string;
+  quantityOf: (name: string) => string;
+  decrease: string;
+  increase: string;
+  remove: string;
+  subtotal: string;
+  shipping: string;
+  free: string;
+  total: string;
+}
+
+const itemsLabel = (n: number) => `${n} ${n === 1 ? 'item' : 'items'}`;
+
+const CART_LABELS: ShoppingCartLabels = {
+  items: itemsLabel,
+  freeShippingUnlocked: 'Free shipping unlocked ✦',
+  awayFromFreeShipping: (amount) => (
+    <>
+      You’re <b>{amount}</b> away from free shipping
+    </>
+  ),
+  empty: 'Your cart is empty',
+  list: 'Items',
+  quantityOf: (name) => `Quantity of ${name}`,
+  decrease: 'Decrease',
+  increase: 'Increase',
+  remove: 'Remove',
+  subtotal: 'Subtotal',
+  shipping: 'Shipping',
+  free: 'Free',
+  total: 'Total',
+};
 
 export interface ShoppingCartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   items: CartItem[];
@@ -263,18 +309,14 @@ export interface ShoppingCartProps extends Omit<HTMLAttributes<HTMLDivElement>, 
   maxQuantity?: number;
   /** Shown when there is nothing in the cart. */
   empty?: ReactNode;
+  /** Translate any of the cart's words. */
+  labels?: Partial<ShoppingCartLabels>;
+  /** Format prices yourself (e.g. without cents). Overrides currency and locale. */
+  formatPrice?: (value: number) => string;
 }
 
-function Money({
-  value,
-  currency,
-  locale,
-}: {
-  value: number;
-  currency: string;
-  locale?: string | undefined;
-}) {
-  return <>{money(useTweened(value), currency, locale)}</>;
+function Money({ value, format }: { value: number; format: (n: number) => string }) {
+  return <>{format(useTweened(value))}</>;
 }
 
 /**
@@ -296,11 +338,14 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
       checkoutLabel = 'Checkout',
       maxQuantity = 99,
       empty,
+      labels: labelsProp,
+      formatPrice,
       className,
       ...rest
     },
     ref,
   ) {
+    const t = { ...CART_LABELS, ...labelsProp };
     const [leaving, setLeaving] = useState<Set<string>>(new Set());
     const [busy, setBusy] = useState(false);
     const live = items.filter((i) => !leaving.has(i.id));
@@ -308,7 +353,7 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
     const subtotal = live.reduce((n, i) => n + i.price * i.quantity, 0);
     const free = freeShippingAt !== undefined && subtotal >= freeShippingAt;
     const ship = !count || free ? 0 : shipping;
-    const fmt = (n: number) => money(n, currency, locale);
+    const fmt = formatPrice ?? ((n: number) => money(n, currency, locale));
 
     const remove = (id: string) => {
       if (prefersReducedMotion()) onRemove?.(id);
@@ -327,20 +372,16 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
         <div className="vz-cart-head">
           <h2 className="vz-cart-title">{title}</h2>
           <span className="vz-cart-items" aria-live="polite">
-            {count} {count === 1 ? 'item' : 'items'}
+            {t.items(count)}
           </span>
         </div>
 
         {freeShippingAt !== undefined && count > 0 && (
           <div className="vz-cart-ship" data-free={free ? '' : undefined}>
             <p>
-              {free ? (
-                <>Free shipping unlocked ✦</>
-              ) : (
-                <>
-                  You’re <b>{fmt(freeShippingAt - subtotal)}</b> away from free shipping
-                </>
-              )}
+              {free
+                ? t.freeShippingUnlocked
+                : t.awayFromFreeShipping(fmt(freeShippingAt - subtotal))}
             </p>
             <span
               className="vz-cart-ship-bar"
@@ -354,12 +395,12 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
             {empty ?? (
               <>
                 <Icon d={BAG} />
-                <p>Your cart is empty</p>
+                <p>{t.empty}</p>
               </>
             )}
           </div>
         ) : (
-          <ul className="vz-cart-list" aria-label="Items">
+          <ul className="vz-cart-list" aria-label={t.list}>
             {items.map((item) => (
               <li
                 key={item.id}
@@ -377,14 +418,10 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
                   <div className="vz-cart-info">
                     <p className="vz-cart-name">{item.name}</p>
                     {item.meta && <p className="vz-cart-meta">{item.meta}</p>}
-                    <div
-                      className="vz-cart-qty"
-                      role="group"
-                      aria-label={`Quantity of ${item.name}`}
-                    >
+                    <div className="vz-cart-qty" role="group" aria-label={t.quantityOf(item.name)}>
                       <button
                         type="button"
-                        aria-label={item.quantity <= 1 ? `Remove ${item.name}` : 'Decrease'}
+                        aria-label={item.quantity <= 1 ? `${t.remove} ${item.name}` : t.decrease}
                         onClick={() =>
                           item.quantity <= 1
                             ? remove(item.id)
@@ -398,8 +435,8 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
                       </output>
                       <button
                         type="button"
-                        aria-label="Increase"
-                        disabled={item.quantity >= maxQuantity}
+                        aria-label={t.increase}
+                        disabled={item.quantity >= (item.max ?? maxQuantity)}
                         onClick={() => onQuantityChange?.(item.id, item.quantity + 1)}
                       >
                         <Icon d="M12 6v12M6 12h12" />
@@ -407,13 +444,14 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
                     </div>
                   </div>
                   <div className="vz-cart-price">
-                    <Money value={item.price * item.quantity} currency={currency} locale={locale} />
+                    <Money value={item.price * item.quantity} format={fmt} />
                     <button
                       type="button"
                       className="vz-cart-remove"
                       onClick={() => remove(item.id)}
                     >
-                      Remove<span className="vz-sr-only"> {item.name}</span>
+                      {t.remove}
+                      <span className="vz-sr-only"> {item.name}</span>
                     </button>
                   </div>
                 </div>
@@ -424,21 +462,21 @@ export const ShoppingCart = /* @__PURE__ */ forwardRef<HTMLDivElement, ShoppingC
 
         <dl className="vz-cart-totals">
           <div>
-            <dt>Subtotal</dt>
+            <dt>{t.subtotal}</dt>
             <dd>
-              <Money value={subtotal} currency={currency} locale={locale} />
+              <Money value={subtotal} format={fmt} />
             </dd>
           </div>
           {(shipping > 0 || freeShippingAt !== undefined) && (
             <div>
-              <dt>Shipping</dt>
-              <dd>{ship ? fmt(ship) : count ? 'Free' : '—'}</dd>
+              <dt>{t.shipping}</dt>
+              <dd>{ship ? fmt(ship) : count ? t.free : '—'}</dd>
             </div>
           )}
           <div className="vz-cart-total">
-            <dt>Total</dt>
+            <dt>{t.total}</dt>
             <dd>
-              <Money value={subtotal + ship} currency={currency} locale={locale} />
+              <Money value={subtotal + ship} format={fmt} />
             </dd>
           </div>
         </dl>

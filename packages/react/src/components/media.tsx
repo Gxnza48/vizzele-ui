@@ -20,7 +20,7 @@ import {
   resolveSpring,
   wrap,
 } from '@vizzele/core';
-import { cx, useLatest } from '../hooks/utils';
+import { cx, inertProps, useLatest } from '../hooks/utils';
 
 // ——————————————————————————— Marquee ———————————————————————————
 
@@ -184,7 +184,7 @@ export function Marquee({
             key={i}
             className="vz-marquee-js-group"
             aria-hidden={i > 0 || undefined}
-            inert={i > 0 || undefined}
+            {...inertProps(i > 0)}
           >
             {children}
           </div>

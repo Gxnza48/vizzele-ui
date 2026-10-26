@@ -11,6 +11,7 @@ import {
   Kbd,
   LogoMarquee,
   MechanicalKeyboard,
+  Modal,
   ShoppingCart,
   StatusBadge,
   Sticker,
@@ -217,5 +218,55 @@ describe('Sticker, CompareSlider, FlipCard', () => {
       </>,
     );
     expect(html).toContain('vz-kb-plate');
+  });
+});
+
+describe('ShoppingCart in another language', () => {
+  it('speaks the labels it is given and respects each item’s stock', () => {
+    render(
+      <ShoppingCart
+        items={[{ id: 'a', name: 'Uva', price: 10, quantity: 2, max: 2 }]}
+        labels={{
+          items: (n) => `${n} productos`,
+          quantityOf: (name) => `Cantidad de ${name}`,
+          increase: 'Sumar',
+          subtotal: 'Subtotal',
+          total: 'Total a pagar',
+        }}
+      />,
+    );
+    expect(screen.getByText('2 productos')).toBeTruthy();
+    expect(screen.getByText('Total a pagar')).toBeTruthy();
+    const plus = screen
+      .getByRole('group', { name: 'Cantidad de Uva' })
+      .querySelector<HTMLButtonElement>('button[aria-label="Sumar"]')!;
+    expect(plus.disabled).toBe(true);
+  });
+
+  it('the cart button can say its count in your words', () => {
+    render(<CartButton label="Carrito" count={2} countLabel={(n) => `${n} productos`} />);
+    expect(screen.getByRole('button', { name: 'Carrito, 2 productos' })).toBeTruthy();
+  });
+
+  it('hidden faces are really inert', () => {
+    const { container } = render(<FlipCard front="a" back="b" />);
+    expect(container.querySelector('.vz-flip-back')!.hasAttribute('inert')).toBe(true);
+  });
+});
+
+describe('Modal that must be answered', () => {
+  it('has no close button when it is not dismissible, and names it otherwise', () => {
+    const { rerender } = render(
+      <Modal open onOpenChange={() => {}} dismissible={false} title="Age">
+        <button>Yes</button>
+      </Modal>,
+    );
+    expect(screen.queryByRole('button', { name: 'Close' })).toBeNull();
+    rerender(
+      <Modal open onOpenChange={() => {}} closeLabel="Cerrar" title="Age">
+        <button>Yes</button>
+      </Modal>,
+    );
+    expect(screen.getByRole('button', { name: 'Cerrar' })).toBeTruthy();
   });
 });

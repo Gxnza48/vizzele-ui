@@ -1,5 +1,15 @@
 # @vizzele/react
 
+## 0.9.0
+
+### Minor Changes
+
+- Fixes and options found by dressing a real shop (Next 14, React 18) in Vizzele. **React 18:** Marquee, Accordion and FlipCard now make hidden parts inert on React 18 too (it used to drop the attribute with a warning). **ShoppingCart:** `labels` to translate every word, `formatPrice` to format prices yourself (e.g. without cents), and a per-item `max` for stock. **CartButton:** `countLabel` to say the count in your language. **Modal:** a `dismissible={false}` dialog no longer shows a × that closes it; `closeLabel` names the button. **Button:** accepts link attributes (`target`, `rel`, `download`) for `as="a"`.
+
+### Patch Changes
+
+- @vizzele/core@0.9.0
+
 ## 0.8.0
 
 ### Minor Changes

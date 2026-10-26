@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { clamp, frame, prefersReducedMotion, stepSpring } from '@vizzele/core';
-import { cx, useMergedRef } from '../hooks/utils';
+import { cx, inertProps, useMergedRef } from '../hooks/utils';
 
 // ——————————————————————————— Sticker ———————————————————————————
 
@@ -637,14 +637,10 @@ export const FlipCard = /* @__PURE__ */ forwardRef<HTMLDivElement, FlipCardProps
       {...rest}
     >
       <div className="vz-flip-inner">
-        <div className="vz-flip-face" aria-hidden={flipped} inert={flipped || undefined}>
+        <div className="vz-flip-face" aria-hidden={flipped} {...inertProps(flipped)}>
           {front}
         </div>
-        <div
-          className="vz-flip-face vz-flip-back"
-          aria-hidden={!flipped}
-          inert={!flipped || undefined}
-        >
+        <div className="vz-flip-face vz-flip-back" aria-hidden={!flipped} {...inertProps(!flipped)}>
           {back}
         </div>
         <span className="vz-flip-glare" aria-hidden="true" />
