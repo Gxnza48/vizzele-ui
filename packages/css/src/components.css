@@ -191,10 +191,10 @@
   padding: 0 1.6em;
 }
 
-/* Liquid: a moving iridescent body */
+/* Liquid: a moving iridescent body. Dark palettes can flip the text with --vz-on-liquid. */
 .vz-button[data-variant='liquid'] {
   border-color: transparent;
-  color: #060812;
+  color: var(--vz-on-liquid, #060812);
   background: var(--vz-iridescent-linear);
   background-size: 220% 100%;
   background-position: calc(var(--vz-px, 0.3) * 100%) 50%;

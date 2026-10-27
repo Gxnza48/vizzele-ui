@@ -2,7 +2,9 @@
 
 ## 0.9.0
 
-No changes in this release.
+### Minor Changes
+
+- The liquid button's text colour is now `--vz-on-liquid` (default near-black), so dark palettes such as a dark Mono can use white text.
 
 ## 0.8.0
 
