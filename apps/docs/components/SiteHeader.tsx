@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Spring, onScroll, resolveSpring } from '@vizzele/core';
-import { Button } from '@vizzele/react';
+import { Button, ThemeToggle } from '@vizzele/react';
 import { Search } from './Search';
 import { CURSOR_EVENT, CURSOR_KEY } from './SiteEffects';
 import { Logo } from './Logo';
@@ -37,7 +37,6 @@ const links = [
 export function SiteHeader() {
   const pathname = usePathname() ?? '/';
   const home = pathname === '/';
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [cursorOn, setCursorOn] = useState(true);
   const [condensed, setCondensed] = useState(!home);
   const nav = useRef<HTMLElement>(null);
@@ -45,7 +44,6 @@ export function SiteHeader() {
   const edges = useRef<{ l: Spring; r: Spring; o: Spring } | null>(null);
 
   useEffect(() => {
-    setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
     try {
       setCursorOn(localStorage.getItem(CURSOR_KEY) !== 'off');
     } catch {
@@ -117,10 +115,7 @@ export function SiteHeader() {
     return () => cancelAnimationFrame(r);
   }, [pathname, condensed, restOnActive]);
 
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    document.documentElement.dataset.theme = next;
+  const saveTheme = (next: 'dark' | 'light') => {
     try {
       localStorage.setItem('vz-theme', next);
     } catch {
@@ -170,7 +165,13 @@ export function SiteHeader() {
               key={l.href}
               href={l.href}
               className={
-                l.label === 'Theming' ? 'hide-md' : l.label === 'Physics' ? 'hide-sm' : undefined
+                l.label === 'Theming'
+                  ? 'hide-md'
+                  : l.label === 'Physics'
+                    ? 'hide-tab'
+                    : l.label === 'Blocks'
+                      ? 'hide-xs'
+                      : undefined
               }
               aria-current={l.match(pathname) ? 'page' : undefined}
               onPointerEnter={(e) => moveTo(e.currentTarget)}
@@ -195,33 +196,8 @@ export function SiteHeader() {
             </svg>
             <span className="vz-sr-only">Liquid cursor</span>
           </button>
-          <button
-            type="button"
-            className="icon-button"
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            {theme === 'dark' ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="1.6" />
-                <path
-                  d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
-          </button>
+          {/* The library's own day-to-night switch, small: the page changes in a circle from it. */}
+          <ThemeToggle className="site-theme" label="Dark theme" onThemeChange={saveTheme} />
           <a
             className="icon-button hide-sm"
             href="https://github.com/Gxnza48/vizzele-ui"

@@ -3,7 +3,10 @@
 import { useMemo, useState } from 'react';
 import type { Control, ControlValues } from '@/lib/types';
 import { demos } from '@/demos';
-import { Select } from '@vizzele/react';
+import { Checkbox, ElasticSlider, Select } from '@vizzele/react';
+
+/** Decimals a step needs, so 0.05 steps read "0.35", not "0.35000000000000003". */
+const decimals = (step = 1) => (String(step).split('.')[1] ?? '').length;
 
 const initialValues = (controls: Control[] = []): ControlValues =>
   Object.fromEntries(controls.map((c) => [c.name, c.default]));
@@ -93,24 +96,27 @@ function ControlInput({
   const label = c.label ?? c.name;
   const id = `ctl-${c.name}`;
   switch (c.type) {
-    case 'range':
+    case 'range': {
+      const d = decimals(c.step);
       return (
-        <label className="control" htmlFor={id}>
+        <div className="control">
           <span className="control-head">
             <span>{label}</span>
-            <output htmlFor={id}>{String(value)}</output>
+            <output>{Number(value).toFixed(d)}</output>
           </span>
-          <input
-            id={id}
-            type="range"
+          <ElasticSlider
+            className="control-slider"
+            label={label}
             min={c.min}
             max={c.max}
             step={c.step ?? 1}
             value={Number(value)}
-            onChange={(e) => onChange(Number(e.target.value))}
+            showValue={false}
+            onChange={(v) => onChange(Number(v.toFixed(d)))}
           />
-        </label>
+        </div>
       );
+    }
     case 'select':
       return (
         <div className="control">
@@ -129,15 +135,13 @@ function ControlInput({
       );
     case 'boolean':
       return (
-        <label className="control control-inline" htmlFor={id}>
-          <input
-            id={id}
-            type="checkbox"
-            checked={Boolean(value)}
-            onChange={(e) => onChange(e.target.checked)}
-          />
-          <span>{label}</span>
-        </label>
+        <Checkbox
+          id={id}
+          className="control-check"
+          label={label}
+          checked={Boolean(value)}
+          onCheckedChange={onChange}
+        />
       );
     case 'color':
       return (

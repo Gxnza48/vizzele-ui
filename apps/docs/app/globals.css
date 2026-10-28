@@ -544,9 +544,13 @@ img {
   gap: 10px;
   text-transform: capitalize;
 }
-.control input[type='range'] {
+.control-slider {
   width: 100%;
-  accent-color: var(--vz-accent);
+}
+.control-check {
+  color: var(--vz-text-muted);
+  font-size: var(--vz-text-sm);
+  text-transform: capitalize;
 }
 .control select,
 .control input[type='text'] {
@@ -557,11 +561,6 @@ img {
   background: var(--vz-surface);
   color: var(--vz-text);
   font: inherit;
-}
-.control input[type='checkbox'] {
-  accent-color: var(--vz-accent);
-  width: 16px;
-  height: 16px;
 }
 .control input[type='color'] {
   width: 32px;
@@ -1308,4 +1307,43 @@ img {
 }
 [data-theme='light'] .code-body .shiki span[style*='--shiki-light:#6E7781'] {
   color: #57606a;
+}
+
+/* The library's theme toggle, at navbar size. */
+.site-theme {
+  zoom: 0.72;
+  flex: none;
+  margin-inline: 4px;
+}
+
+/* The navbar has to fit everything on one line at every width: links and labels give way
+   first, the search shrinks to an icon, the controls always stay. */
+@media (max-width: 1000px) {
+  .search-trigger {
+    padding: 0;
+    width: 38px;
+    justify-content: center;
+  }
+  .search-trigger > :not(svg) {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .hide-tab {
+    display: none !important;
+  }
+}
+@media (max-width: 480px) {
+  .hide-xs {
+    display: none !important;
+  }
+}
+@media (max-width: 400px) {
+  .site-nav a {
+    padding: 8px 8px;
+  }
+  .site-theme {
+    zoom: 0.62;
+    margin-inline: 2px;
+  }
 }
