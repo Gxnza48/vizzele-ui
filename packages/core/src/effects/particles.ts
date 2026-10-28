@@ -1,6 +1,7 @@
 import { isBrowser } from '../env';
 import { iridescentPalette, parseColor } from '../color';
 import { getDeviceTier, isCoarsePointer, prefersReducedMotion } from '../motion';
+import { getQuality } from '../quality';
 import { onPointerMove } from '../pointer';
 import { frame } from '../scheduler';
 
@@ -97,7 +98,8 @@ export function particleTrail(options: ParticleTrailOptions = {}) {
   };
 
   const particles: Particle[] = [];
-  const limit = () => Math.round((opts.max ?? 220) * (getDeviceTier() === 'low' ? 0.5 : 1));
+  const limit = () =>
+    Math.round((opts.max ?? 220) * (getDeviceTier() === 'low' ? 0.5 : 1) * getQuality());
   let carry = 0;
   let lastX = NaN;
   let lastY = NaN;

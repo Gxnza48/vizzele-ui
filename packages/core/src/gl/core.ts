@@ -2,6 +2,7 @@ import { isBrowser } from '../env';
 import { frame } from '../scheduler';
 import { getDeviceTier, prefersReducedMotion } from '../motion';
 import { observeVisibility } from '../observe';
+import { getQuality, MIN_QUALITY, onQualityChange } from '../quality';
 
 export type UniformValue =
   | number
@@ -102,6 +103,8 @@ export interface CanvasLoopOptions {
 /**
  * Drives a canvas: keeps its backing store sized to its CSS box, pauses while off-screen
  * or in a background tab, and renders a single frame under reduced motion.
+ * The backing store also follows the adaptive quality: a device that can't keep up gets
+ * fewer pixels (the CSS stretches them back), never a frozen effect.
  */
 export function canvasLoop(canvas: HTMLCanvasElement, options: CanvasLoopOptions) {
   let width = 0;
@@ -113,7 +116,7 @@ export function canvasLoop(canvas: HTMLCanvasElement, options: CanvasLoopOptions
   const reduced = () => options.respectReducedMotion !== false && prefersReducedMotion();
 
   const resize = () => {
-    dpr = pixelRatioFor() * (options.resolution ?? 1);
+    dpr = pixelRatioFor() * (options.resolution ?? 1) * getQuality();
     const rect = canvas.getBoundingClientRect();
     width = Math.max(1, Math.round(rect.width * dpr));
     height = Math.max(1, Math.round(rect.height * dpr));
@@ -125,11 +128,19 @@ export function canvasLoop(canvas: HTMLCanvasElement, options: CanvasLoopOptions
     if (reduced() || !stopFrame) options.render(time, 0);
   };
 
+  let skipped = 0;
   const start = () => {
     if (stopFrame || reduced()) return;
     stopFrame = frame.add(({ delta }) => {
       time += delta;
-      options.render(time, delta);
+      // At the lowest quality the GPU only draws every other frame (time still runs at full
+      // speed, so the motion keeps its pace — it just steps at 30 fps instead of stuttering).
+      if (getQuality() > MIN_QUALITY) {
+        options.render(time, delta);
+        return;
+      }
+      if (skipped++ % 2 === 0) return;
+      options.render(time, Math.min(delta * 2, 1 / 15));
     }, 'render');
   };
   const stop = () => {
@@ -140,6 +151,7 @@ export function canvasLoop(canvas: HTMLCanvasElement, options: CanvasLoopOptions
   const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(resize) : null;
   ro?.observe(canvas);
   resize();
+  const unquality = onQualityChange(resize);
   const unobserve = observeVisibility(canvas, (v) => {
     visible = v;
     if (v && !document.hidden) start();
@@ -156,6 +168,7 @@ export function canvasLoop(canvas: HTMLCanvasElement, options: CanvasLoopOptions
     destroy() {
       stop();
       ro?.disconnect();
+      unquality();
       unobserve();
       document.removeEventListener('visibilitychange', onVisibility);
     },

@@ -84,6 +84,8 @@ export const demos: Record<string, DemoComponent> = {
   'split-flap': load(() => import('./delight').then((m) => m.SplitFlapDemo)),
   orbit: load(() => import('./delight').then((m) => m.OrbitDemo)),
   'dot-grid': load(() => import('./delight').then((m) => m.DotGridDemo)),
+  'scratch-card': load(() => import('./extras').then((m) => m.ScratchCardDemo)),
+  'lazy-mount': load(() => import('./extras').then((m) => m.LazyMountDemo)),
   'mechanical-keyboard': load(() => import('./keys-shop').then((m) => m.MechanicalKeyboardDemo)),
   kbd: load(() => import('./keys-shop').then((m) => m.KbdDemo)),
   'shopping-cart': load(() => import('./keys-shop').then((m) => m.ShoppingCartDemo)),

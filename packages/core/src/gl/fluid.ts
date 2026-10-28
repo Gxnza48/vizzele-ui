@@ -1,6 +1,7 @@
 import { canvasLoop, createQuad } from './core';
 import { DEFAULT_COLORS, canvasPointer, createPass, getGL, type Pass } from './pass';
 import { getDeviceTier, prefersReducedMotion } from '../motion';
+import { getQuality } from '../quality';
 import { sampleGradient } from '../color';
 
 export interface FluidOptions {
@@ -208,15 +209,25 @@ export function fluid(canvas: HTMLCanvasElement, options: FluidOptions = {}) {
     }
     owned = [];
   };
-  const allocate = () => {
+  let size = { w: 0, h: 0 };
+  /** (Re)creates the grids. Returns false when the current ones are close enough to keep. */
+  const allocate = (force = true) => {
+    // The grids shrink with the adaptive quality too (never below a still-smooth floor).
+    const q = getQuality();
+    const sim = sizeFor(Math.max(48, Math.round((opts.simResolution ?? (low ? 64 : 128)) * q)));
+    const dyeS = sizeFor(Math.max(256, Math.round((opts.dyeResolution ?? (low ? 384 : 768)) * q)));
+    // A phone's URL bar sliding in and out nudges the size: stretching the grid a few percent is
+    // invisible, while rebuilding it would wipe the ink.
+    const near = (a: number, b: number) => Math.abs(a - b) <= b * 0.12;
+    if (!force && near(dyeS.w, size.w) && near(dyeS.h, size.h)) return false;
+    size = dyeS;
     free();
-    const sim = sizeFor(opts.simResolution ?? (low ? 64 : 128));
-    const dyeS = sizeFor(opts.dyeResolution ?? (low ? 384 : 768));
     velocity = createDouble(sim.w, sim.h, gl.RG16F, gl.RG);
     dye = createDouble(dyeS.w, dyeS.h, gl.RGBA16F, gl.RGBA);
     pressure = createDouble(sim.w, sim.h, gl.R16F, gl.RED);
     divergence = createFBO(sim.w, sim.h, gl.R16F, gl.RED);
     curl = createFBO(sim.w, sim.h, gl.R16F, gl.RED);
+    return true;
   };
 
   const blit = (target: FBO | null) => {
@@ -290,7 +301,10 @@ export function fluid(canvas: HTMLCanvasElement, options: FluidOptions = {}) {
       .use()
       .set('uTexel', t)
       .setInt('uDivergence', bindTex(1, divergence.tex));
-    const iterations = opts.pressureIterations ?? (low ? 10 : 20);
+    const iterations = Math.max(
+      6,
+      Math.round((opts.pressureIterations ?? (low ? 10 : 20)) * getQuality()),
+    );
     for (let i = 0; i < iterations; i++) {
       p.setInt('uPressure', bindTex(0, pressure.read.tex));
       blit(pressure.write);
@@ -338,7 +352,7 @@ export function fluid(canvas: HTMLCanvasElement, options: FluidOptions = {}) {
   const loop = canvasLoop(canvas, {
     resolution: 1,
     onResize: () => {
-      allocate();
+      if (!allocate(false)) return;
       allocated = true;
       // A few opening splats so it never starts empty.
       for (let i = 0; i < 4; i++) {

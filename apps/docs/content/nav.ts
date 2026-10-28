@@ -13,6 +13,7 @@ import { originalEntries } from './originals';
 import { liquidKitEntries } from './liquid-kit';
 import { delightEntries } from './delight';
 import { keysShopEntries } from './keys-shop';
+import { extraEntries } from './extras';
 
 export const entries: DocEntry[] = [
   ...pointerEntries,
@@ -30,6 +31,7 @@ export const entries: DocEntry[] = [
   ...liquidKitEntries,
   ...delightEntries,
   ...keysShopEntries,
+  ...extraEntries,
 ];
 
 export const guides = [
@@ -47,6 +49,11 @@ export const guides = [
     slug: 'springs',
     title: 'Spring physics',
     description: 'Stiffness, damping and mass, explained by playing.',
+  },
+  {
+    slug: 'performance',
+    title: 'Performance',
+    description: 'Adaptive quality, lazy mounting and what runs when nobody is looking.',
   },
   {
     slug: 'reduced-motion',

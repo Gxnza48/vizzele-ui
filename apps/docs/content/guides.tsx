@@ -229,7 +229,78 @@ const reduced = useReducedMotion();`}
   );
 }
 
+function Performance() {
+  return (
+    <div className="prose">
+      <p>
+        Vizzele is built so the effects stay on everywhere — a five-year-old laptop, a budget phone
+        — and only get cheaper when they have to. Most of it happens without you doing anything.
+      </p>
+      <h2>What runs, and when</h2>
+      <ul>
+        <li>
+          Every animation shares one <code>requestAnimationFrame</code> loop, split into read,
+          update and render phases so the DOM is never measured and written in the same breath. The
+          loop sleeps when nothing moves.
+        </li>
+        <li>
+          WebGL backgrounds, canvases and orbs pause while they are off-screen or the tab is hidden,
+          and render one still frame under reduced motion.
+        </li>
+        <li>
+          Continuous CSS effects (shimmers, the keyboard&apos;s RGB wave, glows) animate only{' '}
+          <code>transform</code>, <code>opacity</code> or <code>filter</code> — work the GPU does on
+          its own, with no style or paint per frame.
+        </li>
+      </ul>
+      <h2>Adaptive quality</h2>
+      <p>
+        The shared loop measures real frame times. When a device can&apos;t keep up for two seconds
+        in a row, the quality steps down: WebGL renders fewer pixels (the CSS scales them back up),
+        the fluid uses a smaller grid and fewer solver passes, particle and confetti counts shrink,
+        and at the lowest level the GPU draws every other frame. When frames are fast again it
+        climbs back, slowly, so it never flickers. While it is reduced,{' '}
+        <code>&lt;html data-vz-quality=&quot;low&quot;&gt;</code> is set for your own CSS.
+      </p>
+      <Code
+        lang="ts"
+        code={`import { getQuality, onQualityChange, setQuality } from '@vizzele/core';
+
+getQuality(); // 1 = full, down to 0.4
+onQualityChange((q) => console.log('quality', q));
+
+setQuality(0.55);   // e.g. a "battery saver" toggle
+setQuality('auto'); // back to the governor`}
+      />
+      <h2>Load less up front</h2>
+      <p>
+        Below-the-fold showpieces don&apos;t need to exist before anyone scrolls to them. Wrap them
+        in <code>LazyMount</code> — and code-split them — so they cost nothing until they&apos;re
+        near:
+      </p>
+      <Code
+        code={`import { lazy, Suspense } from 'react';
+import { LazyMount } from '@vizzele/react';
+
+const Story = lazy(() => import('./Story'));
+
+<LazyMount minHeight={800}>
+  <Suspense>
+    <Story />
+  </Suspense>
+</LazyMount>`}
+      />
+      <p>
+        Content people search for should stay server-rendered: in Next.js, <code>next/dynamic</code>{' '}
+        keeps the HTML and still splits the code, so each section hydrates on its own instead of in
+        one long task.
+      </p>
+    </div>
+  );
+}
+
 export const guideContent: Record<string, ComponentType> = {
+  performance: Performance,
   installation: Installation,
   theming: Theming,
   springs: Springs,

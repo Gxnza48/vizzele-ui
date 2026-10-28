@@ -1025,3 +1025,71 @@
   margin: 0;
   padding-left: 18px;
 }
+
+/* ———— 0.10 demos ———— */
+.sc-card {
+  width: min(340px, 100%);
+  height: 200px;
+  box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.6);
+}
+.sc-prize {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  height: 100%;
+  padding: 20px;
+  border: 1px dashed var(--vz-border-strong);
+  border-radius: inherit;
+  background: radial-gradient(120% 90% at 50% 0%, var(--vz-surface-strong), var(--vz-surface));
+  text-align: center;
+}
+.sc-prize strong {
+  font: 800 clamp(30px, 8vw, 42px) / 1 var(--vz-font-display);
+  letter-spacing: 0.04em;
+}
+.sc-again {
+  padding: 6px 14px;
+  border: 1px solid var(--vz-border-strong);
+  border-radius: var(--vz-radius-pill);
+  background: none;
+  color: var(--vz-text);
+  font: inherit;
+  cursor: pointer;
+}
+.sc-lazy {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  padding: 20px clamp(12px, 4vw, 32px);
+}
+.sc-lazy-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--vz-text-sm);
+}
+.sc-lazy-scroll {
+  overflow-y: auto;
+  border: 1px solid var(--vz-border);
+  border-radius: var(--vz-radius-lg);
+  overscroll-behavior: contain;
+}
+.sc-lazy-spacer {
+  display: grid;
+  place-items: center;
+  height: 420px;
+  padding: 24px;
+  color: var(--vz-text-muted);
+  text-align: center;
+}
+.sc-lazy-slot {
+  position: relative;
+  height: 260px;
+}
+.sc-lazy-gl {
+  position: absolute;
+  inset: 0;
+}

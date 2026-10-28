@@ -223,16 +223,31 @@
   box-shadow: var(--vz-glow);
 }
 
-/* Glow: breathing light */
+/* Glow: breathing light. The brighter halo is a layer that fades in and out — an opacity
+   animation the GPU runs alone, instead of repainting a shadow every frame. */
 .vz-button[data-variant='glow'] {
   border-color: color-mix(in oklab, var(--vz-accent) 50%, transparent);
   color: var(--vz-accent-text);
-  box-shadow: 0 0 calc(10px + 14px * var(--vz-breathe))
-    color-mix(in oklab, var(--vz-accent) calc(25% + 25% * var(--vz-breathe)), transparent);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--vz-accent) 25%, transparent);
+}
+.vz-button[data-variant='glow']::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 0 24px color-mix(in oklab, var(--vz-accent) 50%, transparent);
+  opacity: 0;
+  pointer-events: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .vz-button[data-variant='glow'] {
-    animation: vz-breathe var(--vz-duration-breathe) ease-in-out infinite;
+  .vz-button[data-variant='glow']::after {
+    animation: vz-glow-breathe var(--vz-duration-breathe) ease-in-out infinite;
+  }
+}
+@keyframes vz-glow-breathe {
+  50% {
+    opacity: 1;
   }
 }
 

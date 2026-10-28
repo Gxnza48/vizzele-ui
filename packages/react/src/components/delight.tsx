@@ -9,7 +9,13 @@ import {
   type PointerEvent,
   type ReactNode,
 } from 'react';
-import { frame, observeVisibility, onPointerMove, prefersReducedMotion } from '@vizzele/core';
+import {
+  frame,
+  getQuality,
+  observeVisibility,
+  onPointerMove,
+  prefersReducedMotion,
+} from '@vizzele/core';
 import { cx, useLatest, useMergedRef } from '../hooks/utils';
 
 const PALETTE = ['#00e5ff', '#ff2bd6', '#ffb238', '#a8ff3e', '#7c5cff'];
@@ -39,7 +45,9 @@ export function confetti(
   options: ConfettiOptions = {},
 ): Promise<void> {
   if (typeof document === 'undefined' || prefersReducedMotion()) return Promise.resolve();
-  const { count = 90, spread = 70, angle = -90, power = 1, colors = PALETTE } = options;
+  const { spread = 70, angle = -90, power = 1, colors = PALETTE } = options;
+  // A device that's struggling gets a smaller (still generous) burst.
+  const count = Math.round((options.count ?? 90) * Math.max(0.6, getQuality()));
   let x = innerWidth / 2;
   let y = innerHeight / 2;
   if (origin instanceof Element) {

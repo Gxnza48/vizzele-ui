@@ -152,8 +152,8 @@ x.set(200);
 Drop two tags into any HTML page. Effects are switched on with `data-vz-*` attributes — no JavaScript to write.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.9/dist/vizzele.min.css" />
-<script src="https://unpkg.com/@vizzele/core@0.9/dist/vizzele.global.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/@vizzele/css@0.10/dist/vizzele.min.css" />
+<script src="https://unpkg.com/@vizzele/core@0.10/dist/vizzele.global.js" defer></script>
 
 <body class="vz-body" data-theme="dark" data-vz-liquid-focus>
   <button class="vz-button" data-variant="liquid" data-vz-magnetic="strength: 0.4">Hover me</button>
@@ -355,6 +355,8 @@ import { TextPortal } from '@vizzele/react';
 
 [![Charts and an agent](.github/assets/dashboard.webp)](https://vizzele-ui.vercel.app/docs/line-chart)
 
+**New in 0.10** — a scratch card with a holographic foil that flakes away under your finger · `LazyMount` to mount heavy sections only when they come near the screen · **adaptive quality**: Vizzele measures real frame times and, on a device that can't keep up, makes WebGL, particles and confetti cheaper instead of dropping frames (`getQuality` / `setQuality`) · a GPU-only RGB wave on the mechanical keyboard, glow button and agent orb
+
 **New in 0.8** — a mechanical keyboard you can play (100%, TKL, 65%, 60%; RGB wave and ripples; creamy keycaps; synthesised thock) · Kbd keycaps for shortcuts · shopping cart · add to cart that flies into the cart icon · logo marquee for sponsors · countdown · a sticker you can peel and stick again · badges · status badges · before/after compare slider · flip card
 
 **New in 0.7** — auth panel (sign in / sign up with Google, a stretchy mode switch and a button that melts into a check) · password input whose eye watches you · liquid password-strength meter · confetti · click spark · heart button · day-to-night theme toggle with a circle reveal · split-flap board · orbit · interactive dot grid
@@ -442,7 +444,7 @@ The spring presets also exist as CSS easings generated from the real physics:
 
 **Is it free?** Yes — MIT licensed, free for personal and commercial use.
 
-**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.9` pick up `0.9.x` fixes on their own.
+**How do I get new versions?** Updates are never pushed into your project automatically — you choose when to upgrade. Run `npm install @vizzele/react@latest @vizzele/css@latest` (or `pnpm up --latest`). Changes are listed in each package's `CHANGELOG.md`. CDN links pinned to `@0.10` pick up `0.10.x` fixes on their own.
 
 ## Development
 

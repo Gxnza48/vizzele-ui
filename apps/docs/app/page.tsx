@@ -1,13 +1,22 @@
+import dynamic from 'next/dynamic';
 import { MultiCode } from '@/components/Code';
 import { entries } from '@/content/nav';
-import { HomeCollection } from '@/components/home/HomeCollection';
 import { HomeHero } from '@/components/home/HomeHero';
-import { HomeLight } from '@/components/home/HomeLight';
 import { HomeFinalCta } from '@/components/home/HomeSections';
-import { HomeStory } from '@/components/home/HomeStory';
-import { HomeStudio } from '@/components/home/HomeStudio';
 import { PaletteProvider } from '@/components/home/palette';
-import { SpringVsKeyframes } from '@/components/home/SpringVsKeyframes';
+
+// Everything below the hero is its own chunk. It's still rendered on the server (no layout
+// shift, nothing lost for search), but each chapter downloads and hydrates on its own, so the
+// hero is interactive first and the page never freezes on one long hydration task.
+const SpringVsKeyframes = dynamic(() =>
+  import('@/components/home/SpringVsKeyframes').then((m) => m.SpringVsKeyframes),
+);
+const HomeCollection = dynamic(() =>
+  import('@/components/home/HomeCollection').then((m) => m.HomeCollection),
+);
+const HomeStory = dynamic(() => import('@/components/home/HomeStory').then((m) => m.HomeStory));
+const HomeLight = dynamic(() => import('@/components/home/HomeLight').then((m) => m.HomeLight));
+const HomeStudio = dynamic(() => import('@/components/home/HomeStudio').then((m) => m.HomeStudio));
 
 const usage = [
   {

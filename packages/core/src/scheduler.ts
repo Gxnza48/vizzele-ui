@@ -1,4 +1,5 @@
 import { isBrowser, now } from './env';
+import { resetFrameSamples, sampleFrame } from './quality';
 
 /**
  * A single requestAnimationFrame loop shared by every animation in Vizzele.
@@ -45,6 +46,7 @@ const state: FrameState = { delta: 0, time: 0 };
 const hasWork = () => phases.some((p) => queues[p].size > 0 || onceQueues[p].size > 0);
 
 function tick(time: number) {
+  if (lastTime && !manual) sampleFrame(time - lastTime);
   state.delta = lastTime ? Math.min((time - lastTime) / 1000, MAX_DELTA) : 1 / 60;
   state.time = time;
   lastTime = time;
@@ -67,6 +69,7 @@ function wake() {
   if (!isBrowser || typeof requestAnimationFrame !== 'function') return;
   running = true;
   lastTime = 0;
+  resetFrameSamples();
   rafId = requestAnimationFrame(tick);
 }
 

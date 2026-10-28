@@ -1,5 +1,12 @@
 # @vizzele/css
 
+## 0.10.0
+
+### Minor Changes
+
+- **Smoother everywhere.** The mechanical keyboard's RGB wave is now one GPU-rotated layer of lights instead of a colour animation on every key (about 13× less main-thread work). The glow button breathes with an opacity layer instead of repainting its shadow, and the agent orb spins its colour wheel with a transform instead of repainting a gradient every frame. Same looks, a fraction of the cost.
+- Styles for the new `ScratchCard`.
+
 ## 0.9.0
 
 ### Minor Changes

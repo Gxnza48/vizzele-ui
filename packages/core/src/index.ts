@@ -2,6 +2,7 @@ export { isBrowser } from './env';
 export * from './math';
 export { frame, type FrameCallback, type FramePhase, type FrameState } from './scheduler';
 export * from './motion';
+export { getQuality, onQualityChange, setQuality, MIN_QUALITY } from './quality';
 export * from './spring';
 export * from './inertia';
 export { VelocityTracker } from './velocity';

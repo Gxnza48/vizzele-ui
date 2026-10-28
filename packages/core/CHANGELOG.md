@@ -1,5 +1,12 @@
 # @vizzele/core
 
+## 0.10.0
+
+### Minor Changes
+
+- **Adaptive quality.** The shared frame loop now measures real frame times. When a device can't keep up for two seconds in a row, heavy effects get cheaper instead of dropping frames: WebGL backgrounds render fewer pixels, the fluid uses a smaller grid and fewer pressure passes, the particle trail spawns fewer particles, and at the lowest level the GPU draws every other frame. It climbs back slowly once frames are fast again. New `getQuality()`, `onQualityChange()` and `setQuality(value | 'auto')`; `<html data-vz-quality="low">` is set while reduced.
+- The fluid keeps its ink when a phone's URL bar resizes the canvas, instead of starting over.
+
 ## 0.9.0
 
 No changes in this release.

@@ -334,6 +334,8 @@ export {
   type StatusBadgeProps,
   type StickerProps,
 } from './components/fun';
+export { LazyMount, type LazyMountProps } from './components/lazy';
+export { ScratchCard, type ScratchCardProps } from './components/scratch';
 
 // Re-export the engine so apps need a single import.
 export {
@@ -343,6 +345,9 @@ export {
   frame,
   setReducedMotion,
   prefersReducedMotion,
+  getQuality,
+  setQuality,
+  onQualityChange,
   copyToClipboard,
   type DragOptions,
   type DragControls,

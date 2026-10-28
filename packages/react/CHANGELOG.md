@@ -1,5 +1,17 @@
 # @vizzele/react
 
+## 0.10.0
+
+### Minor Changes
+
+- **New: `ScratchCard`.** A lottery-ticket foil over any content: drag to scratch, the holographic foil flakes away and catches the light, and once enough is gone the rest dissolves (with confetti if you want). Keyboard users get a Reveal button; the prize is inert until revealed.
+- **New: `LazyMount`.** Mounts its children only when they come near the viewport (or when the browser is idle) — pair it with `React.lazy` / `next/dynamic` so heavy sections cost nothing until they're about to be seen.
+- Performance: the keyboard only touches the lights whose level changed during a ripple; confetti bursts follow the adaptive quality. `getQuality`, `setQuality` and `onQualityChange` are re-exported.
+
+### Patch Changes
+
+- @vizzele/core@0.10.0
+
 ## 0.9.0
 
 ### Minor Changes

@@ -355,7 +355,9 @@ export const MechanicalKeyboard = /* @__PURE__ */ forwardRef<
       nodes.set(n.dataset.code!, list);
     });
     const centres = keys.map((k) => [k.x + k.w / 2, k.y + k.h / 2] as const);
-    const all = Array.from(el.querySelectorAll<HTMLElement>('[data-code]'));
+    const all = Array.from(el.querySelectorAll<HTMLElement>('.vz-kb-led'));
+    // Only touch the lights whose level actually changed: most of the plate sits at 0.
+    const last = new Float64Array(all.length);
     const ripples: { x: number; y: number; t: number }[] = [];
     let stop: (() => void) | null = null;
     const tick = ({ delta }: { delta: number }) => {
@@ -370,7 +372,10 @@ export const MechanicalKeyboard = /* @__PURE__ */ forwardRef<
           const band = Math.max(0, 1 - Math.abs(d - front) / 1.4) * (1 - r.t / 0.9);
           hit = Math.max(hit, d < 0.8 ? 1 - r.t / 0.9 : band);
         }
-        n.style.setProperty('--hit', hit.toFixed(3));
+        hit = Math.round(hit * 100) / 100;
+        if (hit === last[i]) return;
+        last[i] = hit;
+        n.style.setProperty('--hit', String(hit));
       });
       if (ripples.length) return true;
       stop = null;
@@ -495,6 +500,16 @@ export const MechanicalKeyboard = /* @__PURE__ */ forwardRef<
             onPointerUp={onKeyUp}
             onPointerCancel={onKeyUp}
           >
+            {/* All the lights live on one layer that rotates its hue on the GPU: no per-key work. */}
+            <div className="vz-kb-leds">
+              {keys.map((k) => (
+                <span
+                  key={k.code}
+                  className="vz-kb-led"
+                  style={{ '--x': k.x, '--y': k.y, '--w': k.w, '--h': k.h } as CSSProperties}
+                />
+              ))}
+            </div>
             {keys.map((k) => (
               <div
                 key={k.code}
@@ -508,7 +523,6 @@ export const MechanicalKeyboard = /* @__PURE__ */ forwardRef<
                 data-caps={k.code === 'CapsLock' && caps ? '' : undefined}
                 style={{ '--x': k.x, '--y': k.y, '--w': k.w, '--h': k.h } as CSSProperties}
               >
-                <span className="vz-kb-led" />
                 <span className="vz-kb-cap">
                   <span className="vz-kb-top">{k.label}</span>
                 </span>

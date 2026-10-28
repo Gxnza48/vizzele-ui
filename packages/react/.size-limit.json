@@ -4,7 +4,7 @@
     "path": "dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "72 kB"
+    "limit": "76 kB"
   },
   {
     "name": "react { Button }",
@@ -25,7 +25,7 @@
     "path": "dist/index.js",
     "import": "{ Tabs }",
     "ignore": ["react", "react-dom"],
-    "limit": "3 kB"
+    "limit": "3.1 kB"
   },
   {
     "name": "react { LineChart }",
@@ -39,7 +39,7 @@
     "path": "dist/index.js",
     "import": "{ AgentOrb }",
     "ignore": ["react", "react-dom"],
-    "limit": "3 kB"
+    "limit": "3.2 kB"
   },
   {
     "name": "react { CopyButton }",
@@ -101,7 +101,7 @@
     "name": "react { TextPortal }",
     "path": "dist/index.js",
     "import": "{ TextPortal }",
-    "limit": "4.4 kB",
+    "limit": "4.5 kB",
     "ignore": ["react", "react-dom"]
   },
   {
@@ -158,7 +158,7 @@
     "path": "dist/index.js",
     "import": "{ confetti }",
     "ignore": ["react", "react-dom"],
-    "limit": "2 kB"
+    "limit": "2.1 kB"
   },
   {
     "name": "react { MechanicalKeyboard }",
@@ -180,5 +180,19 @@
     "import": "{ Sticker }",
     "ignore": ["react", "react-dom"],
     "limit": "3.2 kB"
+  },
+  {
+    "name": "react { ScratchCard }",
+    "path": "dist/index.js",
+    "import": "{ ScratchCard }",
+    "ignore": ["react", "react-dom"],
+    "limit": "4 kB"
+  },
+  {
+    "name": "react { LazyMount }",
+    "path": "dist/index.js",
+    "import": "{ LazyMount }",
+    "ignore": ["react", "react-dom"],
+    "limit": "1.5 kB"
   }
 ]

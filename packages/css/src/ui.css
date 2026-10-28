@@ -1622,25 +1622,43 @@
   overflow: hidden;
   isolation: isolate;
   border-radius: 50%;
+  box-shadow: 0 calc(var(--vz-agent-size) * 0.1) calc(var(--vz-agent-size) * 0.35)
+    calc(var(--vz-agent-size) * -0.1) color-mix(in oklab, var(--vz-agent-c1) 70%, transparent);
+  transform: scale(calc(var(--vz-agent-pop) * (1 + var(--vz-agent-level) * 0.12)));
+}
+/* The colour wheel turns as a whole layer (a transform, so it's never repainted while it
+   spins); the lighting stays still above it. */
+.vz-agent-body::before,
+.vz-agent-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+.vz-agent-body::before {
+  z-index: -1;
   background: conic-gradient(
-    from var(--vz-agent-spin),
     var(--vz-agent-c1),
     var(--vz-agent-c3),
     var(--vz-agent-c2),
     var(--vz-agent-c1)
   );
+  transform: rotate(var(--vz-agent-spin));
+  will-change: transform;
+}
+.vz-agent-body::after {
+  /* Same layer as the wheel but later: the lighting sits on the colour, under the ink. */
+  z-index: -1;
   box-shadow:
     inset 0 calc(var(--vz-agent-size) * -0.1) calc(var(--vz-agent-size) * 0.2) rgb(0 0 0 / 0.35),
-    inset 0 2px 6px rgb(255 255 255 / 0.35),
-    0 calc(var(--vz-agent-size) * 0.1) calc(var(--vz-agent-size) * 0.35)
-      calc(var(--vz-agent-size) * -0.1) color-mix(in oklab, var(--vz-agent-c1) 70%, transparent);
-  transform: scale(calc(var(--vz-agent-pop) * (1 + var(--vz-agent-level) * 0.12)));
+    inset 0 2px 6px rgb(255 255 255 / 0.35);
 }
 .vz-agent-ink {
   position: absolute;
   inset: -20%;
   filter: blur(calc(var(--vz-agent-size) * 0.09));
   transform: rotate(calc(var(--vz-agent-spin) * -1.6));
+  will-change: transform;
 }
 .vz-agent-ink i {
   position: absolute;
@@ -6045,6 +6063,7 @@ html.vz-theme-wipe::view-transition-new(root) {
   );
   opacity: 0.4;
   filter: blur(34px);
+  will-change: filter;
   animation: vz-kb-glow 8s linear infinite;
 }
 .vz-kb:is([data-rgb='off'], [data-rgb='reactive']) .vz-kb-glow {
@@ -6095,9 +6114,6 @@ html.vz-theme-wipe::view-transition-new(root) {
   height: calc(var(--h) * var(--vz-kb-u));
   padding: calc(var(--vz-kb-u) * 0.045);
   cursor: pointer;
-  /* Each key runs the same rainbow, offset by where it sits: together, a wave. */
-  animation: vz-kb-hue 6s linear infinite;
-  animation-delay: calc(var(--x) * -0.22s - var(--y) * 0.12s);
 }
 .vz-kb-key[data-mod] {
   --t: color-mix(in oklab, var(--vz-kb-top) 84%, #000);
@@ -6120,44 +6136,63 @@ html.vz-theme-wipe::view-transition-new(root) {
   --lo: color-mix(in oklab, var(--vz-kb-accent) 88%, #000);
   --lg: var(--vz-kb-accent-legend);
 }
+/* The underglow. Each light is painted once in its own hue (by where its key sits) and the
+   whole layer turns the colour wheel with a filter — a compositor animation, so the rainbow
+   wave costs no style or paint work per frame, however many keys there are. */
+.vz-kb-leds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* hue-rotate dulls saturated colours a little mid-turn; saturate() gives the punch back. */
+  filter: hue-rotate(0deg) saturate(1.35);
+  will-change: filter, opacity;
+  animation: vz-kb-hue 6s linear infinite;
+}
 @keyframes vz-kb-hue {
-  from {
-    --vz-kb-h: 0;
-  }
   to {
-    --vz-kb-h: 360;
+    filter: hue-rotate(360deg) saturate(1.35);
   }
 }
 @keyframes vz-kb-breathe {
   from {
-    --vz-kb-b: 0.08;
+    opacity: 0.11;
   }
-  to {
-    --vz-kb-b: 0.75;
-  }
+}
+/* Where a key sits in the rainbow wave; the layer turns the wheel from there. */
+.vz-kb-key,
+.vz-kb-led {
+  --vz-kb-h: calc((var(--x) * 0.22 + var(--y) * 0.12) * 60);
 }
 .vz-kb-led {
   position: absolute;
-  inset: 8%;
+  left: calc((var(--x) + var(--w) * 0.08) * var(--vz-kb-u));
+  top: calc((var(--y) + var(--h) * 0.08) * var(--vz-kb-u));
+  width: calc(var(--w) * 0.84 * var(--vz-kb-u));
+  height: calc(var(--h) * 0.84 * var(--vz-kb-u));
   border-radius: 25%;
   background: hsl(var(--vz-kb-h) 100% 58%);
-  opacity: calc(var(--vz-kb-b) + var(--hit, 0) * 0.6);
+  opacity: min(1, calc(var(--vz-kb-b) + var(--hit, 0) * 0.6));
   transform: scale(calc(1 + var(--hit, 0) * 0.3));
   filter: blur(calc(var(--vz-kb-u) * 0.16));
 }
-.vz-kb[data-rgb='breathe'] .vz-kb-key {
+.vz-kb[data-rgb='breathe'] .vz-kb-leds {
   animation:
     vz-kb-hue 16s linear infinite,
     vz-kb-breathe 2.6s ease-in-out infinite alternate;
 }
-.vz-kb[data-rgb='static'] .vz-kb-key {
+.vz-kb[data-rgb='breathe'] .vz-kb-led {
+  --vz-kb-b: 0.75;
+}
+.vz-kb[data-rgb='static'] .vz-kb-leds {
   animation-play-state: paused;
 }
-.vz-kb[data-rgb='reactive'] .vz-kb-key {
-  --vz-kb-b: 0;
+.vz-kb[data-rgb='reactive'] .vz-kb-leds {
   animation-duration: 2.5s;
 }
-.vz-kb[data-rgb='off'] .vz-kb-led {
+.vz-kb[data-rgb='reactive'] .vz-kb-led {
+  --vz-kb-b: 0;
+}
+.vz-kb[data-rgb='off'] .vz-kb-leds {
   display: none;
 }
 /* The keycap: a side wall and a dished top. Down is quick; up springs back, a little creamy. */
@@ -7211,7 +7246,7 @@ html.vz-theme-wipe::view-transition-new(root) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vz-kb-key,
+  .vz-kb-leds,
   .vz-kb-glow {
     animation-play-state: paused !important;
   }
@@ -7233,5 +7268,106 @@ html.vz-theme-wipe::view-transition-new(root) {
   .vz-badge,
   .vz-badge::after {
     animation: none !important;
+  }
+}
+
+/* ═══════════════════════ 0.10 — scratch card & lazy mount ═══════════════════════ */
+
+/* ———————— Scratch card ———————— */
+.vz-scratch {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--vz-radius-lg);
+  background: var(--vz-surface);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.vz-scratch-prize {
+  height: 100%;
+}
+.vz-scratch-foil,
+.vz-scratch-dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.vz-scratch-foil {
+  z-index: 1;
+  cursor: grab;
+  /* While there's foil left, a drag scratches instead of scrolling the page. */
+  touch-action: none;
+  transition:
+    opacity 0.6s var(--vz-ease-out, ease-out),
+    filter 0.6s var(--vz-ease-out, ease-out);
+}
+.vz-scratch-foil:active {
+  cursor: grabbing;
+}
+.vz-scratch-dust {
+  z-index: 3;
+  pointer-events: none;
+}
+/* A soft light that follows the pointer over the foil (moved by transform only). */
+.vz-scratch-glint {
+  position: absolute;
+  top: -70px;
+  left: -70px;
+  z-index: 2;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 255 255 / 0.55), transparent 65%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  will-change: transform;
+}
+.vz-scratch:hover:not([data-revealed]) .vz-scratch-glint {
+  opacity: 1;
+}
+/* What's left of the foil dissolves once enough is scratched. */
+.vz-scratch[data-revealed] .vz-scratch-foil {
+  opacity: 0;
+  filter: blur(6px);
+  pointer-events: none;
+}
+.vz-scratch[data-revealed] .vz-scratch-prize {
+  animation: vz-scratch-pop 0.6s var(--vz-spring-bouncy, ease-out);
+}
+@keyframes vz-scratch-pop {
+  from {
+    transform: scale(0.96);
+  }
+}
+/* Hidden until a keyboard reaches it. */
+.vz-scratch-reveal {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  z-index: 4;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: var(--vz-radius-pill);
+  background: var(--vz-text);
+  color: var(--vz-bg);
+  font: 600 var(--vz-text-sm) / 1 var(--vz-font-sans);
+  transform: translate(-50%, 0);
+  clip-path: inset(50%);
+  cursor: pointer;
+}
+.vz-scratch-reveal:focus-visible {
+  clip-path: none;
+  outline: 2px solid var(--vz-accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vz-scratch[data-revealed] .vz-scratch-prize {
+    animation: none;
+  }
+  .vz-scratch-foil {
+    transition-duration: 0.01ms;
   }
 }
